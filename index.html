@@ -1,0 +1,2619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ashley Morgan — Revenue Intelligence &amp; Sales Operations</title>
+<meta name="description" content="Director, Revenue &amp; Sales Operations. 18+ years building proprietary AI scoring, executive forecasting, and revenue intelligence systems used directly by CFOs, CROs, and boards of directors." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+<style>
+/* =====================================================================
+   DESIGN TOKENS (matched to icp-dashboard)
+===================================================================== */
+:root {
+  --bg: #0e0c1c;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-strong: rgba(255, 255, 255, 0.07);
+  --surface-stronger: rgba(255, 255, 255, 0.10);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --text: #f0eaff;
+  --text-muted: #9b94b1;
+  --text-dim: #756e8c;
+  --accent: #d450e6;
+  --accent-2: #6e50e6;
+  --accent-3: #50e6e1;
+  --accent-4: #e65082;
+  --warm: #ffa502;
+  --hot: #ff4757;
+  --cold: #54a0ff;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.45);
+  --glow: 0 0 0 1px rgba(212, 80, 230, 0.45), 0 10px 28px rgba(212, 80, 230, 0.18);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* =====================================================================
+   RESET + BASE
+===================================================================== */
+* { box-sizing: border-box; }
+*::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+body {
+  font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at 15% -10%, rgba(212, 80, 230, 0.20), transparent 55%),
+    radial-gradient(ellipse at 90% 110%, rgba(110, 80, 230, 0.16), transparent 55%),
+    radial-gradient(ellipse at 80% 30%, rgba(80, 230, 225, 0.07), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  min-height: 100vh;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+::selection { background: rgba(212, 80, 230, 0.35); color: #fff; }
+
+/* =====================================================================
+   TYPOGRAPHY
+===================================================================== */
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: 'Fraunces', 'Quicksand', Georgia, serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  color: var(--text);
+}
+.h1 { font-family: 'Fraunces', Georgia, serif; font-size: clamp(2.6rem, 6.8vw, 5rem); font-weight: 400; line-height: 1.12; letter-spacing: -0.025em; padding-bottom: 0.08em; }
+.h2 { font-family: 'Fraunces', Georgia, serif; font-size: clamp(1.85rem, 3.8vw, 2.9rem); font-weight: 400; line-height: 1.18; letter-spacing: -0.018em; padding-bottom: 0.06em; }
+.h3 { font-family: 'Fraunces', Georgia, serif; font-size: clamp(1.25rem, 2vw, 1.55rem); font-weight: 500; line-height: 1.3; letter-spacing: -0.012em; padding-bottom: 0.04em; }
+.serif-italic { font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 400; }
+.gradient-text {
+  background: linear-gradient(120deg, #fff 0%, #f0eaff 30%, var(--accent) 80%, var(--accent-3) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; color: transparent;
+  padding-bottom: 0.12em;
+  display: inline-block;
+}
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+.eyebrow::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent-3);
+  box-shadow: 0 0 0 0 rgba(80, 230, 225, 0.7);
+  animation: pulse 1.8s ease-out infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(80, 230, 225, 0.55); }
+  80%  { box-shadow: 0 0 0 10px rgba(80, 230, 225, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(80, 230, 225, 0); }
+}
+.lede {
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  color: var(--text-muted); line-height: 1.6; max-width: 56ch;
+}
+
+/* =====================================================================
+   LAYOUT
+===================================================================== */
+.container {
+  width: 100%; max-width: 1200px;
+  margin: 0 auto; padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+}
+.section { padding: clamp(4rem, 9vh, 6.5rem) 0; position: relative; }
+.section-head { margin-bottom: clamp(2.25rem, 5vw, 3.5rem); max-width: 64ch; }
+.section-head .eyebrow { margin-bottom: 1rem; }
+.section-head h2 { margin-bottom: 0.85rem; }
+.section-head p { color: var(--text-muted); font-size: 0.98rem; max-width: 62ch; }
+
+/* =====================================================================
+   NAV / TOPBAR
+===================================================================== */
+nav.nav {
+  position: sticky; top: 0; z-index: 50;
+  padding: 18px 0;
+  background: rgba(14, 12, 28, 0.55);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1200px; margin: 0 auto; padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+  gap: 1.5rem;
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.logo-dot {
+  width: 36px; height: 36px; border-radius: 11px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2) 60%, var(--accent-3));
+  box-shadow: 0 4px 22px rgba(212, 80, 230, 0.5);
+  position: relative; overflow: hidden; flex-shrink: 0;
+}
+.logo-dot::after {
+  content: ''; position: absolute; inset: -50%;
+  background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.35), transparent 30%);
+  animation: spin 6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-name { font-size: 1rem; font-weight: 600; letter-spacing: 0.01em; color: var(--text); }
+.brand-role { font-size: 0.72rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px; }
+
+.nav-links {
+  display: flex; gap: 1.6rem; list-style: none; margin: 0; padding: 0;
+  font-size: 0.85rem; font-weight: 500; color: var(--text-muted);
+}
+.nav-links a { transition: color 0.2s; position: relative; }
+.nav-links a::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -5px;
+  height: 1px; background: var(--accent-3); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s var(--ease);
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.nav-socials { display: flex; align-items: center; gap: 0.5rem; }
+.icon-btn {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--surface-strong); border: 1px solid var(--border-strong);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--text-muted); transition: all 0.2s var(--ease);
+}
+.icon-btn:hover { color: var(--text); background: var(--surface-stronger); border-color: rgba(212,80,230,0.45); transform: translateY(-1px); }
+.icon-btn svg { width: 17px; height: 17px; }
+.nav-cta {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.55rem 1rem; border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  font-size: 0.83rem; font-weight: 600; letter-spacing: 0.01em;
+  box-shadow: 0 6px 22px rgba(212, 80, 230, 0.32);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(212, 80, 230, 0.45); }
+.nav-cta .arrow { transition: transform 0.2s var(--ease); }
+.nav-cta:hover .arrow { transform: translateX(3px); }
+@media (max-width: 880px) {
+  .nav-links { display: none; }
+}
+@media (max-width: 540px) {
+  .nav-cta { display: none; }
+  .brand-role { display: none; }
+}
+
+/* =====================================================================
+   HERO
+===================================================================== */
+.hero { padding: clamp(3.5rem, 8vh, 6rem) 0 clamp(2.5rem, 5vh, 4rem); position: relative; overflow: hidden; }
+.hero-inner { position: relative; z-index: 2; }
+.hero .eyebrow { margin-bottom: 1.4rem; }
+.hero h1 { margin-bottom: 1.2rem; }
+.hero .tagline {
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  color: var(--accent-3); font-weight: 500; margin-bottom: 1rem;
+  letter-spacing: 0.005em;
+}
+.hero .summary {
+  color: var(--text-muted); font-size: 0.98rem; max-width: 58ch;
+  line-height: 1.7; margin-bottom: 2rem;
+}
+.hero .summary strong { color: var(--text); font-weight: 600; }
+.hero-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-bottom: 3rem; align-items: center; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  padding: 0.7rem 1.2rem; border-radius: 999px;
+  font-size: 0.88rem; font-weight: 600;
+  transition: all 0.25s var(--ease);
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  box-shadow: 0 6px 22px rgba(212, 80, 230, 0.32);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(212, 80, 230, 0.45); }
+.btn-ghost {
+  background: var(--surface-strong); color: var(--text);
+  border-color: var(--border-strong);
+}
+.btn-ghost:hover { border-color: rgba(212, 80, 230, 0.45); background: var(--surface-stronger); }
+.btn .arrow { transition: transform 0.25s var(--ease); }
+.btn:hover .arrow { transform: translateX(3px); }
+.hero-social {
+  display: inline-flex; gap: 0.4rem;
+  margin-left: 0.25rem;
+}
+
+/* KPI strip */
+.kpi-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1rem; margin-top: 0.5rem;
+}
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.4rem;
+  position: relative; overflow: hidden;
+  transition: border-color 0.25s, transform 0.25s var(--ease);
+}
+.kpi:hover { border-color: rgba(212, 80, 230, 0.35); transform: translateY(-2px); }
+.kpi::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-3), transparent);
+  opacity: 0.5;
+}
+.kpi-label {
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--text-dim); margin-bottom: 0.6rem;
+}
+.kpi-value {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(1.9rem, 4.2vw, 2.8rem);
+  font-weight: 400; line-height: 1.1; letter-spacing: -0.028em;
+  color: var(--text); display: flex; align-items: baseline; gap: 0.1rem;
+  padding-bottom: 0.05em;
+}
+.kpi-value .suffix { font-size: 0.5em; color: var(--text-muted); font-weight: 500; margin-left: 0.05em; }
+.kpi-value .prefix { font-size: 0.55em; color: var(--text-muted); font-weight: 500; }
+.kpi-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.55rem; line-height: 1.45; }
+@media (max-width: 800px) {
+  .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Hero ornament */
+.hero-glyph {
+  position: absolute; right: -6vw; top: 6%;
+  width: clamp(220px, 32vw, 440px); height: clamp(220px, 32vw, 440px);
+  z-index: 1; pointer-events: none; opacity: 0.95;
+}
+@media (max-width: 900px) { .hero-glyph { display: none; } }
+
+/* =====================================================================
+   CAREER TIMELINE — INTERACTIVE (click any pill)
+===================================================================== */
+.career-section { padding-top: clamp(4rem, 9vh, 6.5rem); padding-bottom: clamp(4rem, 9vh, 6.5rem); }
+
+/* Track */
+.timeline-track {
+  position: relative;
+  padding: 0.5rem 0 1rem;
+  margin-bottom: 1rem;
+}
+.timeline-track svg { width: 100%; height: 130px; overflow: visible; user-select: none; }
+@media (max-width: 700px) {
+  .timeline-track svg { height: 110px; }
+}
+.timeline-pill { cursor: pointer; }
+.timeline-pill rect { transition: all 0.3s var(--ease); }
+.timeline-pill.active rect.fill { filter: drop-shadow(0 0 14px currentColor); }
+.dot-glow {
+  animation: dotGlow 1.8s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes dotGlow {
+  0%, 100% { transform: scale(1); opacity: 0.55; }
+  50%      { transform: scale(1.8); opacity: 0; }
+}
+.tl-endpoint {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Legend chip row — canonical role labels, scales cleanly on any width */
+.timeline-legend {
+  display: flex; flex-wrap: wrap; gap: 0.45rem;
+  justify-content: center;
+  margin: 0.25rem auto 0.75rem;
+  max-width: 100%;
+}
+.legend-chip {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.45rem 0.85rem 0.45rem 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: 0.78rem; font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  white-space: nowrap;
+}
+.legend-chip:hover {
+  color: var(--text);
+  background: var(--surface-strong);
+  border-color: currentColor;
+  transform: translateY(-1px);
+}
+.legend-chip.active {
+  color: var(--text);
+  background: var(--surface-stronger);
+  border-color: currentColor;
+  box-shadow: 0 0 0 1px currentColor, 0 4px 18px rgba(0,0,0,0.18);
+}
+.legend-chip .lc-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+  flex-shrink: 0;
+}
+.legend-chip .lc-num {
+  font-size: 0.62rem;
+  color: var(--text-dim);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-family: 'JetBrains Mono', 'Quicksand', monospace;
+}
+.legend-chip.active .lc-num { color: var(--text-muted); }
+.legend-chip .lc-name { font-weight: 600; color: inherit; }
+
+.timeline-hint {
+  text-align: center;
+  font-size: 0.72rem; color: var(--text-dim);
+  margin-top: 0.25rem; letter-spacing: 0.06em;
+}
+.timeline-hint .kbd {
+  display: inline-block;
+  padding: 1px 6px; border-radius: 4px;
+  background: var(--surface-strong); border: 1px solid var(--border-strong);
+  font-size: 0.65rem; font-weight: 600; color: var(--text-muted);
+  margin: 0 2px;
+}
+
+/* Card stage + card */
+.timeline-stage { position: relative; perspective: 1400px; }
+.timeline-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+.timeline-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-3), transparent);
+  opacity: 0.5;
+}
+.timeline-card::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 100% 0%, rgba(212, 80, 230, 0.06), transparent 50%);
+  pointer-events: none;
+}
+
+.card-meta {
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  font-size: 0.74rem; color: var(--accent-3); font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 0.85rem; position: relative; z-index: 1;
+}
+.card-meta .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent-3);
+  box-shadow: 0 0 8px currentColor;
+}
+.card-meta .dur {
+  color: var(--text-dim); letter-spacing: 0; text-transform: none;
+  font-weight: 500;
+}
+.card-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  font-weight: 400; letter-spacing: -0.022em; line-height: 1.18; padding-bottom: 0.06em;
+  color: var(--text); margin-bottom: 0.45rem;
+  position: relative; z-index: 1;
+}
+.card-company {
+  background: linear-gradient(120deg, var(--accent), var(--accent-3));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1rem; font-weight: 600;
+  margin-bottom: 1.5rem; position: relative; z-index: 1;
+}
+
+.card-grid {
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  position: relative; z-index: 1;
+}
+.card-narrative p {
+  font-size: 0.96rem; color: var(--text-muted); line-height: 1.7;
+  margin-bottom: 1.4rem;
+}
+.card-narrative p strong { color: var(--text); font-weight: 600; }
+.key-wins h4 {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-dim); margin-bottom: 0.85rem;
+}
+.key-wins ul { list-style: none; padding: 0; margin: 0; }
+.key-wins li {
+  position: relative; padding-left: 1.65rem; margin-bottom: 0.7rem;
+  font-size: 0.91rem; color: var(--text-muted); line-height: 1.55;
+}
+.key-wins li::before {
+  content: ''; position: absolute; left: 0; top: 0.45rem;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-3));
+  box-shadow: 0 0 8px rgba(212, 80, 230, 0.4);
+}
+.key-wins li strong { color: var(--text); font-weight: 600; }
+
+.card-side { display: flex; flex-direction: column; gap: 0.85rem; }
+
+/* KPI mini-grid (per role) */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+.stat-tile {
+  padding: 0.85rem 0.7rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+.stat-tile::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-3), transparent);
+  opacity: 0.35;
+}
+.stat-tile:hover {
+  border-color: rgba(212, 80, 230, 0.32);
+  background: rgba(255,255,255,0.05);
+}
+.stat-val {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(1rem, 1.7vw, 1.35rem);
+  font-weight: 400;
+  letter-spacing: -0.022em; line-height: 1;
+  background: linear-gradient(120deg, #fff 0%, var(--accent-3) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.35rem;
+  white-space: nowrap;
+}
+.stat-lbl {
+  font-size: 0.58rem; font-weight: 600;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--text-dim);
+  line-height: 1.35;
+}
+
+/* Signature animated visualization (one per role, where present) */
+.signature-viz {
+  padding: 1rem 1.15rem 1.15rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  position: relative; overflow: hidden;
+}
+.signature-viz::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-3), transparent);
+  opacity: 0.45;
+}
+.signature-viz-label {
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-dim); margin-bottom: 0.55rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+}
+.signature-viz-label .live-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent-3);
+  box-shadow: 0 0 6px var(--accent-3);
+  animation: pulse 1.8s ease-out infinite;
+}
+.signature-viz svg { width: 100%; height: 110px; overflow: visible; display: block; }
+
+.card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+@media (max-width: 1100px) {
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.role-tag {
+  font-size: 0.72rem; font-weight: 500;
+  padding: 0.28rem 0.7rem; border-radius: 999px;
+  background: var(--surface-strong); color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.role-tag.accent { background: rgba(212, 80, 230, 0.12); color: #f1b6f9; border-color: rgba(212, 80, 230, 0.32); }
+
+.card-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 1.5rem; padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  position: relative; z-index: 1;
+}
+.card-nav button {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.55rem 1.05rem; border-radius: 999px;
+  background: var(--surface-strong); border: 1px solid var(--border-strong);
+  color: var(--text-muted); font-weight: 500; font-size: 0.85rem;
+  transition: all 0.25s var(--ease); cursor: pointer;
+}
+.card-nav button:hover:not(:disabled) {
+  color: var(--text); border-color: rgba(212, 80, 230, 0.45);
+  background: var(--surface-stronger); transform: translateY(-1px);
+}
+.card-nav button:disabled { opacity: 0.32; cursor: not-allowed; }
+.card-nav .counter {
+  font-size: 0.82rem; color: var(--text-dim);
+  font-family: 'Fraunces', Georgia, serif; font-style: italic;
+}
+.card-nav .counter strong {
+  color: var(--accent-3); font-weight: 600; font-style: normal;
+  font-family: 'Quicksand', sans-serif;
+}
+
+@media (max-width: 800px) {
+  .card-grid { grid-template-columns: 1fr; }
+  .timeline-track svg { height: 180px; }
+}
+
+/* =====================================================================
+   PROJECTS
+===================================================================== */
+.projects-grid { display: flex; flex-direction: column; gap: 2.25rem; }
+.project {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.3s var(--ease);
+}
+.project::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-3), transparent);
+  opacity: 0.45;
+}
+.project:hover { border-color: rgba(212, 80, 230, 0.30); }
+.project-head {
+  padding: 1.7rem clamp(1.25rem, 2.5vw, 2rem) 1.25rem;
+  display: grid; grid-template-columns: auto 1fr auto; gap: 1.25rem;
+  align-items: start;
+  border-bottom: 1px solid var(--border);
+}
+.project-num {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 2.6rem; font-weight: 300; font-style: italic;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 0.85; letter-spacing: -0.04em;
+  opacity: 0.9;
+}
+.project-info { min-width: 0; }
+.project-info .eyebrow { display: inline-flex; margin-bottom: 0.55rem; font-size: 0.66rem; }
+.project-info .h3 { margin-bottom: 0.4rem; }
+.project-info .employer { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+.project-cta-out {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.78rem; font-weight: 600; color: #fff;
+  padding: 0.5rem 0.95rem; border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 4px 18px rgba(212, 80, 230, 0.32);
+  white-space: nowrap; transition: all 0.25s var(--ease);
+}
+.project-cta-out:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(212, 80, 230, 0.45); }
+.project-cta-out.muted {
+  background: var(--surface-strong);
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
+  box-shadow: none;
+}
+.project-cta-out.muted:hover { color: var(--text); border-color: rgba(212,80,230,0.35); transform: none; box-shadow: none; }
+.project-cta-out .arrow { transition: transform 0.25s var(--ease); }
+.project-cta-out:hover .arrow { transform: translate(2px, -2px); }
+.project-body {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0; min-height: 360px;
+}
+.project-narrative {
+  padding: 1.5rem clamp(1.25rem, 2.5vw, 2rem);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.project-narrative p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.7; }
+.project-narrative p strong { color: var(--text); font-weight: 600; }
+.project-formula {
+  font-family: 'JetBrains Mono', 'Quicksand', monospace;
+  font-size: 0.76rem;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 0.85rem 1rem;
+  color: var(--text); line-height: 1.75;
+  white-space: pre; overflow-x: auto;
+  margin-top: 0.4rem;
+}
+.project-formula .comment { color: var(--text-dim); }
+.project-formula .keyword { color: var(--accent-3); font-weight: 500; }
+.project-formula .num { color: var(--accent-4); }
+.project-outcomes {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem;
+  margin-top: auto; padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.outcome {
+  font-size: 0.82rem; color: var(--text-muted); line-height: 1.45;
+}
+.outcome strong {
+  color: var(--text); display: block;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400; font-size: 1.5rem; letter-spacing: -0.018em; line-height: 1.15;
+  margin-bottom: 0.3rem;
+  background: linear-gradient(120deg, #fff, var(--accent-3));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding-bottom: 0.1em;
+}
+.project-proto {
+  padding: 1.5rem clamp(1.25rem, 2.5vw, 2rem);
+  position: relative;
+  display: flex; flex-direction: column;
+  background: rgba(255,255,255,0.015);
+}
+.proto-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.proto-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+.proto-controls { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.chip {
+  font-size: 0.73rem; font-weight: 500; letter-spacing: 0.01em;
+  padding: 0.3rem 0.7rem; border-radius: 999px;
+  background: var(--surface-strong); color: var(--text-muted);
+  border: 1px solid var(--border-strong); cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.chip:hover { color: var(--text); border-color: rgba(212,80,230,0.40); }
+.chip.active {
+  background: linear-gradient(135deg, rgba(212, 80, 230, 0.22), rgba(110, 80, 230, 0.22));
+  color: var(--text);
+  border-color: rgba(212, 80, 230, 0.55);
+  box-shadow: 0 0 0 1px rgba(212, 80, 230, 0.20), 0 4px 14px rgba(212, 80, 230, 0.15);
+}
+.proto-viz { flex: 1; min-height: 240px; position: relative; }
+.proto-viz svg { width: 100%; height: 100%; overflow: visible; }
+.proto-viz text { font-family: 'Quicksand', sans-serif; }
+.tooltip {
+  position: absolute; pointer-events: none; z-index: 10;
+  background: rgba(14, 12, 28, 0.96);
+  border: 1px solid rgba(212, 80, 230, 0.45);
+  color: var(--text);
+  padding: 0.55rem 0.75rem; border-radius: 8px;
+  font-size: 0.75rem; line-height: 1.5;
+  box-shadow: var(--shadow-lg);
+  opacity: 0; transform: translateY(4px);
+  transition: opacity 0.15s, transform 0.15s;
+  white-space: nowrap;
+}
+.tooltip.visible { opacity: 1; transform: translateY(0); }
+.tooltip .t-label { font-size: 0.66rem; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.2rem; }
+.tooltip .t-val { font-weight: 600; color: var(--text); }
+
+/* Forecasting widget */
+.forecast-sliders { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0.5rem 0 1rem; }
+.slider-row { display: flex; flex-direction: column; gap: 0.4rem; }
+.slider-row label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); display: flex; justify-content: space-between; }
+.slider-row label span { color: var(--accent-3); font-weight: 600; font-size: 0.78rem; letter-spacing: 0; text-transform: none; }
+.slider-row input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px; outline: none; cursor: pointer;
+}
+.slider-row input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--accent-3); border: 2px solid var(--bg);
+  box-shadow: 0 2px 10px rgba(80, 230, 225, 0.55); cursor: pointer;
+  transition: transform 0.15s var(--ease);
+}
+.slider-row input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.slider-row input[type=range]::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--accent-3); border: 2px solid var(--bg);
+  box-shadow: 0 2px 10px rgba(80, 230, 225, 0.55); cursor: pointer;
+}
+.forecast-readout { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+.forecast-readout .r { display: flex; flex-direction: column; gap: 0.2rem; }
+.forecast-readout .r-lbl { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); }
+.forecast-readout .r-val { font-size: 1.1rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text); }
+.forecast-readout .r-val.commit { color: var(--accent); }
+.forecast-readout .r-val.gap-ok { color: #6dffb0; }
+.forecast-readout .r-val.gap-warn { color: var(--hot); }
+
+@media (max-width: 860px) {
+  .project-body { grid-template-columns: 1fr; }
+  .project-narrative { border-right: none; border-bottom: 1px solid var(--border); }
+  .project-head { grid-template-columns: auto 1fr; }
+  .project-cta-out { grid-column: 1 / -1; justify-self: start; }
+}
+
+/* =====================================================================
+   SKILL MATRIX
+===================================================================== */
+.skill-controls {
+  display: flex; gap: 0.4rem; flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+}
+.skill-controls .chip { font-size: 0.78rem; padding: 0.4rem 0.85rem; }
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 0.55rem;
+  position: relative;
+}
+.skill-cell {
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: all 0.3s var(--ease);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+  opacity: 1;
+}
+.skill-cell::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-3), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.skill-cell:hover::before { opacity: 0.6; }
+.skill-cell.dim { opacity: 0.32; }
+.skill-cell:hover { border-color: rgba(212, 80, 230, 0.32); background: var(--surface-strong); transform: translateY(-2px); }
+.skill-name { font-size: 0.9rem; font-weight: 600; color: var(--text); letter-spacing: -0.005em; }
+.skill-cat { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.11em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.45rem; }
+.skill-meter {
+  margin-top: 0.7rem; display: flex; align-items: center; gap: 0.55rem;
+  font-size: 0.7rem; color: var(--text-muted);
+}
+.skill-meter-bar {
+  flex: 1; height: 3px; background: var(--border);
+  border-radius: 2px; overflow: hidden;
+}
+.skill-meter-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent), var(--accent-3));
+  transition: width 0.5s var(--ease);
+}
+.skill-yrs { font-size: 0.7rem; color: var(--accent-3); font-weight: 600; }
+
+/* =====================================================================
+   CONTACT
+===================================================================== */
+.contact-section { padding-bottom: clamp(3rem, 6vh, 5rem); }
+.contact-grid {
+  display: grid; grid-template-columns: 1.1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem); align-items: start;
+}
+.contact-left h2 { margin-bottom: 1rem; }
+.contact-left p { color: var(--text-muted); max-width: 52ch; margin-bottom: 1.6rem; line-height: 1.65; }
+.contact-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.contact-meta {
+  display: grid; gap: 0.7rem;
+}
+.cmeta {
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.95rem 1.15rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all 0.25s var(--ease);
+  position: relative; overflow: hidden;
+}
+.cmeta::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-3));
+  transform: scaleY(0); transform-origin: top;
+  transition: transform 0.3s var(--ease);
+}
+a.cmeta:hover { border-color: rgba(212, 80, 230, 0.35); background: var(--surface-strong); transform: translateX(2px); }
+a.cmeta:hover::before { transform: scaleY(1); }
+.cmeta-icon {
+  width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0;
+  background: var(--surface-strong); border: 1px solid var(--border-strong);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--accent-3);
+}
+.cmeta-icon svg { width: 17px; height: 17px; }
+.cmeta-body { flex: 1; min-width: 0; }
+.cmeta-l { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.11em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.15rem; }
+.cmeta-v { font-size: 0.92rem; color: var(--text); font-weight: 500; letter-spacing: 0; }
+.cmeta-arrow { color: var(--accent-3); flex-shrink: 0; font-size: 0.95rem; }
+@media (max-width: 760px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+footer.footer {
+  padding: 1.75rem 0; border-top: 1px solid var(--border);
+}
+.footer-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+  font-size: 0.78rem; color: var(--text-dim);
+}
+
+/* =====================================================================
+   REVEAL ANIMATIONS
+===================================================================== */
+.reveal { opacity: 0; transform: translateY(20px); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- =====================================================================
+     NAV
+===================================================================== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="logo-dot"></span>
+      <span class="brand-text">
+        <span class="brand-name">Ashley Morgan</span>
+        <span class="brand-role">Revenue Intelligence</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#career">Career</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a class="icon-btn" href="https://github.com/ashleymillan" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.4.5 0 5.9 0 12.6c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.7-1.3-1.7-1.1-.8.1-.8.1-.8 1.2.1 1.8 1.3 1.8 1.3 1.1 1.9 2.9 1.4 3.6 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.5-1.4-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.6 3.3-1.2 3.3-1.2.7 1.7.3 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.8-1.6 8.2-6.1 8.2-11.4C24 5.9 18.6.5 12 .5z"/></svg>
+      </a>
+      <a class="icon-btn" href="https://linkedin.com/in/ashleyjmorgan" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43A2.06 2.06 0 1 1 5.34 3.3a2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+      </a>
+    </div>
+    <a href="mailto:ashleyjanemillan@gmail.com" class="nav-cta">
+      <span>Get in touch</span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</nav>
+
+<!-- =====================================================================
+     HERO
+===================================================================== -->
+<section class="hero" id="top">
+  <div class="container hero-inner">
+    <div class="eyebrow">AI &amp; Data Science Portfolio</div>
+    <h1 class="h1"><span class="gradient-text">Revenue intelligence,<br/>built in-house.</span></h1>
+    <p class="tagline">Ashley Morgan · Director, Revenue &amp; Sales Operations</p>
+    <p class="summary">
+      Eighteen years operating the analytics backbone of enterprise software go‑to‑market.
+      I build the <strong>scoring models, executive forecasting, and revenue intelligence systems</strong>
+      that other teams pay six figures to outsource — and deliver them straight to CFOs, CROs, and boards.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">
+        <span>See the work</span><span class="arrow">→</span>
+      </a>
+      <a href="#career" class="btn btn-ghost">
+        <span>Career</span><span class="arrow">↓</span>
+      </a>
+      <span class="hero-social">
+        <a class="icon-btn" href="https://github.com/ashleymillan" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.4.5 0 5.9 0 12.6c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.7-1.3-1.7-1.1-.8.1-.8.1-.8 1.2.1 1.8 1.3 1.8 1.3 1.1 1.9 2.9 1.4 3.6 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.5-1.4-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.6 3.3-1.2 3.3-1.2.7 1.7.3 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.8-1.6 8.2-6.1 8.2-11.4C24 5.9 18.6.5 12 .5z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://linkedin.com/in/ashleyjmorgan" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43A2.06 2.06 0 1 1 5.34 3.3a2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+        </a>
+      </span>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi">
+        <div class="kpi-label">Experience</div>
+        <div class="kpi-value"><span data-counter="18">0</span><span class="suffix">+ yrs</span></div>
+        <div class="kpi-sub">Revenue operations across enterprise tech</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Coverage</div>
+        <div class="kpi-value"><span data-counter="305">0</span></div>
+        <div class="kpi-sub">AEs supported across the Americas theater</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">In-house savings</div>
+        <div class="kpi-value"><span class="prefix">$</span><span data-counter="100">0</span><span class="suffix">K+</span></div>
+        <div class="kpi-sub">External consulting eliminated by building it myself</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Proprietary systems</div>
+        <div class="kpi-value"><span data-counter="4">0</span></div>
+        <div class="kpi-sub">ICP scoring · activity · forecasting · territory</div>
+      </div>
+    </div>
+  </div>
+
+  <svg class="hero-glyph" viewBox="0 0 400 400" aria-hidden="true">
+    <g id="glyph-rings"></g>
+  </svg>
+</section>
+
+<!-- =====================================================================
+     CAREER — INTERACTIVE TIMELINE
+===================================================================== -->
+<section class="career-section section" id="career">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">The arc</div>
+      <h2 class="h2 gradient-text">Eighteen years.<br/>Click any role to expand.</h2>
+      <p>
+        From the FAA radar training program in Oklahoma City through founding-RevOps
+        builds and federal deal structuring to the Director who runs the org's AI models
+        today — each role compounded the next. Bars are proportional to time spent.
+      </p>
+    </div>
+
+    <div class="timeline-track">
+      <svg id="timeline-svg"></svg>
+      <div class="timeline-legend" id="timeline-legend"></div>
+      <div class="timeline-hint">
+        Click a chip or pill · use <span class="kbd">←</span><span class="kbd">→</span> to step through
+      </div>
+    </div>
+
+    <div class="timeline-stage">
+      <article class="timeline-card" id="timeline-card">
+        <!-- populated by JS -->
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     PROJECTS
+===================================================================== -->
+<section class="projects-section section" id="projects">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Featured work</div>
+      <h2 class="h2 gradient-text">Four proprietary systems.<br/>Built in-house. Used at the top.</h2>
+      <p>
+        Each system below was designed, built, calibrated, and operationalized
+        without external consulting. All four are in active production use by
+        sales leadership, finance, and the board of directors.
+      </p>
+    </div>
+
+    <div class="projects-grid" id="projects-grid">
+      <!-- PROJECT 1: ICP -->
+      <article class="project reveal" id="proj-icp">
+        <header class="project-head">
+          <div class="project-num">01</div>
+          <div class="project-info">
+            <div class="eyebrow">ICP &amp; account scoring</div>
+            <h3 class="h3">Ideal Customer Profile scoring model</h3>
+            <div class="employer">Cohesity · Director, Sales Operations</div>
+          </div>
+          <a href="https://ashleymillan.github.io/icp-dashboard/" target="_blank" rel="noopener" class="project-cta-out">
+            <span>Live prototype</span><span class="arrow">↗</span>
+          </a>
+        </header>
+        <div class="project-body">
+          <div class="project-narrative">
+            <p>
+              Designed to replace a previously quoted <strong>$100K+ external consulting engagement</strong>
+              by building the same capability entirely in-house. Synthesizes firmographic and technographic
+              signals from <strong>D&amp;B Hoovers, HG Insights, ZoomInfo, and 6Sense</strong> into a single
+              composite score for every account in the addressable market.
+            </p>
+            <p>
+              Built using Claude Code via the CLI, managed locally in a Git repository. A full
+              <strong>logistic regression</strong> was run against four years of closed-won and
+              closed-lost opportunities to calibrate the dimension weights — the model reflects
+              observed revenue outcomes, not assumptions.
+            </p>
+            <div class="project-formula"><span class="comment"># ICP Score Composite</span>
+icp_score <span class="keyword">=</span> (
+  firmographic_fit    <span class="keyword">*</span> <span class="num">0.25</span>  <span class="comment"># size, industry, geo</span>
+  <span class="keyword">+</span> technographic_fit  <span class="keyword">*</span> <span class="num">0.30</span>  <span class="comment"># relevant tech stack</span>
+  <span class="keyword">+</span> intent_signal      <span class="keyword">*</span> <span class="num">0.20</span>  <span class="comment"># 6Sense, ZoomInfo</span>
+  <span class="keyword">+</span> growth_trajectory  <span class="keyword">*</span> <span class="num">0.15</span>  <span class="comment"># headcount / revenue</span>
+  <span class="keyword">+</span> competitive_install<span class="keyword">*</span> <span class="num">0.10</span>  <span class="comment"># displacement</span>
+)</div>
+            <div class="project-outcomes">
+              <div class="outcome"><strong>$100K+</strong>saved vs. external consulting fees</div>
+              <div class="outcome"><strong>4 yrs</strong>of win/loss data in calibration</div>
+              <div class="outcome"><strong>CFO</strong>direct delivery, board-level reporting</div>
+              <div class="outcome"><strong>4 sources</strong>D&amp;B · HG · ZoomInfo · 6Sense</div>
+            </div>
+          </div>
+          <div class="project-proto">
+            <div class="proto-head">
+              <div class="proto-title">Live dashboard view · 175 accounts</div>
+              <div class="proto-controls">
+                <button class="chip active" data-icp-filter="all">All</button>
+                <button class="chip" data-icp-filter="Hot">Hot</button>
+                <button class="chip" data-icp-filter="Warm">Warm</button>
+                <button class="chip" data-icp-filter="Cold">Cold</button>
+              </div>
+            </div>
+            <div class="proto-viz" id="proto-icp"></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PROJECT 2: AE SCORECARD -->
+      <article class="project reveal" id="proj-ae">
+        <header class="project-head">
+          <div class="project-num">02</div>
+          <div class="project-info">
+            <div class="eyebrow">Activity intelligence</div>
+            <h3 class="h3">AE Activity Tracking &amp; Scorecard</h3>
+            <div class="employer">Cohesity · Director, Sales Operations</div>
+          </div>
+          <span class="project-cta-out muted">In production · 2+ yrs</span>
+        </header>
+        <div class="project-body">
+          <div class="project-narrative">
+            <p>
+              Built from scratch in <strong>Google Apps Script</strong> to address a missing capability
+              in the existing stack — a unified view of field activity, travel, and pipeline creation
+              at the individual AE level across all Americas segments.
+            </p>
+            <p>
+              Ingests and harmonizes data nightly from <strong>Salesforce</strong> (meetings, calls,
+              emails), <strong>Clari</strong> (pipeline creation, forecast submissions), and the
+              T&amp;E platform. Outputs structured weekly scorecards delivered directly to the
+              <strong>CEO and CRO</strong>.
+            </p>
+            <div class="project-formula"><span class="comment"># Composite activity score (per AE, weekly)</span>
+score <span class="keyword">=</span> w<span class="num">1</span><span class="keyword">·</span>meetings <span class="keyword">+</span> w<span class="num">2</span><span class="keyword">·</span>calls <span class="keyword">+</span> w<span class="num">3</span><span class="keyword">·</span>emails
+       <span class="keyword">+</span> w<span class="num">4</span><span class="keyword">·</span>pipeline_created <span class="keyword">+</span> w<span class="num">5</span><span class="keyword">·</span>te_activity
+<span class="comment"># Below 60 → manager review · Below 40 → AVP escalation</span></div>
+            <div class="project-outcomes">
+              <div class="outcome"><strong>305</strong>AEs tracked across all Americas segments</div>
+              <div class="outcome"><strong>4 streams</strong>SFDC · Clari · T&amp;E · forecast</div>
+              <div class="outcome"><strong>CEO+CRO</strong>weekly distribution, 2+ years</div>
+              <div class="outcome"><strong>Early flag</strong>before pipeline impact lands</div>
+            </div>
+          </div>
+          <div class="project-proto">
+            <div class="proto-head">
+              <div class="proto-title">Rep scorecard · radar view</div>
+              <div class="proto-controls" id="rep-chips"></div>
+            </div>
+            <div class="proto-viz" id="proto-ae"></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PROJECT 3: FORECASTING -->
+      <article class="project reveal" id="proj-fc">
+        <header class="project-head">
+          <div class="project-num">03</div>
+          <div class="project-info">
+            <div class="eyebrow">Forecast &amp; pipeline</div>
+            <h3 class="h3">Executive forecasting &amp; pipeline analytics</h3>
+            <div class="employer">Cohesity · Director, Sales Operations</div>
+          </div>
+          <span class="project-cta-out muted">Drag the sliders →</span>
+        </header>
+        <div class="project-body">
+          <div class="project-narrative">
+            <p>
+              End-to-end revenue visibility across the <strong>full Americas theater</strong>.
+              Consolidates pipeline from Salesforce and Clari into a structured executive view used
+              in weekly calls with EVPs and AVPs at every level from district to board.
+            </p>
+            <p>
+              Dashboards are built locally as formatted <strong>HTML and JavaScript</strong>,
+              managed via Git, and embed directly into executive decks. The companion
+              <strong>global risk dashboard</strong> is in continuous use by all sales leaders.
+            </p>
+            <div class="project-formula"><span class="comment"># Three-tier forecast construction</span>
+commit     <span class="keyword">=</span> opps.where(rep_commit, manager_commit)
+best_case  <span class="keyword">=</span> commit <span class="keyword">+</span> opps.where(clari_score <span class="keyword">&gt;=</span> <span class="num">0.65</span>)
+pipeline   <span class="keyword">=</span> all_open.weighted_by(close_probability)
+gap        <span class="keyword">=</span> quota_target <span class="keyword">-</span> commit.sum()
+risk_flag  <span class="keyword">=</span> gap <span class="keyword">/</span> quota_target <span class="keyword">&gt;</span> <span class="num">0.15</span></div>
+            <div class="project-outcomes">
+              <div class="outcome"><strong>90 recipients</strong>20 ops leaders + 70 District Managers</div>
+              <div class="outcome"><strong>Weekly EVP</strong>and AVP forecasting calls informed</div>
+              <div class="outcome"><strong>Global risk</strong>dashboard, all leaders, continuous</div>
+              <div class="outcome"><strong>Board-ready</strong>embeds directly into exec decks</div>
+            </div>
+          </div>
+          <div class="project-proto">
+            <div class="proto-head">
+              <div class="proto-title">Q1 FY26 · AMER theater · live recompute</div>
+            </div>
+            <div class="forecast-sliders">
+              <div class="slider-row">
+                <label>Win rate <span id="fc-win-val">42%</span></label>
+                <input type="range" id="fc-win" min="20" max="65" value="42" />
+              </div>
+              <div class="slider-row">
+                <label>Pipeline coverage <span id="fc-cov-val">3.2×</span></label>
+                <input type="range" id="fc-cov" min="15" max="50" value="32" />
+              </div>
+            </div>
+            <div class="proto-viz" id="proto-fc" style="min-height:150px;"></div>
+            <div class="forecast-readout" id="fc-readout"></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PROJECT 4: TERRITORY -->
+      <article class="project reveal" id="proj-tp">
+        <header class="project-head">
+          <div class="project-num">04</div>
+          <div class="project-info">
+            <div class="eyebrow">Territory &amp; planning</div>
+            <h3 class="h3">Territory &amp; Annual Planning design</h3>
+            <div class="employer">Cohesity · Director, Sales Operations</div>
+          </div>
+          <span class="project-cta-out muted">70 districts · 300+ AEs</span>
+        </header>
+        <div class="project-body">
+          <div class="project-narrative">
+            <p>
+              Annual territory and quota design across the <strong>full AMER theater</strong> —
+              approximately 70 districts and 300+ AE territories. Scope spans account planning,
+              quota planning, segmentation analyses, and GTM strategy for the fiscal year.
+            </p>
+            <p>
+              Partners with the development team on UAT, UX/UI design, and data requirements for
+              the planning system (<strong>Anaplan</strong>). Primary trainer for field operations
+              team members on system adoption each cycle.
+            </p>
+            <div class="project-formula"><span class="comment"># Territory balance score</span>
+balance <span class="keyword">=</span> (
+  (addr_revenue   <span class="keyword">/</span> avg_addr_revenue)  <span class="keyword">*</span> <span class="num">0.40</span>
+  <span class="keyword">+</span> (tier1_accounts <span class="keyword">/</span> avg_tier1_accts)  <span class="keyword">*</span> <span class="num">0.35</span>
+  <span class="keyword">+</span> (hist_attainment<span class="keyword">/</span> target_attain)    <span class="keyword">*</span> <span class="num">0.25</span>
+)
+<span class="comment"># Outside ±20% balance range triggers review</span></div>
+            <div class="project-outcomes">
+              <div class="outcome"><strong>70 districts</strong>and 300+ AE territories designed</div>
+              <div class="outcome"><strong>ICP-informed</strong>coverage priority by tier</div>
+              <div class="outcome"><strong>Quota equity</strong>by whitespace × attainment</div>
+              <div class="outcome"><strong>Primary trainer</strong>for field ops adoption</div>
+            </div>
+          </div>
+          <div class="project-proto">
+            <div class="proto-head">
+              <div class="proto-title">District balance · attainment × coverage</div>
+              <div class="proto-controls">
+                <button class="chip active" data-tp-filter="all">All</button>
+                <button class="chip" data-tp-filter="Enterprise">Enterprise</button>
+                <button class="chip" data-tp-filter="Commercial">Commercial</button>
+                <button class="chip" data-tp-filter="SMB">SMB</button>
+              </div>
+            </div>
+            <div class="proto-viz" id="proto-tp"></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     SKILLS
+===================================================================== -->
+<section class="skills-section section" id="skills">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Technical fluency</div>
+      <h2 class="h2 gradient-text">A full-stack revenue<br/>intelligence toolkit.</h2>
+      <p>
+        AI &amp; code, BI &amp; dashboards, CRM platforms, enterprise data vendors,
+        analytics methods, and the executive-output discipline that ties them
+        together. Hover any cell for context.
+      </p>
+    </div>
+
+    <div class="skill-controls" id="skill-controls">
+      <button class="chip active" data-skill-cat="all">All</button>
+      <button class="chip" data-skill-cat="ai">AI &amp; Dev</button>
+      <button class="chip" data-skill-cat="bi">Frontend &amp; BI</button>
+      <button class="chip" data-skill-cat="crm">CRM &amp; RevOps</button>
+      <button class="chip" data-skill-cat="data">Data &amp; Intel</button>
+      <button class="chip" data-skill-cat="method">Analytics</button>
+      <button class="chip" data-skill-cat="prod">Productivity</button>
+    </div>
+
+    <div class="skill-grid" id="skill-grid"></div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     CONTACT
+===================================================================== -->
+<section class="contact-section section" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <div class="eyebrow">Get in touch</div>
+        <h2 class="h2 gradient-text">Revenue intelligence,<br/>at the executive layer.</h2>
+        <p>
+          Currently focused on the discipline at the intersection of AI, scoring,
+          forecasting, and the boardroom. Based remote in Winston-Salem, NC.
+          Reach out by email, or pull up the work directly on GitHub.
+        </p>
+        <div class="contact-actions">
+          <a href="mailto:ashleyjanemillan@gmail.com" class="btn btn-primary">
+            <span>Send an email</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="https://github.com/ashleymillan" target="_blank" rel="noopener" class="btn btn-ghost">
+            <span>GitHub</span>
+            <span class="arrow">↗</span>
+          </a>
+          <a href="https://linkedin.com/in/ashleyjmorgan" target="_blank" rel="noopener" class="btn btn-ghost">
+            <span>LinkedIn</span>
+            <span class="arrow">↗</span>
+          </a>
+        </div>
+      </div>
+      <div class="contact-meta">
+        <a class="cmeta" href="https://github.com/ashleymillan" target="_blank" rel="noopener">
+          <span class="cmeta-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.4.5 0 5.9 0 12.6c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.7-1.3-1.7-1.1-.8.1-.8.1-.8 1.2.1 1.8 1.3 1.8 1.3 1.1 1.9 2.9 1.4 3.6 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.5-1.4-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.6 3.3-1.2 3.3-1.2.7 1.7.3 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.8-1.6 8.2-6.1 8.2-11.4C24 5.9 18.6.5 12 .5z"/></svg></span>
+          <div class="cmeta-body"><div class="cmeta-l">GitHub</div><div class="cmeta-v">github.com/ashleymillan</div></div>
+          <span class="cmeta-arrow">↗</span>
+        </a>
+        <a class="cmeta" href="https://linkedin.com/in/ashleyjmorgan" target="_blank" rel="noopener">
+          <span class="cmeta-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43A2.06 2.06 0 1 1 5.34 3.3a2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.72C24 .77 23.2 0 22.22 0z"/></svg></span>
+          <div class="cmeta-body"><div class="cmeta-l">LinkedIn</div><div class="cmeta-v">linkedin.com/in/ashleyjmorgan</div></div>
+          <span class="cmeta-arrow">↗</span>
+        </a>
+        <a class="cmeta" href="mailto:ashleyjanemillan@gmail.com">
+          <span class="cmeta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M2 7l10 7 10-7"/></svg></span>
+          <div class="cmeta-body"><div class="cmeta-l">Email</div><div class="cmeta-v">ashleyjanemillan@gmail.com</div></div>
+          <span class="cmeta-arrow">→</span>
+        </a>
+        <div class="cmeta">
+          <span class="cmeta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-7.5-8-13a8 8 0 0 1 16 0c0 5.5-8 13-8 13z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
+          <div class="cmeta-body"><div class="cmeta-l">Location</div><div class="cmeta-v">Winston-Salem, NC · Remote</div></div>
+        </div>
+        <div class="cmeta">
+          <span class="cmeta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <div class="cmeta-body"><div class="cmeta-l">Phone</div><div class="cmeta-v">+1 786-205-0218</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>© 2026 Ashley Morgan · Revenue Intelligence &amp; Sales Operations</div>
+    <div>Built in‑house. No templates harmed.</div>
+  </div>
+</footer>
+
+<!-- =====================================================================
+     SCRIPT
+===================================================================== -->
+<script>
+/* Seeded PRNG */
+function mulberry32(seed) {
+  return function() {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const rng = mulberry32(1337);
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* Palette (mirrors CSS vars) */
+const C = {
+  bg: '#0e0c1c',
+  text: '#f0eaff',
+  muted: '#9b94b1',
+  dim: '#756e8c',
+  border: 'rgba(255,255,255,0.08)',
+  borderStrong: 'rgba(255,255,255,0.14)',
+  accent: '#d450e6',
+  accent2: '#6e50e6',
+  accent3: '#50e6e1',
+  accent4: '#e65082',
+  warm: '#ffa502',
+  hot: '#ff4757',
+  cold: '#54a0ff',
+};
+
+/* Lenis smooth scroll + GSAP integration */
+gsap.registerPlugin(ScrollTrigger);
+let lenis = null;
+if (!REDUCED) {
+  lenis = new Lenis({ duration: 1.0, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+  gsap.ticker.lagSmoothing(0);
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    const t = document.getElementById(id);
+    if (!t) return;
+    e.preventDefault();
+    if (lenis) lenis.scrollTo(t, { offset: -50, duration: 1.1 });
+    else t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+/* HERO counters */
+function animateCounter(el, target, dur = 1600) {
+  const start = performance.now();
+  const fmt = n => Math.round(n).toLocaleString();
+  function frame(t) {
+    const p = Math.min(1, (t - start) / dur);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(target * eased);
+    if (p < 1) requestAnimationFrame(frame);
+    else el.textContent = fmt(target);
+  }
+  requestAnimationFrame(frame);
+}
+window.addEventListener('load', () => {
+  document.querySelectorAll('[data-counter]').forEach(el => {
+    const target = +el.dataset.counter;
+    if (REDUCED) { el.textContent = target.toLocaleString(); }
+    else animateCounter(el, target, 1500 + Math.random() * 600);
+  });
+});
+
+/* Hero glyph */
+(function drawGlyph() {
+  const g = document.getElementById('glyph-rings');
+  if (!g) return;
+  const cx = 200, cy = 200;
+  const rings = 16;
+  for (let i = 0; i < rings; i++) {
+    const r = 50 + i * 11;
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', cx); circle.setAttribute('cy', cy); circle.setAttribute('r', r);
+    circle.setAttribute('fill', 'none');
+    const c = i % 4 === 0 ? C.accent : i % 4 === 1 ? C.accent2 : i % 4 === 2 ? C.accent3 : 'rgba(255,255,255,0.15)';
+    circle.setAttribute('stroke', c);
+    circle.setAttribute('stroke-opacity', i % 4 === 0 ? 0.30 : i % 4 === 1 ? 0.22 : i % 4 === 2 ? 0.30 : 0.10);
+    circle.setAttribute('stroke-width', i % 4 < 3 ? 1.1 : 0.6);
+    g.appendChild(circle);
+  }
+  const arc = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  arc.setAttribute('d', `M ${cx-160} ${cy} A 160 160 0 0 1 ${cx+160} ${cy}`);
+  arc.setAttribute('fill', 'none'); arc.setAttribute('stroke', C.accent3);
+  arc.setAttribute('stroke-opacity', 0.55); arc.setAttribute('stroke-width', 1.2);
+  arc.setAttribute('stroke-dasharray', '2 6');
+  g.appendChild(arc);
+  if (!REDUCED) gsap.to(g, { rotation: 360, duration: 80, repeat: -1, ease: 'none', transformOrigin: '50% 50%' });
+})();
+
+/* =====================================================================
+   CAREER — INTERACTIVE TIMELINE
+   ROLES are stored newest-first for nav, but plotted left-to-right
+   chronologically on the timeline track.
+===================================================================== */
+const ROLES = [
+  {
+    short: 'Cohesity',
+    color: '#d450e6',
+    start: 2021.83, end: 2026.40,
+    date: 'Nov 2021 — Present',
+    dur: '4+ years',
+    title: 'Director, Sales Operations',
+    company: 'Cohesity · Remote, NC',
+    narrative: 'End-to-end ownership of forecasting, territory planning, and analytics for 300+ AEs across the full Americas theater. The work spans proprietary scoring models, executive forecasting, AE activity intelligence, and the global risk dashboard sales leaders rely on continuously.',
+    wins: [
+      'Built proprietary <strong>ICP scoring model</strong> in Claude Code + Python with a logistic regression against 4 years of win/loss data — eliminated a $100K+ external consulting engagement',
+      'Designed and shipped the <strong>AE Activity Tracking</strong> system in Google Apps Script — 305 AEs, 2+ years in production, weekly delivery direct to CEO and CRO',
+      'Partners weekly with EVPs and AVPs on <strong>forecasting calls</strong> at every level from district to board, surfacing risk and operational guidance',
+      'Leads <strong>territory and quota design</strong> across 70 districts and 300+ AEs each annual planning cycle; primary trainer on Anaplan adoption',
+      'Maintains the <strong>global risk dashboard</strong> used continuously by all sales leaders across the organization'
+    ],
+    stats: [
+      { val: '305',     lbl: 'AEs supported' },
+      { val: '70',      lbl: 'Districts' },
+      { val: '$100K+',  lbl: 'Saved vs consulting' },
+      { val: '4',       lbl: 'Systems in-house' },
+      { val: '90',      lbl: 'Report recipients' },
+      { val: 'C-suite', lbl: 'Direct delivery' }
+    ],
+    tags: ['300+ AEs', 'C-suite', 'Board reporting', 'AI-powered', 'Built in-house'],
+    viz: { type: 'scope', label: 'Operational scope · live' }
+  },
+  {
+    short: 'SPIDR Tech',
+    color: '#a06ce6',
+    start: 2021.17, end: 2021.83,
+    date: 'Mar 2021 — Oct 2021',
+    dur: '7 months',
+    title: 'Manager, Revenue Operations',
+    company: 'SPIDR Tech · Remote, NC',
+    narrative: 'Founding Sales Operations hire at an early-stage startup, reporting directly to the CRO. Built the entire revenue operations function from the ground up; supported the acquisition process through close.',
+    wins: [
+      '<strong>Founding RevOps hire</strong>, reporting directly to the CRO',
+      'Architected and implemented the <strong>Salesforce instance from scratch</strong>, with opportunity workflows incorporating compliance and legal requirements',
+      'Managed the <strong>BDR team</strong> and drove demand generation and GTM strategy',
+      'Supported the <strong>acquisition process</strong> — consulted with the acquiring organization through deal finalization'
+    ],
+    stats: [
+      { val: '0→1',       lbl: 'SFDC build' },
+      { val: 'Founding',  lbl: 'RevOps hire' },
+      { val: 'CRO',       lbl: 'Direct report' },
+      { val: 'BDR team',  lbl: 'Managed' },
+      { val: '7 mo',      lbl: 'Tenure' },
+      { val: 'Acquired',  lbl: 'Through close' }
+    ],
+    tags: ['Founding hire', '0 → 1 SFDC build', 'BDR management', 'Acquisition support'],
+    viz: { type: 'build', label: '0 → 1 RevOps stack' }
+  },
+  {
+    short: 'IHS Markit · Return',
+    color: '#5fb8e6',
+    start: 2019.83, end: 2021.17,
+    date: 'Nov 2019 — Mar 2021',
+    dur: '17 months',
+    title: 'Manager, Sales Operations',
+    company: 'IHS Markit Ltd · Remote, NC',
+    narrative: '<strong>Returned to IHS Markit</strong> after an 11-year prior tenure as a Senior Sales Operations Analyst — this time stepping in as a Manager supporting the Maritime & Trade division across US, Canada, LATAM, and APAC in a deal-structuring capacity, and serving as a core change management and enablement lead during the org-wide CRM migration.',
+    wins: [
+      '<strong>Welcomed back as a Manager</strong> at IHS Markit after an 11-year prior tenure — a return engagement after the FAA Academy and Veritas stints',
+      'Structured <strong>complex federal government deals</strong> — pricing guidance, RFP and RFQ strategy and completion',
+      'Partnered with <strong>Legal</strong> on contract and documentation structuring',
+      'Core <strong>change management and enablement</strong> lead for the org-wide CRM migration from Microsoft to Salesforce',
+      'Coverage spanned four regions: <strong>US · Canada · LATAM · APAC</strong>'
+    ],
+    stats: [
+      { val: '4',        lbl: 'Regions covered' },
+      { val: '11 yrs',   lbl: 'Prior IHS tenure' },
+      { val: 'Federal',  lbl: 'Deal scope' },
+      { val: 'MS→SFDC',  lbl: 'Migration lead' },
+      { val: '17 mo',    lbl: 'This tenure' },
+      { val: 'Maritime', lbl: '& Trade division' }
+    ],
+    tags: ['Return engagement', 'Multi-region', 'Federal deals', 'CRM migration lead'],
+    viz: { type: 'globe', label: 'Coverage map · pinging' }
+  },
+  {
+    short: 'Veritas',
+    color: '#e65082',
+    start: 2019.25, end: 2019.83,
+    date: 'Apr 2019 — Nov 2019',
+    dur: '7 months',
+    title: 'Manager, Renewals Sales Operations',
+    company: 'Veritas Technologies LLC · Heathrow, FL',
+    narrative: 'Supported SLED, Healthcare, and Federal government renewals operations during a focused stint on public-sector contract structures and quoting automation.',
+    wins: [
+      'Supported <strong>SLED, Healthcare, and Federal</strong> renewals operations',
+      'Structured <strong>appliance quotes</strong> and contributed to quoting automation initiatives',
+      'Delivered <strong>Excel and Microsoft Office automation training</strong> to the sales operations team',
+      'Served as a key resource for new technology adoption across the team'
+    ],
+    stats: [
+      { val: 'SLED',       lbl: 'Vertical' },
+      { val: 'Healthcare', lbl: 'Vertical' },
+      { val: 'Federal',    lbl: 'Vertical' },
+      { val: 'Renewals',   lbl: 'Ops focus' },
+      { val: 'Quoting',    lbl: 'Automation' },
+      { val: '7 mo',       lbl: 'Tenure' }
+    ],
+    tags: ['Renewals ops', 'SLED · Federal', 'Quoting automation'],
+    viz: { type: 'none', label: '' }
+  },
+  {
+    short: 'FAA',
+    color: '#ffa502',
+    start: 2018.58, end: 2019.25,
+    date: 'Aug 2018 — Apr 2019',
+    dur: '8 months',
+    title: 'Air Traffic Controller · En-Route Radar',
+    company: 'Federal Aviation Administration · FAA Academy · Oklahoma City, OK',
+    narrative: 'Completed the intensive en-route radar training program at the FAA Academy. The same disciplines — multi-target tracking, real-time decision-making, high-stakes communication, and analytical precision under continuous time pressure — directly power live forecasting calls and executive reads today.',
+    wins: [
+      'Completed <strong>intensive en-route radar training</strong> at the FAA Academy in Oklahoma City',
+      'Developed <strong>multi-target tracking</strong> and decision-making under continuous time pressure',
+      'Built <strong>high-stakes communication discipline</strong> — clear, concise, unambiguous reporting on a live operational channel',
+      'Transferred that same composure into live <strong>forecasting calls and board reads</strong> in subsequent roles'
+    ],
+    stats: [
+      { val: 'FAA',         lbl: 'Academy' },
+      { val: 'En-route',    lbl: 'Radar program' },
+      { val: '8 mo',        lbl: 'Intensive training' },
+      { val: 'OKC',         lbl: 'Oklahoma City' },
+      { val: 'Real-time',   lbl: 'Decisions' },
+      { val: 'High-stakes', lbl: 'Comms' }
+    ],
+    tags: ['En-route radar', 'Real-time decisions', 'High-stakes comms', 'FAA Academy'],
+    viz: { type: 'radar', label: 'Radar sweep · live' }
+  },
+  {
+    short: 'IHS Markit · Sr Analyst',
+    color: '#50e6e1',
+    start: 2007.50, end: 2018.50,
+    date: 'Jul 2007 — Jul 2018',
+    dur: '11 years',
+    title: 'Senior Sales Operations Analyst',
+    company: 'IHS Markit Ltd · Miami, FL',
+    narrative: 'Eleven-year tenure across data analytics, finance, and international deal execution. Took on progressively more responsibility into a senior sales operations capacity — supporting global accounts, partnering with the Sales team on deal structuring, and transitioning into a quasi-Legal capacity in later years working directly on contract redlines.',
+    wins: [
+      '<strong>Eleven-year tenure</strong> with progressively expanding scope into a senior sales operations capacity',
+      'Managed <strong>accounts payable, accounts receivable, and formal international collections</strong> — resolving past-due invoices globally using multilingual skills',
+      'Partnered with the <strong>Sales team on deal structuring</strong>; attended global conferences with major oil and gas organizations',
+      'Represented the company in a <strong>hybrid sales operations + business development</strong> capacity at industry events',
+      'Transitioned into a <strong>quasi-Legal capacity</strong> in later years, working directly on contract redlines in close partnership with the Legal department'
+    ],
+    stats: [
+      { val: '11',           lbl: 'Year tenure' },
+      { val: 'Global',       lbl: 'Conferences' },
+      { val: 'Multilingual', lbl: 'Collections' },
+      { val: 'Oil & Gas',    lbl: 'Industry events' },
+      { val: 'Quasi-Legal',  lbl: 'In later years' },
+      { val: 'Deal',         lbl: 'Structuring' }
+    ],
+    tags: ['11-yr tenure', 'Global accounts', 'Deal structuring', 'Multilingual', 'Quasi-Legal'],
+    viz: { type: 'tenure', years: 11, label: '11-year span · 2007 → 2018' }
+  }
+];
+
+let activeIdx = 0; // Cohesity (current) by default
+
+const T_MIN = 2007.3;
+const T_MAX = 2026.6;
+
+function buildTimelineTrack() {
+  const svg = d3.select('#timeline-svg');
+  svg.attr('viewBox', '0 0 1000 130').attr('preserveAspectRatio', 'none');
+  svg.selectAll('*').remove();
+
+  const W = 1000, H = 130;
+  const padX = 80; // wider padding to make room for big endpoint labels
+  const w = W - padX * 2;
+  const x = d3.scaleLinear().domain([T_MIN, T_MAX]).range([padX, padX + w]);
+
+  // === BIG ENDPOINT LABELS ===
+  svg.append('text').attr('class', 'tl-endpoint')
+    .attr('x', padX - 14).attr('y', 64)
+    .attr('font-size', 22).attr('fill', C.text)
+    .attr('text-anchor', 'end').attr('dominant-baseline', 'middle')
+    .text('2007');
+  svg.append('text')
+    .attr('x', padX - 14).attr('y', 82)
+    .attr('font-size', 9.5).attr('fill', C.dim)
+    .attr('text-anchor', 'end').attr('font-weight', 600)
+    .attr('letter-spacing', '0.18em')
+    .text('STARTED');
+
+  svg.append('text').attr('class', 'tl-endpoint')
+    .attr('x', padX + w + 14).attr('y', 64)
+    .attr('font-size', 22).attr('fill', C.accent3)
+    .attr('text-anchor', 'start').attr('dominant-baseline', 'middle')
+    .text('Present');
+  svg.append('text')
+    .attr('x', padX + w + 14).attr('y', 82)
+    .attr('font-size', 9.5).attr('fill', C.dim)
+    .attr('text-anchor', 'start').attr('font-weight', 600)
+    .attr('letter-spacing', '0.18em')
+    .text('2026 · DIRECTOR');
+
+  // === Year ticks (subtle, between endpoints) ===
+  const tickYears = [2010, 2013, 2016, 2019, 2022, 2025];
+  svg.append('line')
+    .attr('x1', padX).attr('x2', padX + w)
+    .attr('y1', 34).attr('y2', 34)
+    .attr('stroke', C.border).attr('stroke-width', 1);
+  tickYears.forEach(yr => {
+    svg.append('line')
+      .attr('x1', x(yr)).attr('x2', x(yr))
+      .attr('y1', 30).attr('y2', 38)
+      .attr('stroke', C.borderStrong).attr('stroke-width', 0.7);
+    svg.append('text')
+      .attr('x', x(yr)).attr('y', 22)
+      .attr('font-size', 10).attr('font-weight', 600)
+      .attr('fill', C.dim).attr('text-anchor', 'middle')
+      .attr('letter-spacing', '0.06em')
+      .text(`'${String(yr).slice(2)}`);
+  });
+
+  const pillH = 34;
+  const pillY = 56;
+
+  // === IHS RETURN CONNECTOR ARC (drawn first so it sits behind pills) ===
+  const ihsSr = ROLES.find(r => r.short.startsWith('IHS Markit · Sr'));
+  const ihsRet = ROLES.find(r => r.short.startsWith('IHS Markit · Return'));
+  if (ihsSr && ihsRet) {
+    const xA = x(ihsSr.end);        // end of first IHS tenure
+    const xB = x(ihsRet.start);     // start of return
+    const yMid = pillY - 8;
+    const peakY = pillY - 22;
+    const cx = (xA + xB) / 2;
+    const arcPath = `M ${xA} ${yMid} Q ${cx} ${peakY} ${xB} ${yMid}`;
+    svg.append('path')
+      .attr('d', arcPath)
+      .attr('fill', 'none')
+      .attr('stroke', C.accent3)
+      .attr('stroke-opacity', 0.55)
+      .attr('stroke-width', 1.2)
+      .attr('stroke-dasharray', '3 3')
+      .attr('filter', `drop-shadow(0 0 4px ${C.accent3}88)`);
+    // Arrow head at right end
+    svg.append('path')
+      .attr('d', `M ${xB - 4} ${yMid - 4} L ${xB} ${yMid} L ${xB - 4} ${yMid + 4}`)
+      .attr('fill', 'none').attr('stroke', C.accent3).attr('stroke-opacity', 0.85)
+      .attr('stroke-width', 1.2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
+    // "Returned" label centered above arc
+    svg.append('text')
+      .attr('x', cx).attr('y', peakY - 4)
+      .attr('font-size', 10).attr('font-weight', 600).attr('fill', C.accent3)
+      .attr('text-anchor', 'middle').attr('letter-spacing', '0.06em')
+      .text('Returned ↻');
+  }
+
+  // === PILLS (no inline labels — legend chips below carry the names) ===
+  const orderedIdxs = ROLES.map((r, i) => i).sort((a, b) => ROLES[a].start - ROLES[b].start);
+
+  orderedIdxs.forEach((idx) => {
+    const r = ROLES[idx];
+    const x0 = x(r.start), x1 = x(r.end);
+    const pw = Math.max(10, x1 - x0);
+
+    const g = svg.append('g')
+      .attr('class', 'timeline-pill')
+      .attr('data-idx', idx)
+      .style('color', r.color);
+
+    // Tooltip target (transparent, full pill area)
+    g.append('title').text(`${r.title}\n${r.company}\n${r.date} (${r.dur})`);
+
+    // Pill rect (background tint)
+    g.append('rect')
+      .attr('class', 'bg')
+      .attr('x', x0).attr('y', pillY)
+      .attr('width', pw).attr('height', pillH)
+      .attr('rx', 10)
+      .attr('fill', `${r.color}26`)
+      .attr('stroke', `${r.color}66`)
+      .attr('stroke-width', 1);
+
+    // Pill rect (active fill — opacity toggled)
+    g.append('rect')
+      .attr('class', 'fill')
+      .attr('x', x0).attr('y', pillY)
+      .attr('width', pw).attr('height', pillH)
+      .attr('rx', 10)
+      .attr('fill', `${r.color}40`)
+      .attr('stroke', r.color)
+      .attr('stroke-width', 1.8)
+      .attr('opacity', 0);
+
+    // Duration text below pill
+    g.append('text')
+      .attr('x', x0 + pw/2).attr('y', pillY + pillH + 14)
+      .attr('font-size', 9.5).attr('font-weight', 500)
+      .attr('fill', C.dim).attr('text-anchor', 'middle')
+      .text(r.dur);
+
+    // End-cap dot
+    g.append('circle')
+      .attr('cx', x1).attr('cy', pillY + pillH/2)
+      .attr('r', 4)
+      .attr('fill', r.color)
+      .attr('stroke', C.bg).attr('stroke-width', 2)
+      .attr('filter', `drop-shadow(0 0 6px ${r.color}cc)`);
+
+    g.on('mouseenter', function() {
+      d3.select(this).select('rect.fill').transition().duration(180).attr('opacity', 0.75);
+    }).on('mouseleave', function() {
+      if (+this.dataset.idx !== activeIdx) {
+        d3.select(this).select('rect.fill').transition().duration(180).attr('opacity', 0);
+      }
+    });
+    g.on('click', function() { setActive(+this.dataset.idx); });
+  });
+
+  // Active end-cap pulse
+  svg.append('circle')
+    .attr('class', 'active-pulse dot-glow')
+    .attr('r', 8).attr('fill', 'none').attr('stroke-width', 2);
+
+  buildTimelineLegend();
+  updateTimelinePills();
+}
+
+function buildTimelineLegend() {
+  const legend = document.getElementById('timeline-legend');
+  if (!legend) return;
+  legend.innerHTML = ROLES.map((r, i) => {
+    const num = (ROLES.length - i).toString().padStart(2, '0');
+    return `
+      <button class="legend-chip" data-idx="${i}" style="color: ${r.color};">
+        <span class="lc-dot"></span>
+        <span class="lc-num">${num}</span>
+        <span class="lc-name">${r.short}</span>
+      </button>
+    `;
+  }).join('');
+  legend.querySelectorAll('.legend-chip').forEach(btn => {
+    btn.addEventListener('click', () => setActive(+btn.dataset.idx));
+  });
+}
+
+function updateTimelinePills() {
+  document.querySelectorAll('.timeline-pill').forEach(p => {
+    const idx = +p.dataset.idx;
+    p.classList.toggle('active', idx === activeIdx);
+    const fill = p.querySelector('rect.fill');
+    if (fill) fill.setAttribute('opacity', idx === activeIdx ? 1 : 0);
+  });
+  document.querySelectorAll('.legend-chip').forEach(c => {
+    c.classList.toggle('active', +c.dataset.idx === activeIdx);
+  });
+
+  const r = ROLES[activeIdx];
+  const svg = document.getElementById('timeline-svg');
+  if (!svg) return;
+  const padX = 80, W = 1000;
+  const w = W - padX * 2;
+  const x = padX + ((r.end - T_MIN) / (T_MAX - T_MIN)) * w;
+  const y = 56 + 17;
+  const pulse = svg.querySelector('.active-pulse');
+  if (pulse) {
+    pulse.setAttribute('cx', x);
+    pulse.setAttribute('cy', y);
+    pulse.setAttribute('stroke', r.color);
+  }
+}
+
+function renderCard() {
+  const r = ROLES[activeIdx];
+  const counterPos = ROLES.length - activeIdx; // 6,5,4,3,2,1 as we go newer
+  const card = document.getElementById('timeline-card');
+  card.innerHTML = `
+    <div class="card-meta">
+      <span class="dot"></span>
+      <span>${r.date}</span>
+      <span class="dur">· ${r.dur}</span>
+    </div>
+    <h3 class="card-title">${r.title}</h3>
+    <div class="card-company">${r.company}</div>
+    <div class="card-grid">
+      <div class="card-narrative">
+        <p>${r.narrative}</p>
+        <div class="key-wins">
+          <h4>Key wins</h4>
+          <ul>
+            ${r.wins.map(w => `<li>${w}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      <div class="card-side">
+        <div class="stat-grid">
+          ${r.stats.map(s => `
+            <div class="stat-tile">
+              <div class="stat-val">${s.val}</div>
+              <div class="stat-lbl">${s.lbl}</div>
+            </div>
+          `).join('')}
+        </div>
+        ${r.viz.type !== 'none' ? `
+          <div class="signature-viz" id="card-viz-wrap">
+            <div class="signature-viz-label">
+              <span>${r.viz.label}</span>
+              <span class="live-dot"></span>
+            </div>
+            <svg id="card-viz-svg" viewBox="0 0 320 120" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+        ` : ''}
+        <div class="card-tags">
+          ${r.tags.map((t, i) => `<span class="role-tag${i===0?' accent':''}">${t}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+    <nav class="card-nav">
+      <button id="card-prev" ${activeIdx === ROLES.length - 1 ? 'disabled' : ''}>
+        <span>←</span><span>Earlier</span>
+      </button>
+      <div class="counter"><strong>${counterPos}</strong> of ${ROLES.length} · <em>${r.short}</em></div>
+      <button id="card-next" ${activeIdx === 0 ? 'disabled' : ''}>
+        <span>Later</span><span>→</span>
+      </button>
+    </nav>
+  `;
+  document.getElementById('card-prev').addEventListener('click', () => setActive(Math.min(ROLES.length - 1, activeIdx + 1)));
+  document.getElementById('card-next').addEventListener('click', () => setActive(Math.max(0, activeIdx - 1)));
+  drawCardViz(r);
+}
+
+function drawCardViz(r) {
+  if (r.viz.type === 'none') return;
+  const svg = d3.select('#card-viz-svg');
+  if (svg.empty()) return;
+  svg.selectAll('*').remove();
+  const W = 320, H = 120;
+
+  // SCOPE — Cohesity: 4 horizontal bars
+  if (r.viz.type === 'scope') {
+    const bars = [
+      { label: 'AEs',        val: 305, max: 400, color: C.accent },
+      { label: 'Districts',  val: 70,  max: 100, color: C.accent2 },
+      { label: 'Recipients', val: 90,  max: 120, color: C.accent3 },
+      { label: 'Sources',    val: 4,   max: 6,   color: C.accent4 }
+    ];
+    const rowH = 24;
+    const top = 14;
+    const labelW = 72;
+    const valW = 32;
+    const barX = labelW + 6;
+    const barAvail = W - labelW - 8 - valW - 4;
+
+    bars.forEach((b, i) => {
+      const y = top + i * rowH;
+      svg.append('text').attr('x', labelW - 4).attr('y', y + 12)
+        .attr('font-size', 10.5).attr('font-weight', 600).attr('fill', C.text).attr('text-anchor', 'end').text(b.label);
+      svg.append('rect').attr('x', barX).attr('y', y + 6).attr('width', barAvail).attr('height', 7).attr('rx', 3.5)
+        .attr('fill', 'rgba(255,255,255,0.06)');
+      svg.append('rect').attr('x', barX).attr('y', y + 6).attr('width', 0).attr('height', 7).attr('rx', 3.5)
+        .attr('fill', b.color).attr('filter', `drop-shadow(0 0 5px ${b.color}99)`)
+        .transition().duration(REDUCED?0:850).delay(i*90).ease(d3.easeCubicOut).attr('width', barAvail * b.val / b.max);
+      svg.append('text').attr('x', W - 2).attr('y', y + 12)
+        .attr('font-size', 11).attr('font-weight', 700).attr('fill', b.color).attr('text-anchor', 'end').text(b.val);
+    });
+  }
+
+  // BUILD — SPIDR: 5-stage progression with growing nodes
+  if (r.viz.type === 'build') {
+    const stages = ['SFDC', 'Flows', 'BDR', 'GTM', 'Acq'];
+    const colors = [C.accent2, C.accent2, C.accent, C.accent3, C.accent3];
+    const padL = 24, padR = 24;
+    const avail = W - padL - padR;
+    const step = avail / (stages.length - 1);
+    const yMid = 52;
+
+    // Connecting lines (drawn first, behind nodes)
+    stages.forEach((_, i) => {
+      if (i >= stages.length - 1) return;
+      const x1 = padL + i * step + 10;
+      const x2 = padL + (i+1) * step - 10;
+      const line = svg.append('line').attr('x1', x1).attr('y1', yMid).attr('x2', x1).attr('y2', yMid)
+        .attr('stroke', C.accent3).attr('stroke-opacity', 0.55).attr('stroke-width', 1.2);
+      line.transition().delay(REDUCED?0:i*240+150).duration(REDUCED?0:260).attr('x2', x2);
+    });
+
+    stages.forEach((s, i) => {
+      const x = padL + i * step;
+      const color = colors[i];
+
+      // Pulse ring (CSS class animates it)
+      svg.append('circle').attr('cx', x).attr('cy', yMid).attr('r', 13)
+        .attr('fill', 'none').attr('stroke', color).attr('stroke-opacity', 0.55).attr('stroke-width', 1)
+        .attr('class', 'dot-glow').style('color', color);
+
+      // Solid node
+      svg.append('circle').attr('cx', x).attr('cy', yMid).attr('r', 0)
+        .attr('fill', color).attr('filter', `drop-shadow(0 0 5px ${color}cc)`)
+        .transition().delay(REDUCED?0:i*240).duration(REDUCED?0:320).ease(d3.easeBackOut).attr('r', 7);
+
+      // Number inside
+      svg.append('text').attr('x', x).attr('y', yMid + 3.5)
+        .attr('font-size', 9).attr('font-weight', 700).attr('fill', '#0e0c1c').attr('text-anchor', 'middle').text(i+1);
+
+      // Label below
+      svg.append('text').attr('x', x).attr('y', yMid + 26)
+        .attr('font-size', 10).attr('font-weight', 600).attr('fill', C.muted).attr('text-anchor', 'middle').text(s);
+    });
+
+    svg.append('text').attr('x', W/2).attr('y', H - 6)
+      .attr('font-size', 9.5).attr('fill', C.dim).attr('text-anchor', 'middle')
+      .attr('letter-spacing', '0.06em').text('FOUNDING REVOPS · 0 → 1');
+  }
+
+  // GLOBE — IHS Return: 4 regions with concentric pinging rings
+  if (r.viz.type === 'globe') {
+    const regions = ['US', 'CAN', 'LATAM', 'APAC'];
+    const colors = [C.accent, C.accent2, C.accent3, C.accent4];
+    const padL = 14, padR = 14;
+    const tileW = (W - padL - padR) / regions.length;
+    const yMid = 50;
+
+    // Subtle horizontal connector behind
+    svg.append('line').attr('x1', padL + tileW/2).attr('x2', W - padR - tileW/2).attr('y1', yMid).attr('y2', yMid)
+      .attr('stroke', C.border).attr('stroke-width', 1);
+
+    regions.forEach((reg, i) => {
+      const cx = padL + tileW * (i + 0.5);
+      const color = colors[i];
+
+      // Outer pinging ring
+      svg.append('circle').attr('cx', cx).attr('cy', yMid).attr('r', 17)
+        .attr('fill', 'none').attr('stroke', color).attr('stroke-opacity', 0.45).attr('stroke-width', 1)
+        .attr('class', 'dot-glow').style('color', color);
+
+      // Inner ring
+      svg.append('circle').attr('cx', cx).attr('cy', yMid).attr('r', 11)
+        .attr('fill', `${color}26`).attr('stroke', color).attr('stroke-width', 1.2);
+
+      // Center dot
+      svg.append('circle').attr('cx', cx).attr('cy', yMid).attr('r', 3.5)
+        .attr('fill', color).attr('filter', `drop-shadow(0 0 5px ${color}cc)`);
+
+      // Region label below
+      svg.append('text').attr('x', cx).attr('y', yMid + 32)
+        .attr('font-size', 11).attr('font-weight', 700).attr('fill', color).attr('text-anchor', 'middle').text(reg);
+    });
+
+    svg.append('text').attr('x', W/2).attr('y', H - 6)
+      .attr('font-size', 9.5).attr('fill', C.dim).attr('text-anchor', 'middle')
+      .attr('letter-spacing', '0.06em').text('MARITIME & TRADE · 4 REGIONS');
+  }
+
+  // RADAR — FAA: sweeping radar with cone, blips, range rings
+  if (r.viz.type === 'radar') {
+    const cx = W/2, cy = 56, R = 42;
+
+    // Gradient for sweep cone
+    const defs = svg.append('defs');
+    const grad = defs.append('linearGradient').attr('id', 'radarCone').attr('x1', 0).attr('x2', 1).attr('y1', 0).attr('y2', 0);
+    grad.append('stop').attr('offset', '0%').attr('stop-color', C.warm).attr('stop-opacity', 0.55);
+    grad.append('stop').attr('offset', '100%').attr('stop-color', C.warm).attr('stop-opacity', 0);
+
+    // Range rings
+    [1, 0.66, 0.33].forEach((f, i) => {
+      svg.append('circle').attr('cx', cx).attr('cy', cy).attr('r', R * f)
+        .attr('fill', 'none').attr('stroke', C.warm)
+        .attr('stroke-opacity', i === 0 ? 0.55 : 0.32)
+        .attr('stroke-width', i === 0 ? 1 : 0.7)
+        .attr('stroke-dasharray', i === 0 ? null : '2 3');
+    });
+
+    // Cross hairs
+    svg.append('line').attr('x1', cx - R).attr('x2', cx + R).attr('y1', cy).attr('y2', cy)
+      .attr('stroke', C.warm).attr('stroke-opacity', 0.18).attr('stroke-width', 0.6);
+    svg.append('line').attr('x1', cx).attr('x2', cx).attr('y1', cy - R).attr('y2', cy + R)
+      .attr('stroke', C.warm).attr('stroke-opacity', 0.18).attr('stroke-width', 0.6);
+
+    // Sweep group (cone + arm rotate together)
+    const sweep = svg.append('g').attr('class', 'sweep-group');
+    sweep.append('path')
+      .attr('d', `M ${cx} ${cy} L ${cx + R} ${cy - 9} A ${R} ${R} 0 0 1 ${cx + R} ${cy + 9} Z`)
+      .attr('fill', 'url(#radarCone)');
+    sweep.append('line').attr('x1', cx).attr('y1', cy).attr('x2', cx + R).attr('y2', cy)
+      .attr('stroke', C.warm).attr('stroke-width', 1.6).attr('filter', `drop-shadow(0 0 5px ${C.warm}dd)`);
+
+    if (!REDUCED) {
+      gsap.to(sweep.node(), { rotation: 360, duration: 4, repeat: -1, ease: 'none', transformOrigin: `${cx}px ${cy}px` });
+    }
+
+    // Blips
+    const blips = [
+      { a: 0.65, d: 0.58 }, { a: 2.3,  d: 0.78 }, { a: 1.5,  d: 0.32 },
+      { a: 3.8, d: 0.62 }, { a: 5.1,  d: 0.88 }, { a: 0.2,  d: 0.42 }
+    ];
+    blips.forEach(b => {
+      const x = cx + Math.cos(b.a) * R * b.d;
+      const y = cy + Math.sin(b.a) * R * b.d;
+      svg.append('circle').attr('cx', x).attr('cy', y).attr('r', 2)
+        .attr('fill', C.accent).attr('opacity', 0.9)
+        .attr('filter', `drop-shadow(0 0 3px ${C.accent}cc)`);
+    });
+
+    // Side labels
+    svg.append('text').attr('x', cx + R + 12).attr('y', cy - 4)
+      .attr('font-size', 10).attr('font-weight', 700).attr('fill', C.text).text('Multi-target');
+    svg.append('text').attr('x', cx + R + 12).attr('y', cy + 8)
+      .attr('font-size', 9).attr('fill', C.muted).text('tracking');
+    svg.append('text').attr('x', cx - R - 12).attr('y', cy - 4)
+      .attr('font-size', 10).attr('font-weight', 700).attr('fill', C.text).attr('text-anchor', 'end').text('High-stakes');
+    svg.append('text').attr('x', cx - R - 12).attr('y', cy + 8)
+      .attr('font-size', 9).attr('fill', C.muted).attr('text-anchor', 'end').text('comms');
+
+    svg.append('text').attr('x', W/2).attr('y', H - 6)
+      .attr('font-size', 9.5).attr('fill', C.dim).attr('text-anchor', 'middle')
+      .attr('letter-spacing', '0.06em').text('FAA ACADEMY · OKLAHOMA CITY');
+  }
+
+  // TENURE — IHS Sr Analyst: 11-year Gantt bar with animated fill, 2007 → 2018
+  if (r.viz.type === 'tenure') {
+    const startYr = 2007, endYr = 2026, tenureEnd = 2018;
+    const padL = 14, padR = 14;
+    const w = W - padL - padR;
+    const sx = year => padL + ((year - startYr) / (endYr - startYr)) * w;
+    const yMid = 56;
+
+    // Title eyebrow
+    svg.append('text').attr('x', W/2).attr('y', 14)
+      .attr('font-size', 9.5).attr('font-weight', 700).attr('fill', C.muted).attr('text-anchor', 'middle')
+      .attr('letter-spacing', '0.12em').text('IHS MARKIT · 2007 → 2018');
+
+    // Axis line
+    svg.append('line').attr('x1', padL).attr('x2', W - padR).attr('y1', yMid + 18).attr('y2', yMid + 18)
+      .attr('stroke', C.border).attr('stroke-width', 1);
+
+    // Year ticks
+    [2007, 2011, 2015, 2018, 2022, 2026].forEach(yr => {
+      const xv = sx(yr);
+      const isEnd = yr === 2018 || yr === 2007;
+      svg.append('line').attr('x1', xv).attr('x2', xv).attr('y1', yMid + 14).attr('y2', yMid + 22)
+        .attr('stroke', isEnd ? C.accent3 : C.borderStrong).attr('stroke-width', isEnd ? 1.4 : 0.7);
+      svg.append('text').attr('x', xv).attr('y', yMid + 35)
+        .attr('font-size', 9).attr('font-weight', isEnd ? 700 : 500)
+        .attr('fill', isEnd ? C.accent3 : C.dim).attr('text-anchor', 'middle').text(yr);
+    });
+
+    // The 11-year tenure bar
+    const x0 = sx(2007), x1 = sx(tenureEnd);
+    // Track background (full timeline)
+    svg.append('rect').attr('x', x0).attr('y', yMid - 7).attr('width', x1 - x0).attr('height', 14).attr('rx', 7)
+      .attr('fill', `${C.accent3}1f`).attr('stroke', `${C.accent3}55`).attr('stroke-width', 1);
+    // Animated fill from 2007 forward
+    svg.append('rect').attr('x', x0).attr('y', yMid - 7).attr('width', 0).attr('height', 14).attr('rx', 7)
+      .attr('fill', C.accent3).attr('filter', `drop-shadow(0 0 7px ${C.accent3}99)`)
+      .transition().duration(REDUCED?0:1100).ease(d3.easeCubicOut).attr('width', x1 - x0);
+
+    // "11 years" label above bar
+    svg.append('text').attr('x', (x0 + x1) / 2).attr('y', yMid - 12)
+      .attr('font-size', 11).attr('font-weight', 700).attr('fill', C.text).attr('text-anchor', 'middle').text('11 years');
+
+    // Footer caption
+    svg.append('text').attr('x', W/2).attr('y', H - 5)
+      .attr('font-size', 9).attr('fill', C.dim).attr('text-anchor', 'middle')
+      .text('Progressively expanding scope · sales operations');
+  }
+}
+
+function setActive(newIdx) {
+  if (newIdx === activeIdx || newIdx < 0 || newIdx >= ROLES.length) return;
+  const direction = newIdx > activeIdx ? -1 : 1; // newer index = lower number = later in time
+  const card = document.getElementById('timeline-card');
+
+  // GSAP timeline: slide out → swap content → slide in
+  if (REDUCED) {
+    activeIdx = newIdx;
+    renderCard(); updateTimelinePills();
+    return;
+  }
+  const tl = gsap.timeline();
+  tl.to(card, { opacity: 0, x: direction * -24, scale: 0.985, duration: 0.26, ease: 'power2.in' })
+    .call(() => {
+      activeIdx = newIdx;
+      renderCard();
+      updateTimelinePills();
+    })
+    .set(card, { x: direction * 24, scale: 0.985 })
+    .to(card, { opacity: 1, x: 0, scale: 1, duration: 0.5, ease: 'power3.out' });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 'ArrowLeft') { setActive(Math.min(ROLES.length - 1, activeIdx + 1)); }
+  if (e.key === 'ArrowRight') { setActive(Math.max(0, activeIdx - 1)); }
+});
+
+buildTimelineTrack();
+renderCard();
+
+
+/* =====================================================================
+   PROJECT 1 — ICP Dashboard live view (KPI strip + Fit×Intent matrix)
+   Mirrors the published dashboard at ashleymillan.github.io/icp-dashboard
+===================================================================== */
+const TIER_COLORS   = { A: C.accent, B: C.accent2, C: C.accent3, D: C.accent4 };
+const INTENT_COLORS = { Hot: C.hot,  Warm: C.warm,  Cold: C.cold };
+
+const ICP_DATA = d3.range(175).map(i => {
+  const fit    = Math.max(10, Math.min(99, Math.round(35 + rng()*55 + (rng()-0.5)*18)));
+  const intent = Math.max(5,  Math.min(99, Math.round(20 + rng()*60 + (rng()-0.5)*24)));
+  return {
+    id: i, fit, intent,
+    tier: fit    >= 80 ? 'A' : fit    >= 65 ? 'B' : fit    >= 45 ? 'C' : 'D',
+    band: intent >= 70 ? 'Hot' : intent >= 40 ? 'Warm' : 'Cold'
+  };
+});
+
+const ICP_MATRIX = (() => {
+  const m = { A:{Hot:0,Warm:0,Cold:0}, B:{Hot:0,Warm:0,Cold:0}, C:{Hot:0,Warm:0,Cold:0}, D:{Hot:0,Warm:0,Cold:0} };
+  ICP_DATA.forEach(d => m[d.tier][d.band]++);
+  return m;
+})();
+
+function drawICP(filter='all') {
+  const container = document.getElementById('proto-icp');
+  container.innerHTML = '';
+  const W = container.clientWidth || 460;
+  const H = Math.max(container.clientHeight || 320, 320);
+  const svg = d3.select(container).append('svg').attr('width', W).attr('height', H);
+
+  // ── KPI strip ─────────────────────────────────────────────────────
+  const subset = filter === 'all' ? ICP_DATA : ICP_DATA.filter(d => d.band === filter);
+  const total  = ICP_DATA.length;
+  const aHot   = ICP_DATA.filter(d => d.tier === 'A' && d.band === 'Hot').length;
+  const aCount = subset.filter(d => d.tier === 'A').length;
+  const avgFit = subset.length ? Math.round(d3.mean(subset, d => d.fit)) : 0;
+  const kpis = [
+    { label: 'TOTAL',   value: subset.length, sub: filter === 'all' ? 'accounts' : filter.toLowerCase() + ' intent', accent: C.text },
+    { label: 'AVG FIT', value: avgFit,        sub: 'out of 100',                                                      accent: C.accent3 },
+    { label: 'A-TIER',  value: aCount,        sub: subset.length ? Math.round(aCount/subset.length*100) + '% of book' : '—', accent: C.accent },
+    { label: 'A + HOT', value: aHot,          sub: 'call-first',                                                      accent: C.hot }
+  ];
+  const kpiH = 64;
+  const kpiGap = 8;
+  const kpiW = (W - kpiGap * 3) / 4;
+  kpis.forEach((k, i) => {
+    const g = svg.append('g').attr('transform', `translate(${i * (kpiW + kpiGap)},0)`);
+    g.append('rect').attr('width', kpiW).attr('height', kpiH).attr('rx', 10)
+      .attr('fill', 'rgba(255,255,255,0.03)').attr('stroke', C.border);
+    g.append('rect').attr('width', kpiW - 22).attr('height', 2).attr('x', 11).attr('y', 0)
+      .attr('rx', 1).attr('fill', k.accent).attr('opacity', 0.7);
+    g.append('text').attr('x', 12).attr('y', 18).attr('font-size', 8.5)
+      .attr('fill', C.dim).attr('font-weight', 700).attr('letter-spacing', '0.14em').text(k.label);
+    g.append('text').attr('x', 12).attr('y', 42).attr('font-size', 22)
+      .attr('fill', C.text).attr('font-weight', 600).attr('opacity', 0).text(k.value)
+      .transition().delay(REDUCED?0:i*70).duration(REDUCED?0:380).attr('opacity', 1);
+    g.append('text').attr('x', 12).attr('y', 56).attr('font-size', 9.5).attr('fill', C.muted).text(k.sub);
+  });
+
+  // ── Fit × Intent matrix ───────────────────────────────────────────
+  const fitTiers    = ['A','B','C','D'];
+  const intentBands = ['Hot','Warm','Cold'];
+  const margin = { top: kpiH + 30, right: 6, bottom: 4, left: 58 };
+  const iw = W - margin.left - margin.right;
+  const ih = H - margin.top - margin.bottom;
+  const cw = iw / intentBands.length;
+  const ch = ih / fitTiers.length;
+  const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+  g.selectAll('.col-label').data(intentBands).enter().append('text')
+    .attr('x', (d, i) => cw * i + cw / 2).attr('y', -12)
+    .attr('text-anchor', 'middle').attr('font-size', 9.5).attr('font-weight', 700)
+    .attr('letter-spacing', '0.10em').attr('fill', d => INTENT_COLORS[d])
+    .attr('opacity', d => filter === 'all' || d === filter ? 1 : 0.35)
+    .text(d => d.toUpperCase());
+
+  g.selectAll('.row-label').data(fitTiers).enter().append('text')
+    .attr('x', -12).attr('y', (d, i) => ch * i + ch / 2 + 4)
+    .attr('text-anchor', 'end').attr('font-size', 10.5).attr('font-weight', 600)
+    .attr('fill', d => TIER_COLORS[d]).text(d => 'Tier ' + d);
+
+  const cells = [];
+  fitTiers.forEach((t, ri) => intentBands.forEach((b, ci) => {
+    cells.push({ tier: t, band: b, count: ICP_MATRIX[t][b], x: cw * ci, y: ch * ri,
+                 dim: filter !== 'all' && b !== filter });
+  }));
+  const maxCount = d3.max(cells, d => d.count) || 1;
+
+  const cellG = g.selectAll('.cell').data(cells).enter().append('g')
+    .attr('transform', d => `translate(${d.x},${d.y})`);
+
+  cellG.append('rect')
+    .attr('x', 3).attr('y', 3).attr('rx', 9)
+    .attr('width', cw - 6).attr('height', ch - 6)
+    .attr('fill', d => {
+      const c = d3.color(TIER_COLORS[d.tier]);
+      c.opacity = 0.08 + (d.count / maxCount) * 0.50;
+      return c + '';
+    })
+    .attr('stroke', d => {
+      const c = d3.color(INTENT_COLORS[d.band]);
+      c.opacity = 0.25 + (d.count / maxCount) * 0.55;
+      return c + '';
+    })
+    .attr('stroke-width', 1)
+    .attr('opacity', 0)
+    .transition().delay((d, i) => REDUCED?0:i*30).duration(REDUCED?0:450).ease(d3.easeCubicOut)
+    .attr('opacity', d => d.dim ? 0.22 : 1);
+
+  cellG.append('text')
+    .attr('x', cw / 2).attr('y', ch / 2 + 2)
+    .attr('text-anchor', 'middle').attr('font-size', 18).attr('font-weight', 600)
+    .attr('fill', d => d.count > 0 ? '#fff' : 'rgba(255,255,255,0.25)')
+    .attr('opacity', 0).text(d => d.count)
+    .transition().delay((d, i) => REDUCED?0:180 + i*30).duration(REDUCED?0:350)
+    .attr('opacity', d => d.dim ? 0.32 : 1);
+
+  cellG.append('text')
+    .attr('x', cw / 2).attr('y', ch / 2 + 18)
+    .attr('text-anchor', 'middle').attr('font-size', 9)
+    .attr('fill', 'rgba(255,255,255,0.45)')
+    .attr('opacity', 0)
+    .text(d => d.count > 0 ? Math.round(d.count / total * 100) + '%' : '')
+    .transition().delay((d, i) => REDUCED?0:260 + i*30).duration(REDUCED?0:350)
+    .attr('opacity', d => d.dim ? 0.32 : 1);
+}
+drawICP();
+document.querySelectorAll('[data-icp-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-icp-filter]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    drawICP(btn.dataset.icpFilter);
+  });
+});
+
+/* =====================================================================
+   PROJECT 2 — AE Scorecard radar
+===================================================================== */
+const REPS = [
+  { name: 'S. Rivera', segment: 'Enterprise', vals: { Meetings: 96, Calls: 92, Emails: 95, Pipeline: 94, 'T&E': 88 } },
+  { name: 'M. Chen',   segment: 'Enterprise', vals: { Meetings: 88, Calls: 84, Emails: 87, Pipeline: 82, 'T&E': 78 } },
+  { name: 'A. Torres', segment: 'Commercial', vals: { Meetings: 79, Calls: 76, Emails: 79, Pipeline: 80, 'T&E': 70 } },
+  { name: 'J. Patel',  segment: 'Commercial', vals: { Meetings: 62, Calls: 60, Emails: 64, Pipeline: 58, 'T&E': 55 } },
+  { name: 'K. Williams', segment: 'SMB',      vals: { Meetings: 45, Calls: 44, Emails: 48, Pipeline: 42, 'T&E': 32 } },
+];
+let activeRep = 0;
+
+(function buildRepChips() {
+  const wrap = document.getElementById('rep-chips');
+  wrap.innerHTML = REPS.map((r, i) => `<button class="chip${i===0?' active':''}" data-rep="${i}">${r.name}</button>`).join('');
+  wrap.querySelectorAll('[data-rep]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeRep = +btn.dataset.rep;
+      wrap.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      drawAE();
+    });
+  });
+})();
+
+function drawAE() {
+  const container = document.getElementById('proto-ae');
+  container.innerHTML = '';
+  const W = container.clientWidth || 460;
+  const H = Math.max(280, container.clientHeight || 300);
+  const svg = d3.select(container).append('svg').attr('width', W).attr('height', H);
+
+  const cx = W/2, cy = H/2 - 4;
+  const radius = Math.min(W, H) / 2 - 56;
+  const rep = REPS[activeRep];
+  const keys = Object.keys(rep.vals);
+  const n = keys.length;
+  const angle = i => -Math.PI/2 + i * (2*Math.PI/n);
+
+  const ringVals = [25, 50, 75, 100];
+  ringVals.forEach(rv => {
+    svg.append('circle').attr('cx', cx).attr('cy', cy).attr('r', radius * rv/100)
+      .attr('fill','none').attr('stroke', C.border).attr('stroke-width', rv === 100 ? 1 : 0.6).attr('stroke-dasharray', rv === 100 ? null : '2 4');
+  });
+  ringVals.forEach(rv => {
+    svg.append('text').attr('x', cx + 4).attr('y', cy - radius * rv/100 - 2)
+      .attr('font-size',9).attr('fill',C.dim).text(rv);
+  });
+
+  keys.forEach((k, i) => {
+    const x2 = cx + Math.cos(angle(i)) * radius;
+    const y2 = cy + Math.sin(angle(i)) * radius;
+    svg.append('line').attr('x1', cx).attr('y1', cy).attr('x2', x2).attr('y2', y2)
+      .attr('stroke', C.border).attr('stroke-width', 0.7);
+    const lx = cx + Math.cos(angle(i)) * (radius + 24);
+    const ly = cy + Math.sin(angle(i)) * (radius + 24);
+    svg.append('text').attr('x', lx).attr('y', ly)
+      .attr('font-size',11).attr('font-weight',600).attr('fill',C.text)
+      .attr('text-anchor','middle').attr('dominant-baseline','middle').text(k);
+  });
+
+  const points = keys.map((k, i) => {
+    const v = rep.vals[k] / 100;
+    return [cx + Math.cos(angle(i)) * radius * v, cy + Math.sin(angle(i)) * radius * v];
+  });
+  const path = `M ${points.map(p => p.join(',')).join(' L ')} Z`;
+
+  // Glow path
+  svg.append('path').attr('d', path).attr('fill', 'rgba(212,80,230,0.18)').attr('stroke', 'none');
+  svg.append('path').attr('d', path).attr('fill', 'none').attr('stroke', C.accent).attr('stroke-width', 1.8).attr('filter', `drop-shadow(0 0 8px ${C.accent}99)`);
+
+  points.forEach((p, i) => {
+    const c = svg.append('circle').attr('cx', cx).attr('cy', cy).attr('r', 0).attr('fill', C.accent3).attr('filter', `drop-shadow(0 0 4px ${C.accent3}cc)`);
+    c.transition().delay(REDUCED?0:300+i*70).duration(REDUCED?0:400).attr('cx', p[0]).attr('cy', p[1]).attr('r', 4);
+  });
+
+  svg.append('text').attr('x', cx).attr('y', cy - 6).attr('font-size', 18).attr('font-weight', 600).attr('text-anchor','middle').attr('fill',C.text).text(rep.name);
+  svg.append('text').attr('x', cx).attr('y', cy + 11).attr('font-size', 10).attr('font-weight',600).attr('text-anchor','middle').attr('fill',C.accent3).attr('letter-spacing', 0.6).text(rep.segment.toUpperCase());
+
+  const composite = Math.round(d3.mean(Object.values(rep.vals)));
+  svg.append('text').attr('x', cx).attr('y', H - 8).attr('font-size',11).attr('fill',C.dim).attr('text-anchor','middle').text(`Composite ${composite} / 100 · weekly`);
+}
+drawAE();
+
+/* =====================================================================
+   PROJECT 3 — Forecasting widget
+===================================================================== */
+const FC_QUOTA = 28.5;
+function computeForecast(winPct, covX) {
+  const pipeline = FC_QUOTA * covX;
+  const best = pipeline * (winPct + 12) / 100;
+  const commit = pipeline * (winPct - 5) / 100;
+  const gap = FC_QUOTA - commit;
+  const gapPct = gap / FC_QUOTA;
+  return { pipeline, best, commit, gap, gapPct };
+}
+
+function drawFC() {
+  const winEl = document.getElementById('fc-win');
+  const covEl = document.getElementById('fc-cov');
+  const winPct = +winEl.value;
+  const covX = +covEl.value / 10;
+  document.getElementById('fc-win-val').textContent = winPct + '%';
+  document.getElementById('fc-cov-val').textContent = covX.toFixed(1) + '×';
+
+  const f = computeForecast(winPct, covX);
+  const ro = document.getElementById('fc-readout');
+  const gapClass = f.gapPct > 0.15 ? 'gap-warn' : 'gap-ok';
+  ro.innerHTML = `
+    <div class="r"><div class="r-lbl">Commit</div><div class="r-val commit">$${f.commit.toFixed(1)}M</div></div>
+    <div class="r"><div class="r-lbl">Best case</div><div class="r-val">$${f.best.toFixed(1)}M</div></div>
+    <div class="r"><div class="r-lbl">Pipeline</div><div class="r-val">$${f.pipeline.toFixed(1)}M</div></div>
+    <div class="r"><div class="r-lbl">Quota gap</div><div class="r-val ${gapClass}">${f.gap >= 0 ? '−' : '+'}$${Math.abs(f.gap).toFixed(1)}M</div></div>
+  `;
+
+  const container = document.getElementById('proto-fc');
+  container.innerHTML = '';
+  const W = container.clientWidth || 460;
+  const H = Math.max(150, container.clientHeight || 160);
+  const svg = d3.select(container).append('svg').attr('width', W).attr('height', H);
+  const margin = { top: 14, right: 60, bottom: 16, left: 76 };
+  const w = W - margin.left - margin.right;
+  const h = H - margin.top - margin.bottom;
+  const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+  const series = [
+    { k: 'Commit',    v: f.commit,   color: C.accent },
+    { k: 'Best case', v: f.best,     color: C.accent2 },
+    { k: 'Pipeline',  v: f.pipeline, color: C.accent3 }
+  ];
+  const maxV = Math.max(f.pipeline, FC_QUOTA) * 1.05;
+  const x = d3.scaleLinear().domain([0, maxV]).range([0, w]);
+  const y = d3.scaleBand().domain(series.map(s => s.k)).range([0, h]).padding(0.28);
+
+  // Quota line
+  g.append('line').attr('x1', x(FC_QUOTA)).attr('x2', x(FC_QUOTA)).attr('y1', -6).attr('y2', h+4)
+    .attr('stroke', C.text).attr('stroke-width', 1).attr('stroke-dasharray', '3 3').attr('opacity', 0.7);
+  g.append('text').attr('x', x(FC_QUOTA)).attr('y', -10).attr('font-size',10).attr('fill',C.text).attr('font-weight',600).attr('text-anchor','middle').text(`Quota $${FC_QUOTA}M`);
+
+  g.selectAll('.fbar').data(series).enter().append('rect')
+    .attr('y', d => y(d.k)).attr('x', 0).attr('height', y.bandwidth())
+    .attr('width', 0).attr('rx', 5).attr('fill', d => d.color)
+    .attr('filter', d => `drop-shadow(0 0 8px ${d.color}66)`)
+    .transition().duration(REDUCED?0:450).attr('width', d => x(d.v));
+
+  g.selectAll('.flabel').data(series).enter().append('text')
+    .attr('y', d => y(d.k) + y.bandwidth()/2 + 4)
+    .attr('x', -8).attr('text-anchor','end').attr('font-size', 11).attr('font-weight', 600).attr('fill',C.text)
+    .text(d => d.k);
+
+  g.selectAll('.fval').data(series).enter().append('text')
+    .attr('y', d => y(d.k) + y.bandwidth()/2 + 4)
+    .attr('x', d => x(d.v) + 6).attr('font-size',11).attr('fill', d => d.color).attr('font-weight',600)
+    .text(d => `$${d.v.toFixed(1)}M`);
+}
+['fc-win','fc-cov'].forEach(id => document.getElementById(id).addEventListener('input', drawFC));
+drawFC();
+
+/* =====================================================================
+   PROJECT 4 — Territory balance scatter
+===================================================================== */
+const SEGS = ['Enterprise', 'Commercial', 'SMB'];
+const REGIONS = ['Northeast', 'Southeast', 'Central', 'West'];
+const DISTRICTS = d3.range(70).map(i => {
+  const seg = SEGS[Math.floor(rng() * SEGS.length)];
+  const reg = REGIONS[Math.floor(rng() * REGIONS.length)];
+  const attain = Math.round(60 + rng()*60 + (seg === 'Enterprise' ? 8 : seg === 'SMB' ? -8 : 0));
+  const aes = seg === 'Enterprise' ? 3 + Math.floor(rng()*4) : seg === 'Commercial' ? 4 + Math.floor(rng()*5) : 5 + Math.floor(rng()*6);
+  const balance = 80 + rng()*40 + (seg === 'Enterprise' ? 10 : 0);
+  return { id: i+1, name: `District ${(i+1).toString().padStart(2,'0')}`, segment: seg, region: reg, attain, aes, balance };
+});
+
+function drawTP(filter='all') {
+  const container = document.getElementById('proto-tp');
+  container.innerHTML = '';
+  const W = container.clientWidth || 460;
+  const H = Math.max(280, container.clientHeight || 300);
+  const data = filter === 'all' ? DISTRICTS : DISTRICTS.filter(d => d.segment === filter);
+
+  const svg = d3.select(container).append('svg').attr('width', W).attr('height', H);
+  const margin = { top: 16, right: 18, bottom: 36, left: 44 };
+  const w = W - margin.left - margin.right;
+  const h = H - margin.top - margin.bottom;
+  const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+  const x = d3.scaleLinear().domain([2, 12]).range([0, w]);
+  const y = d3.scaleLinear().domain([40, 140]).range([h, 0]).nice();
+
+  // Reference zone
+  g.append('rect').attr('x', 0).attr('y', y(120)).attr('width', w).attr('height', y(80) - y(120))
+    .attr('fill', 'rgba(212,80,230,0.04)');
+  g.append('line').attr('x1', 0).attr('x2', w).attr('y1', y(100)).attr('y2', y(100))
+    .attr('stroke', C.text).attr('stroke-width', 0.8).attr('stroke-dasharray','3 3').attr('opacity', 0.7);
+  g.append('text').attr('x', w).attr('y', y(100) - 4).attr('font-size',10).attr('fill', C.text).attr('font-weight', 600).attr('text-anchor','end').text('100% attain target');
+
+  g.append('g').attr('transform', `translate(0,${h})`)
+    .call(d3.axisBottom(x).ticks(6).tickSize(0).tickPadding(8))
+    .call(g => g.select('.domain').remove())
+    .selectAll('text').attr('font-size',10).attr('fill',C.muted);
+  g.append('g')
+    .call(d3.axisLeft(y).ticks(5).tickSize(-w).tickPadding(8))
+    .call(g => g.select('.domain').remove())
+    .call(g => g.selectAll('.tick line').attr('stroke', C.border))
+    .selectAll('text').attr('font-size',10).attr('fill',C.muted);
+
+  g.append('text').attr('x', w/2).attr('y', h + 30).attr('font-size',10).attr('fill',C.dim).attr('text-anchor','middle').text('AEs per district');
+  g.append('text').attr('transform', `translate(-30,${h/2}) rotate(-90)`).attr('font-size',10).attr('fill',C.dim).attr('text-anchor','middle').text('Attainment %');
+
+  const segColor = { Enterprise: C.accent, Commercial: C.accent2, SMB: C.accent4 };
+
+  let tip = container.querySelector('.tooltip');
+  if (!tip) {
+    tip = document.createElement('div'); tip.className = 'tooltip'; container.appendChild(tip);
+  }
+
+  const points = g.selectAll('.pt').data(data).enter().append('circle')
+    .attr('cx', d => x(d.aes)).attr('cy', d => y(d.attain))
+    .attr('r', 0).attr('fill', d => segColor[d.segment]).attr('opacity', 0.75).attr('stroke','rgba(14,12,28,0.7)').attr('stroke-width', 1.2)
+    .attr('filter', d => `drop-shadow(0 0 4px ${segColor[d.segment]}88)`);
+
+  points.transition().duration(REDUCED?0:600).delay((d,i)=>i*8).attr('r', d => 4 + d.balance/40);
+
+  points.on('mouseenter', function(event, d) {
+    const rect = container.getBoundingClientRect();
+    tip.innerHTML = `<div class="t-label">${d.segment} · ${d.region}</div><div class="t-val">${d.name}</div><div style="font-size:0.72rem;color:${C.muted};margin-top:0.2rem;">${d.attain}% attainment · ${d.aes} AEs</div>`;
+    tip.style.left = (event.clientX - rect.left + 12) + 'px';
+    tip.style.top = (event.clientY - rect.top - 12) + 'px';
+    tip.classList.add('visible');
+    d3.select(this).attr('opacity', 1).attr('stroke', C.text).attr('stroke-width', 1.6);
+  }).on('mousemove', function(event) {
+    const rect = container.getBoundingClientRect();
+    tip.style.left = (event.clientX - rect.left + 12) + 'px';
+    tip.style.top = (event.clientY - rect.top - 12) + 'px';
+  }).on('mouseleave', function() {
+    tip.classList.remove('visible');
+    d3.select(this).attr('opacity', 0.75).attr('stroke','rgba(14,12,28,0.7)').attr('stroke-width', 1.2);
+  });
+
+  const lg = svg.append('g').attr('transform', `translate(${margin.left + 4}, ${H - 14})`);
+  SEGS.forEach((s, i) => {
+    const x0 = i * 110;
+    lg.append('circle').attr('cx', x0).attr('cy', 0).attr('r', 5).attr('fill', segColor[s]).attr('opacity', 0.9);
+    lg.append('text').attr('x', x0 + 10).attr('y', 3).attr('font-size',10).attr('fill',C.muted).text(s);
+  });
+}
+drawTP();
+document.querySelectorAll('[data-tp-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-tp-filter]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    drawTP(btn.dataset.tpFilter);
+  });
+});
+
+window.addEventListener('resize', () => {
+  drawICP(document.querySelector('[data-icp-filter].active')?.dataset.icpFilter || 'all');
+  drawTP(document.querySelector('[data-tp-filter].active')?.dataset.tpFilter || 'all');
+  drawAE();
+  drawFC();
+});
+
+/* =====================================================================
+   SKILL MATRIX
+===================================================================== */
+const SKILLS = [
+  { name: 'Claude Code (CLI)', cat: 'ai', yrs: 2, prof: 95 },
+  { name: 'Python', cat: 'ai', yrs: 6, prof: 78 },
+  { name: 'Google Apps Script', cat: 'ai', yrs: 4, prof: 92 },
+  { name: 'SQL', cat: 'ai', yrs: 10, prof: 82 },
+  { name: 'Git / Version Control', cat: 'ai', yrs: 5, prof: 80 },
+
+  { name: 'HTML / JavaScript', cat: 'bi', yrs: 8, prof: 88 },
+  { name: 'React', cat: 'bi', yrs: 3, prof: 65 },
+  { name: 'Tableau', cat: 'bi', yrs: 7, prof: 85 },
+  { name: 'Supabase', cat: 'bi', yrs: 2, prof: 60 },
+  { name: 'Dashboard Architecture', cat: 'bi', yrs: 12, prof: 95 },
+
+  { name: 'Salesforce / SFDC', cat: 'crm', yrs: 15, prof: 95 },
+  { name: 'Clari', cat: 'crm', yrs: 5, prof: 90 },
+  { name: 'Anaplan', cat: 'crm', yrs: 4, prof: 78 },
+  { name: 'Pipeline Analytics', cat: 'crm', yrs: 12, prof: 94 },
+  { name: 'Forecasting', cat: 'crm', yrs: 14, prof: 96 },
+
+  { name: 'D&B Hoovers', cat: 'data', yrs: 6, prof: 80 },
+  { name: 'HG Insights', cat: 'data', yrs: 5, prof: 82 },
+  { name: 'ZoomInfo', cat: 'data', yrs: 7, prof: 85 },
+  { name: '6Sense', cat: 'data', yrs: 4, prof: 82 },
+  { name: 'Regression Analysis', cat: 'data', yrs: 4, prof: 75 },
+
+  { name: 'ICP & Scoring Models', cat: 'method', yrs: 4, prof: 92 },
+  { name: 'Win/Loss Analysis', cat: 'method', yrs: 10, prof: 88 },
+  { name: 'Segmentation Analysis', cat: 'method', yrs: 12, prof: 90 },
+  { name: 'Quota Modeling', cat: 'method', yrs: 8, prof: 88 },
+  { name: 'Capacity Planning', cat: 'method', yrs: 8, prof: 86 },
+
+  { name: 'Advanced Excel / Sheets', cat: 'prod', yrs: 18, prof: 98 },
+  { name: 'Microsoft Office Suite', cat: 'prod', yrs: 18, prof: 95 },
+  { name: 'Executive Reporting', cat: 'prod', yrs: 14, prof: 96 },
+  { name: 'Cross-Functional Leadership', cat: 'prod', yrs: 10, prof: 90 },
+  { name: 'Sales Enablement', cat: 'prod', yrs: 7, prof: 84 },
+];
+
+const CAT_LABEL = {
+  ai: 'AI & Dev', bi: 'Frontend & BI', crm: 'CRM & RevOps',
+  data: 'Data & Intel', method: 'Analytics', prod: 'Productivity'
+};
+
+function renderSkills(cat='all') {
+  const grid = document.getElementById('skill-grid');
+  grid.innerHTML = SKILLS.map(s => `
+    <div class="skill-cell${cat !== 'all' && s.cat !== cat ? ' dim' : ''}" data-cat="${s.cat}">
+      <div class="skill-cat">${CAT_LABEL[s.cat]}</div>
+      <div class="skill-name">${s.name}</div>
+      <div class="skill-meter">
+        <div class="skill-meter-bar"><div class="skill-meter-fill" style="width:${s.prof}%"></div></div>
+        <span class="skill-yrs">${s.yrs}y</span>
+      </div>
+    </div>
+  `).join('');
+}
+renderSkills();
+document.querySelectorAll('#skill-controls .chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#skill-controls .chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderSkills(btn.dataset.skillCat);
+  });
+});
+
+/* Reveal on scroll */
+if (!REDUCED) {
+  gsap.utils.toArray('.reveal').forEach(el => {
+    gsap.fromTo(el, { opacity: 0, y: 24 }, {
+      opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 85%' }
+    });
+  });
+} else {
+  document.querySelectorAll('.reveal').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+}
+
+window.addEventListener('load', () => setTimeout(() => ScrollTrigger.refresh(), 200));
+</script>
+
+</body>
+</html>
