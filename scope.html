@@ -344,7 +344,7 @@ footer.foot{margin-top:24px;padding-top:12px;border-top:1px solid var(--line);fo
 
 <div class="textview" id="textview"></div>
 
-<footer class="foot"><div>Languages: English; Spanish (heritage speaker, professional working proficiency; delivers trainings in Spanish).</div>Names appear only for C-level and SVP-level leaders; everyone else is shown by title. Quotes are shown as written, with minor corrections marked in brackets.</footer>
+<footer class="foot"><div>Languages: English; Spanish (heritage speaker, professional working proficiency).</div>Names appear only for C-level and SVP-level leaders; everyone else is shown by title. Quotes are shown as written, with minor corrections marked in brackets.</footer>
 </div>
 
 <script>
@@ -1036,7 +1036,7 @@ function renderText(){
     <p class="muted">${k.length} recognitions from ${yrs[0]} to ${yrs[yrs.length-1]}, from ${lv} seniority levels (C-level to individual contributors) across ${fns} functions, including the Americas, EMEA and APJ.</p>
     ${RESUME.quotes.map(n=>k.find(x=>x[1].startsWith(n))).filter(Boolean).map(x=>`<blockquote><p>"${esc(x[6])}"</p><footer>${esc(x[1])}, ${x[0].slice(0,4)}</footer></blockquote>`).join("")}
     <h2>Tools</h2><p class="tools">${SKILLS.map(esc).join(" &middot; ")}</p>
-    <h2>Languages</h2><p>English; Spanish (heritage speaker, professional working proficiency; delivers trainings in Spanish)</p>
+    <h2>Languages</h2><p>English; Spanish (heritage speaker, professional working proficiency)</p>
   </article>`;
   $("#textview").innerHTML=h;
 }
