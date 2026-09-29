@@ -92,12 +92,16 @@ header.top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-
 .note{font-size:12px;color:var(--muted);padding:8px 12px;border-top:1px solid var(--line)}
 
 /* calls */
-.calls{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:8px 12px 12px}
+.calls{display:grid;grid-template-columns:2fr 1.1fr 2fr;gap:6px;padding:8px 12px 12px;align-items:stretch}
 .call{border:1px solid var(--line-2);border-radius:3px;padding:6px 8px;font-family:var(--mono);font-size:11px;background:var(--panel-2)}
 .call .d{color:var(--muted);font-size:10px;letter-spacing:.12em}
 .call .a{color:var(--white)}
 .call .r{color:var(--green);font-size:10px;letter-spacing:.08em;margin-top:2px}
-.call.span3{grid-column:span 3}
+.call.big{padding:10px 10px;border-color:var(--green-dim)}
+.call.big .a{font-size:14px}
+.call.big .r{font-size:10.5px}
+.call.small{align-self:center;opacity:.85}
+.call.small .a{font-size:10.5px}
 
 /* strips */
 .side{display:flex;flex-direction:column;gap:16px}
@@ -170,13 +174,32 @@ header.top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-
 /* text view */
 .textview{display:none}
 body.tv .textview{display:block}
-body.tv .radarview{display:none}
-.textview h2{font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--green);text-transform:uppercase;margin:24px 0 8px;font-weight:600}
-.textview h3{font-size:15px;color:var(--white);margin:16px 0 4px}
-.textview .item{padding:8px 0;border-bottom:1px solid var(--line)}
-.textview .item b{color:var(--white)}
-.textview .item .m{font-family:var(--mono);font-size:11px;color:var(--muted)}
-.textview p{margin:4px 0}
+body.tv .radarview,body.tv header.top,body.tv .lede,body.tv footer.foot,body.tv #secBtns,body.tv #typeBtns{display:none}
+.sheet{max-width:860px;margin:0 auto;background:#fbfbf9;color:#1d2327;border-radius:3px;padding:48px 56px;font-family:var(--sans);font-size:14px;line-height:1.5;box-shadow:0 0 0 1px var(--line)}
+.sheet h1{font-size:28px;letter-spacing:.06em;margin:0;color:#111;font-weight:700}
+.sheet .sub{font-size:14px;color:#2f5e45;font-weight:600;margin-top:2px}
+.sheet .contact-line{font-size:12.5px;color:#4a555c;margin-top:6px}
+.sheet .contact-line a{color:#1d2327;text-decoration:none}
+.sheet h2{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f5e45;border-bottom:1px solid #cfd8d3;padding-bottom:4px;margin:24px 0 10px;font-weight:700}
+.sheet h3{font-size:13px;color:#111;margin:14px 0 4px;font-weight:700}
+.sheet p{margin:0 0 8px}
+.sheet ul{margin:0 0 8px;padding-left:18px}
+.sheet li{margin-bottom:4px}
+.sheet .job{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.sheet .job b{font-size:15px;color:#111}
+.sheet .job span{font-size:12.5px;color:#4a555c}
+.sheet .facets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 12px}
+.sheet .facet{border:1px solid #d9e1dc;border-radius:3px;padding:8px 10px;background:#fff}
+.sheet .facet b{display:block;color:#111;font-size:13px;margin-bottom:2px}
+.sheet .facet span{font-size:12.5px;color:#39444a}
+.sheet .calls-t{width:100%;border-collapse:collapse;font-size:13px;margin:4px 0 8px}
+.sheet .calls-t td{border-top:1px solid #e3e8e5;padding:4px 8px 4px 0;vertical-align:top}
+.sheet .calls-t td:first-child{white-space:nowrap;color:#4a555c;width:130px}
+.sheet blockquote{margin:0 0 10px;padding-left:12px;border-left:2px solid #9cc3ab}
+.sheet blockquote p{margin:0;color:#1d2327}
+.sheet blockquote footer{font-size:12px;color:#4a555c}
+.sheet .muted{color:#4a555c;font-size:12.5px}
+.sheet .tools{font-size:13px}
 footer.foot{margin-top:24px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
 
 @media (max-width:1080px){
@@ -189,8 +212,7 @@ footer.foot{margin-top:24px;padding-top:12px;border-top:1px solid var(--line);fo
   .contact{text-align:left}
   .name{font-size:22px}
   .feat,.bars{grid-template-columns:1fr}
-  .calls{grid-template-columns:1fr 1fr}
-  .call.span3{grid-column:span 2}
+  .calls{grid-template-columns:1.6fr 1fr 1.6fr}
   .db{font-size:9px}
   .db .l3{display:none}
   .log div{grid-template-columns:78px 1fr}
@@ -201,9 +223,14 @@ footer.foot{margin-top:24px;padding-top:12px;border-top:1px solid var(--line);fo
 }
 @media print{
   body{background:#fff;color:#000}
-  .radarview,.bar{display:none!important}
+  .radarview,.bar,header.top,.lede,footer.foot{display:none!important}
   .textview{display:block!important}
-  .panel{border:0}
+  .wrap{padding:0}
+  .sheet{box-shadow:none;padding:0;max-width:none;background:#fff}
+}
+@media (max-width:640px){
+  .sheet{padding:24px 18px}
+  .sheet .facets{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -230,7 +257,7 @@ footer.foot{margin-top:24px;padding-top:12px;border-top:1px solid var(--line);fo
   <div class="seg" id="secBtns"><span class="lbl">Sector</span></div>
   <div class="seg" id="typeBtns"><span class="lbl">Track</span></div>
   <div class="spacer"></div>
-  <button class="btn" id="tvBtn" aria-pressed="false">TEXT VIEW</button>
+  <button class="btn" id="tvBtn" aria-pressed="false">RESUME VIEW</button>
 </div>
 
 <div class="radarview">
@@ -269,9 +296,9 @@ footer.foot{margin-top:24px;padding-top:12px;border-top:1px solid var(--line);fo
     <section class="panel" aria-label="Weekly calls">
       <div class="ph"><span><b>WEEKLY FORECAST CALLS</b></span><span>SINCE NOV 2021</span></div>
       <div class="calls">
-        <div class="call"><div class="d">MON</div><div class="a">C-level</div><div class="r">PRESENT, PARTNER TO SVPs</div></div>
-        <div class="call span3"><div class="d">TUE TO THU</div><div class="a">District Manager level</div><div class="r">LEADER, COMMENTARY</div></div>
-        <div class="call"><div class="d">FRI</div><div class="a">SVP level</div><div class="r">OWN AND RUN</div></div>
+        <div class="call big"><div class="d">MON</div><div class="a">C-level</div><div class="r">PRESENT, PARTNER TO SVPs</div></div>
+        <div class="call small"><div class="d">TUE TO THU</div><div class="a">DM level</div><div class="r">LEADER, COMMENTARY</div></div>
+        <div class="call big"><div class="d">FRI</div><div class="a">SVP level</div><div class="r">OWN AND RUN</div></div>
       </div>
     </section>
     <section class="panel" aria-label="How to read the scope">
@@ -772,6 +799,8 @@ function draw(ts){
     $("#scrub").value=Math.floor(state.m);
   }
   if (!reduce) sweepA=(sweepA+dt*60)%360;
+  if (document.body.classList.contains("tv")){ requestAnimationFrame(draw); return; }
+  if (R<20){ resize(); if (R<20){ requestAnimationFrame(draw); return; } }
   ctx.setTransform(DPR,0,0,DPR,0,0);
   ctx.clearRect(0,0,W,W);
   /* background */
@@ -949,21 +978,66 @@ function renderSide(){
 /* ------------------------------------------------------------------
    TEXT VIEW
 ------------------------------------------------------------------ */
+const RESUME = {
+ facets:[
+  ["US Enterprise East","Official Sales Operations lead for the region: weekly field briefings, forecast recommendations to the VP, account-ownership governance and district health scoring."],
+  ["GM Americas organization","Sales Operations lead for Commercial, Federal and LATAM: QBR and MBR materials for the CRO review, targets and Anaplan guardrails, LATAM risk reporting and trainings in Spanish."],
+  ["Global","Pipeline hygiene and forecast insights for the global sales organization: 143 dashboard builds across AMER, APJ and International on a daily refresh, plus operating cadences adopted by field teams worldwide."]
+ ],
+ groups:[
+  ["Forecasting and forecast calls",[
+   "Own and run the weekly SVP-level forecast call; present on the weekly C-level call as a partner to the SVPs; join the District Manager calls as a leader and commentator (all since November 2021).",
+   "Bring forecast recommendations to Sales VPs, for example raising the Low to match Closed plus Commit ahead of an MBR, and reset monthly calls within minutes of approval.",
+   "Partner with Channel Operations, Order Management and Distribution at month and quarter end to remove obstacles and help opportunities close."]],
+  ["Pipeline hygiene and Field Management Dashboards",[
+   "Designed and run the Field Management Dashboards: 143 builds across Areas, Regions and Districts, refreshed daily, with AE-facing hygiene risk files, ClosePlan (MEDDPICC) views, deal bridges and slipped-deal tracking.",
+   "Set the ClosePlan hygiene rules the field is measured by (Missing, Stale and Unfinished) and release weekly written briefings with diagnosis and direction for regional leaders.",
+   "Forwarded by the CFO to Finance leaders as something to roll out to all Sales leaders and the critical DM layer; adoption has since spread by referral to Finance and Renewals."]],
+  ["Risk and analytics",[
+   "Built the AE Activity Tracker in Google Apps Script for about 305 AEs, combining CRM and forecast-system activity, travel and expense data and pipeline creation; in use for over two years and the basis of weekly updates to the CEO and CRO.",
+   "Built an Ideal Customer Profile scoring model with Claude Code, calibrated by regression against four years of win and loss data; delivered to the CFO with progress reported to the board, saving more than $100K in quoted consulting fees.",
+   "Built the global forecast risk dashboard used by all sales leaders, a LATAM red, yellow and green pipeline risk report that blends my own risk drivers with AI conversion analytics, and daily pipeline snapshots that show where each opportunity went."]],
+  ["Executive reporting",[
+   "Build the QBR and MBR materials the GM Americas presents to the CRO, including the written highlights, risks and talk track, validated with operations leads across three Areas.",
+   "Identified light pipeline coverage in an MBR deck and ran an overnight pull-in and slipped-deal review whose results went into the CRO review the next day.",
+   "Designed the district health score used in the Enterprise East VP's get-well plan and ran a same-day deal review requested by the CEO."]],
+  ["Planning, territories and quotas",[
+   "Lead territory and planning cycle design across about 70 districts and more than 300 AE territories, covering account and quota planning, segmentation and GTM strategy; Anaplan key user.",
+   "Deliver targets to Area leaders with clear guardrails: District-level authority within Area roll-ups, Anaplan deadlines, and no AE communication before Finance approval.",
+   "Advise leaders on quota relief and account-ownership changes, including renewal-quota impact."]],
+  ["Product design and systems",[
+   "Designed a working UI mockup and written specification for a new sales planning tool at the request of the global VP, Engineering and AI.",
+   "Leadership approved a dedicated development workstation for my system-building work."]],
+  ["Enablement and leadership",[
+   "Primary trainer for field operations team members on planning and forecasting systems; onboard and mentor operations colleagues; deliver trainings in Spanish.",
+   "Second-round interviewer for Sales Operations Manager hires.",
+   "Peer enablement for Sales Operations teams in APJ and EMEA."]]
+ ],
+ quotes:["Eric Brown","Ken Seitz","Ryan DuChene","Head of Global GTM Acceleration","District Manager, US Federal Civilian"]
+};
 function renderText(){
-  const secOrder=["GLOBAL","AMER","ENTE","TY","COMM","FED","LATAM"];
-  let h=`<p class="lede">${$(".lede").innerHTML}</p><h2>Weekly forecast calls (since November 2021)</h2>
-    <div class="item"><b>Monday, C-level:</b> I present as a partner to the SVPs.</div>
-    <div class="item"><b>Tuesday to Thursday, District Manager level:</b> I join as a leader and give commentary.</div>
-    <div class="item"><b>Friday, SVP level:</b> I own and run the call.</div>`;
-  secOrder.forEach(s=>{
-    const ts=TRACKS.filter(t=>t.sector===s && passes(t)); if(!ts.length) return;
-    h+=`<h2>${esc(SECTORS[s].name)}</h2>`;
-    ts.forEach(t=>{ h+=`<div class="item"><b>${esc(t.title)}</b><div class="m">${t.type} &middot; ${t.cadence} &middot; audience: ${esc(altBand(t.alt))} &middot; my role: ${t.chain.map(i=>CHAIN[i].toLowerCase()).join(", ")}</div><p>${t.body.map(esc).join(" ")}</p><p>${esc(t.outcome)}</p></div>`; });
-  });
-  h+=`<h2>Awards</h2>`+AWARDS.map(a=>`<div class="item"><b>${esc(a[0])}</b><p>${esc(a[1])}</p></div>`).join("");
-  h+=`<h2>Recognition (${KUDOS.length})</h2>`+KUDOS.slice().reverse().map(k=>`<div class="item"><p>${k[6]?`"${esc(k[6])}"`:esc(k[7])}</p><div class="m">${esc(k[1])} &middot; ${k[0].slice(0,7)}</div></div>`).join("");
-  h+=`<h2>Prior roles</h2>`+ROLES.map(r=>`<div class="item"><b>${esc(r[1])}, ${esc(r[0])}</b><div class="m">${esc(r[2])}</div><p>${esc(r[3])}</p></div>`).join("");
-  h+=`<h2>Tools</h2><p>${SKILLS.map(esc).join(", ")}</p>`;
+  const k=KUDOS, lv=new Set(k.map(x=>x[2])).size, fns=new Set(k.map(x=>x[3])).size;
+  const yrs=k.map(x=>x[0].slice(0,4)).sort();
+  let h=`<article class="sheet">
+    <h1>ASHLEY MORGAN</h1>
+    <div class="sub">Director, Sales Operations &middot; Cohesity</div>
+    <div class="contact-line">Winston-Salem, NC &middot; <a href="mailto:ashleyjanemillan@gmail.com">ashleyjanemillan@gmail.com</a> &middot; +1 786-205-0218 &middot; <a href="https://www.linkedin.com/in/ashleyjmorgan" rel="noopener">linkedin.com/in/ashleyjmorgan</a></div>
+    <h2>Summary</h2><p>${$(".lede").innerHTML}</p>
+    <h2>Experience</h2>
+    <div class="job"><b>Director, Sales Operations, Cohesity</b><span>Nov 2021 to Present &middot; Remote, NC</span></div>
+    <p class="muted">One role covering three areas at once:</p>
+    <div class="facets">${RESUME.facets.map(f=>`<div class="facet"><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join("")}</div>
+    <h3>Weekly forecast calls</h3>
+    <table class="calls-t"><tr><td>Monday</td><td>C-level call: present as a partner to the SVPs</td></tr><tr><td>Tuesday to Thursday</td><td>District Manager calls: leader and commentator</td></tr><tr><td>Friday</td><td>SVP-level call: own and run</td></tr></table>
+    ${RESUME.groups.map(g=>`<h3>${esc(g[0])}</h3><ul>${g[1].map(b=>`<li>${esc(b)}</li>`).join("")}</ul>`).join("")}`;
+  ROLES.forEach(r=>{ h+=`<div class="job" style="margin-top:12px"><b>${esc(r[1])}, ${esc(r[0])}</b><span>${esc(r[2])}</span></div><p>${esc(r[3])}</p>`; });
+  h+=`<h2>Awards</h2><ul>${AWARDS.map(a=>`<li><b>${esc(a[0])}.</b> ${esc(a[1])}</li>`).join("")}</ul>
+    <h2>Selected recognition</h2>
+    <p class="muted">${k.length} recognitions from ${yrs[0]} to ${yrs[yrs.length-1]}, from ${lv} seniority levels (C-level to individual contributors) across ${fns} functions, including the Americas, EMEA and APJ.</p>
+    ${RESUME.quotes.map(n=>k.find(x=>x[1].startsWith(n))).filter(Boolean).map(x=>`<blockquote><p>"${esc(x[6])}"</p><footer>${esc(x[1])}, ${x[0].slice(0,4)}</footer></blockquote>`).join("")}
+    <h2>Tools</h2><p class="tools">${SKILLS.map(esc).join(" &middot; ")}</p>
+    <h2>Languages</h2><p>English; Spanish (heritage speaker, professional working proficiency; delivers trainings in Spanish)</p>
+  </article>`;
   $("#textview").innerHTML=h;
 }
 
@@ -974,7 +1048,7 @@ $("#days").innerHTML = Array.from({length:14},(_,d)=>`<span class="${d%7>4?"we":
 $("#playBtn").onclick=function(){ state.playing=!state.playing; this.textContent=state.playing?"PAUSE":"PLAY"; this.setAttribute("aria-pressed",String(state.playing)); };
 $("#spdBtn").onclick=function(){ state.speed=SPEEDS[(SPEEDS.indexOf(state.speed)+1)%SPEEDS.length]; this.textContent=`SPEED ${state.speed}X`; };
 $("#scrub").oninput=function(){ state.m=+this.value; lastEventIdx=-2; };
-$("#tvBtn").onclick=function(){ const on=!document.body.classList.contains("tv"); document.body.classList.toggle("tv",on); this.setAttribute("aria-pressed",String(on)); if(on) renderText(); };
+$("#tvBtn").onclick=function(){ const on=!document.body.classList.contains("tv"); document.body.classList.toggle("tv",on); this.setAttribute("aria-pressed",String(on)); this.textContent=on?"RADAR VIEW":"RESUME VIEW"; if(on){ renderText(); scrollTo(0,0);} else { resize(); Object.values(DB).forEach(o=>{o.w=0;}); } };
 if (reduce){ $("#playBtn").textContent="PLAY"; $("#playBtn").setAttribute("aria-pressed","false"); state.m=toMin(7,"20:00"); $("#scrub").value=state.m; }
 document.addEventListener("visibilitychange",()=>{ lastTs=0; });
 window.addEventListener("resize",()=>{ resize(); Object.values(DB).forEach(o=>{o.w=0;}); });
