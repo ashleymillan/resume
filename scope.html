@@ -47,7 +47,6 @@ header.top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-
 .contact a{color:var(--text);text-decoration:none;border-bottom:1px dotted var(--dim)}
 .lede{max-width:980px;color:var(--text);font-size:15px;margin:0 0 16px}
 .lede strong{color:var(--white)}
-.why{max-width:980px;color:var(--muted);font-size:13.5px;margin:-6px 0 16px;padding-left:12px;border-left:2px solid var(--green-dim)}
 
 /* toolbar */
 .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
@@ -225,9 +224,7 @@ footer.foot{margin-top:24px;padding-top:12px;border-top:1px solid var(--line);fo
   </div>
 </header>
 
-<p class="lede">I lead Sales Operations for <strong>US Enterprise East</strong> and for the <strong>GM Americas organization (Commercial, Federal and LATAM)</strong>. The cadences I built to run those businesses have worked well enough that I am continually asked to roll them out globally, which has given me <strong>three roles in one</strong>: Enterprise East, the GM Americas organization, and the <strong>global pipeline hygiene and forecast insights</strong> now used by sales leaders at every level, from daily team calls to the CRO, CFO and CEO. This page shows the three roles running together, the way a radar scope shows traffic: many tracks at once, at different altitudes, each handled in the right order.</p>
-
-<p class="why">Why a radar scope: from 2018 to 2019 I trained as an air traffic controller at the FAA Academy, where I completed radar training. That training shaped how I run my businesses: keep every track visible, know each one's altitude and cadence, and handle them in the right order. I built this page the same way.</p>
+<p class="lede">As an innovative Revenue Operations leader with over 19 years in Sales Operations, not only do I run Forecast Calls, Executive MBRs/QBRs, Territory Planning and Quota Setting - I also implement systems that are adopted globally across my organizations. I was a prior radar Air Traffic Controller, and I bring that same mindset to my operational cadences. Poise under pressure, triaging what needs action first and keeping all the planes in the air.</p>
 
 <div class="bar" role="toolbar" aria-label="View options">
   <div class="seg" id="secBtns"><span class="lbl">Sector</span></div>
@@ -954,7 +951,7 @@ function renderSide(){
 ------------------------------------------------------------------ */
 function renderText(){
   const secOrder=["GLOBAL","AMER","ENTE","TY","COMM","FED","LATAM"];
-  let h=`<p class="lede">${$(".lede").innerHTML}</p><p>${$(".why").innerHTML}</p><h2>Weekly forecast calls (since November 2021)</h2>
+  let h=`<p class="lede">${$(".lede").innerHTML}</p><h2>Weekly forecast calls (since November 2021)</h2>
     <div class="item"><b>Monday, C-level:</b> I present as a partner to the SVPs.</div>
     <div class="item"><b>Tuesday to Thursday, District Manager level:</b> I join as a leader and give commentary.</div>
     <div class="item"><b>Friday, SVP level:</b> I own and run the call.</div>`;
