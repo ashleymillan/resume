@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Ashley Morgan | Operations Scope</title>
+<meta name="description" content="Ashley Morgan, Director, Sales Operations. An interactive view of simultaneous work across Enterprise East, the GM Americas organization and global field teams.">
+<style>
+:root{
+  --bg:#05080a;
+  --panel:#0a1013;
+  --panel-2:#0d1519;
+  --line:#1b282c;
+  --line-2:#26383d;
+  --text:#d5e4dc;
+  --muted:#7f978d;
+  --dim:#4d625a;
+  --green:#62f58f;
+  --green-dim:#2c7a48;
+  --cyan:#63d6ea;
+  --amber:#f0b64a;
+  --red:#ff7a6b;
+  --white:#eef5f1;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono","DejaVu Sans Mono",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--cyan)}
+button{font:inherit;color:inherit}
+.mono{font-family:var(--mono)}
+.wrap{max-width:1440px;margin:0 auto;padding:16px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:4px}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ph b{color:var(--green);font-weight:600}
+.pb{padding:12px}
+
+/* header */
+header.top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end;padding:8px 0 16px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.name{font-family:var(--mono);font-size:28px;letter-spacing:.08em;color:var(--white);margin:0;font-weight:600}
+.role{font-family:var(--mono);color:var(--green);font-size:14px;letter-spacing:.06em;margin-top:2px}
+.meta{color:var(--muted);font-size:13px;margin-top:6px}
+.meta span{white-space:normal}
+.contact{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right;line-height:1.7}
+.contact a{color:var(--text);text-decoration:none;border-bottom:1px dotted var(--dim)}
+.lede{max-width:980px;color:var(--text);font-size:15px;margin:0 0 16px}
+.lede strong{color:var(--white)}
+.why{max-width:980px;color:var(--muted);font-size:13.5px;margin:-6px 0 16px;padding-left:12px;border-left:2px solid var(--green-dim)}
+
+/* toolbar */
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.seg{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.seg .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);margin-right:4px;text-transform:uppercase}
+.btn{background:var(--panel-2);border:1px solid var(--line-2);color:var(--text);font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:6px 9px;border-radius:3px;cursor:pointer;min-height:30px}
+.btn:hover{border-color:var(--green-dim)}
+.btn[aria-pressed="true"]{background:#10261a;border-color:var(--green);color:var(--green)}
+.btn:focus-visible{outline:2px solid var(--cyan);outline-offset:1px}
+.spacer{flex:1}
+
+/* main grid */
+.main{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(320px,1fr);gap:16px;align-items:start}
+.scopebox{position:relative}
+.scope-head{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px}
+.clock{color:var(--green);font-size:18px;letter-spacing:.1em;min-width:180px}
+.clock small{display:block;color:var(--muted);font-size:10px;letter-spacing:.14em}
+.ctr{color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.ctr b{display:block;color:var(--white);font-size:18px;letter-spacing:.04em;font-weight:500}
+.stage{position:relative;width:100%;aspect-ratio:1/1;max-width:880px;margin:0 auto;overflow:hidden}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.overlay{position:absolute;inset:0;pointer-events:none}
+.db{position:absolute;left:0;top:0;font-family:var(--mono);font-size:10.5px;line-height:1.25;color:var(--text);white-space:nowrap;pointer-events:auto;cursor:pointer;padding:1px 2px;border-radius:2px;transition:opacity .25s}
+.db .l1{color:var(--white)}
+.db.req .l1{color:var(--amber)}
+.db.glob .l1{color:var(--cyan)}
+.db.sel{outline:1px solid var(--cyan);background:rgba(5,8,10,.85)}
+.db.sel .l1,.db.sel .l2,.db.sel .l3{color:var(--cyan)}
+.db.dim{opacity:.18}
+.db .l2{color:var(--green)}
+.db .l3{color:var(--muted)}
+.db:focus-visible{outline:2px solid var(--cyan)}
+.replay{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 12px;border-top:1px solid var(--line)}
+.replay input[type=range]{flex:1;min-width:160px;accent-color:var(--green)}
+.days{display:grid;grid-template-columns:repeat(14,1fr);font-family:var(--mono);font-size:9px;color:var(--dim);padding:0 12px 6px;letter-spacing:.06em}
+.days span{text-align:center;border-left:1px solid var(--line)}
+.days span.we{color:var(--muted)}
+.log{font-family:var(--mono);font-size:11.5px;border-top:1px solid var(--line);padding:8px 12px;min-height:128px;max-height:128px;overflow:hidden}
+.log div{display:grid;grid-template-columns:92px 64px 1fr;gap:8px;color:var(--muted);padding:1px 0}
+.log div:first-child{color:var(--text)}
+.log .t{color:var(--green)}
+.log .s{color:var(--cyan)}
+.note{font-size:12px;color:var(--muted);padding:8px 12px;border-top:1px solid var(--line)}
+
+/* calls */
+.calls{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:8px 12px 12px}
+.call{border:1px solid var(--line-2);border-radius:3px;padding:6px 8px;font-family:var(--mono);font-size:11px;background:var(--panel-2)}
+.call .d{color:var(--muted);font-size:10px;letter-spacing:.12em}
+.call .a{color:var(--white)}
+.call .r{color:var(--green);font-size:10px;letter-spacing:.08em;margin-top:2px}
+.call.span3{grid-column:span 3}
+
+/* strips */
+.side{display:flex;flex-direction:column;gap:16px}
+.detail{min-height:120px}
+.detail .empty{color:var(--muted);font-size:13px;padding:12px}
+.fs{border-left:3px solid var(--green);background:var(--panel-2);margin:12px;border-radius:2px}
+.fs.req{border-left-color:var(--amber)}
+.fs.glob{border-left-color:var(--cyan)}
+.fs-top{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;padding:10px 12px;border-bottom:1px solid var(--line);font-family:var(--mono)}
+.fs-cs{color:var(--white);font-size:15px;letter-spacing:.06em}
+.fs-cs small{display:block;color:var(--muted);font-size:10px;letter-spacing:.12em}
+.fs-title{font-family:var(--sans);font-size:14px;color:var(--white);line-height:1.35}
+.fs-alt{text-align:right;color:var(--green);font-size:15px}
+.fs-alt small{display:block;color:var(--muted);font-size:10px;letter-spacing:.12em}
+.fs-grid{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+.fs-grid div{padding:6px 12px;font-family:var(--mono);font-size:11px;color:var(--text);border-right:1px solid var(--line)}
+.fs-grid div:last-child{border-right:0}
+.fs-grid small{display:block;color:var(--dim);font-size:9.5px;letter-spacing:.14em}
+.chain{display:flex;flex-wrap:wrap;gap:4px;padding:8px 12px;border-bottom:1px solid var(--line)}
+.chain span{font-family:var(--mono);font-size:10px;letter-spacing:.06em;padding:3px 6px;border:1px solid var(--line-2);border-radius:2px;color:var(--dim)}
+.chain span.on{border-color:var(--green);color:var(--green);background:#0f2117}
+.fs-body{padding:10px 12px;font-size:13.5px}
+.fs-body p{margin:0 0 8px}
+.fs-body ul{margin:0 0 8px;padding-left:18px}
+.fs-body li{margin-bottom:3px}
+.fs-body .out{color:var(--white)}
+.fs-body .times{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.bay{max-height:420px;overflow:auto}
+.mini{display:grid;grid-template-columns:62px 34px 1fr auto;gap:8px;align-items:center;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:6px 12px;cursor:pointer;font-family:var(--mono);font-size:11px;color:var(--text)}
+.mini:hover,.mini:focus-visible{background:var(--panel-2);outline:none}
+.mini .c{color:var(--white)}
+.mini.req .c{color:var(--amber)}
+.mini.glob .c{color:var(--cyan)}
+.mini .a{color:var(--green)}
+.mini .t{font-family:var(--sans);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mini .r{color:var(--muted);font-size:10px}
+.legend{font-family:var(--mono);font-size:11px;color:var(--muted);display:grid;grid-template-columns:1fr 1fr;gap:4px 12px}
+.legend b{color:var(--text);font-weight:500}
+
+/* lower grid */
+.lower{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(320px,1fr);gap:16px;margin-top:16px;align-items:start}
+.bars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 20px}
+.bars h4{margin:0 0 6px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--muted);font-weight:500;text-transform:uppercase}
+.brow{display:grid;grid-template-columns:118px 1fr 22px;gap:8px;align-items:center;font-size:12px;margin-bottom:3px}
+.brow .n{color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brow .v{font-family:var(--mono);color:var(--white);text-align:right;font-size:11px}
+.brow .b{height:8px;background:var(--line);border-radius:1px;overflow:hidden}
+.brow .b i{display:block;height:100%;background:var(--green-dim)}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.q{border-left:2px solid var(--green-dim);padding:4px 0 4px 12px;margin:0}
+.q p{margin:0 0 4px;font-size:14px;color:var(--white)}
+.q footer{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.q.big p{font-size:15px}
+.qlist{max-height:420px;overflow:auto;display:flex;flex-direction:column;gap:12px;padding-right:4px}
+.qfilter{display:flex;flex-wrap:wrap;gap:4px;margin:12px 0}
+.award{display:grid;grid-template-columns:10px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.award:last-child{border-bottom:0}
+.award i{width:8px;height:8px;margin-top:6px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green)}
+.award b{display:block;color:var(--white);font-weight:500}
+.award span{font-size:12.5px;color:var(--muted)}
+.roles div{padding:8px 0;border-bottom:1px solid var(--line)}
+.roles div:last-child{border-bottom:0}
+.roles b{color:var(--white);font-weight:500}
+.roles .d{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.roles p{margin:4px 0 0;font-size:13px}
+.skills{display:flex;flex-wrap:wrap;gap:4px}
+.skills span{font-family:var(--mono);font-size:10.5px;border:1px solid var(--line-2);padding:2px 6px;border-radius:2px;color:var(--text)}
+.lang{margin-top:12px;font-size:13px}
+
+/* text view */
+.textview{display:none}
+body.tv .textview{display:block}
+body.tv .radarview{display:none}
+.textview h2{font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--green);text-transform:uppercase;margin:24px 0 8px;font-weight:600}
+.textview h3{font-size:15px;color:var(--white);margin:16px 0 4px}
+.textview .item{padding:8px 0;border-bottom:1px solid var(--line)}
+.textview .item b{color:var(--white)}
+.textview .item .m{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.textview p{margin:4px 0}
+footer.foot{margin-top:24px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+
+@media (max-width:1080px){
+  .main,.lower{grid-template-columns:1fr}
+  .bay{max-height:320px}
+}
+@media (max-width:640px){
+  .wrap{padding:16px}
+  header.top{grid-template-columns:minmax(0,1fr)}
+  .contact{text-align:left}
+  .name{font-size:22px}
+  .feat,.bars{grid-template-columns:1fr}
+  .calls{grid-template-columns:1fr 1fr}
+  .call.span3{grid-column:span 2}
+  .db{font-size:9px}
+  .db .l3{display:none}
+  .log div{grid-template-columns:78px 1fr}
+  .log div .s{display:none}
+  .fs-grid{grid-template-columns:1fr 1fr}
+  .days{font-size:8px}
+  .legend{grid-template-columns:1fr}
+}
+@media print{
+  body{background:#fff;color:#000}
+  .radarview,.bar{display:none!important}
+  .textview{display:block!important}
+  .panel{border:0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <h1 class="name">ASHLEY MORGAN</h1>
+    <div class="role">DIRECTOR, SALES OPERATIONS &middot; COHESITY &middot; NOV 2021 TO PRESENT</div>
+    <div class="meta"><span id="exp">19 years in sales and revenue operations</span></div>
+  </div>
+  <div class="contact">
+    <div><a href="mailto:ashleyjanemillan@gmail.com">ashleyjanemillan@gmail.com</a></div>
+    <div>+1 786-205-0218</div>
+    <div><a href="https://www.linkedin.com/in/ashleyjmorgan" rel="noopener">linkedin.com/in/ashleyjmorgan</a></div>
+    <div>Winston-Salem, NC</div>
+  </div>
+</header>
+
+<p class="lede">I lead Sales Operations for <strong>US Enterprise East</strong> and for the <strong>GM Americas organization (Commercial, Federal and LATAM)</strong>. The cadences I built to run those businesses have worked well enough that I am continually asked to roll them out globally, which has given me <strong>three roles in one</strong>: Enterprise East, the GM Americas organization, and the <strong>global pipeline hygiene and forecast insights</strong> now used by sales leaders at every level, from daily team calls to the CRO, CFO and CEO. This page shows the three roles running together, the way a radar scope shows traffic: many tracks at once, at different altitudes, each handled in the right order.</p>
+
+<p class="why">Why a radar scope: from 2018 to 2019 I trained as an air traffic controller at the FAA Academy, where I completed radar training. That training shaped how I run my businesses: keep every track visible, know each one's altitude and cadence, and handle them in the right order. I built this page the same way.</p>
+
+<div class="bar" role="toolbar" aria-label="View options">
+  <div class="seg" id="secBtns"><span class="lbl">Sector</span></div>
+  <div class="seg" id="typeBtns"><span class="lbl">Track</span></div>
+  <div class="spacer"></div>
+  <button class="btn" id="tvBtn" aria-pressed="false">TEXT VIEW</button>
+</div>
+
+<div class="radarview">
+<div class="main">
+  <section class="panel scopebox" aria-label="Operations scope">
+    <div class="scope-head">
+      <div class="clock" id="clock" aria-live="off">WK1 MON 00:00<small>COMPOSITE TWO-WEEK REPLAY</small></div>
+      <div class="ctr">Active tracks<b id="cActive">0</b></div>
+      <div class="ctr">C-level / SVP<b id="cHigh">0</b></div>
+      <div class="ctr">Leading or deciding<b id="cDec">0</b></div>
+      <div class="ctr">Open requests<b id="cReq">0</b></div>
+    </div>
+    <div class="stage" id="stage">
+      <canvas id="scope" aria-hidden="true"></canvas>
+      <div class="overlay" id="overlay"></div>
+    </div>
+    <div class="replay">
+      <button class="btn" id="playBtn" aria-pressed="true">PAUSE</button>
+      <button class="btn" id="spdBtn">SPEED 1X</button>
+      <input type="range" id="scrub" min="0" max="20159" step="1" value="0" aria-label="Replay time">
+    </div>
+    <div class="days" id="days" aria-hidden="true"></div>
+    <div class="log" id="log" aria-live="polite" aria-label="Event log"></div>
+    <div class="note">A composite of a typical two weeks, assembled from real, dated work in April to September 2026 and placed on the weekday it happened. Send times shown to the minute are real. EVE and AM mark real evening and morning sends where the exact minute is not shown. Recurring meeting times are indicative. No real deal, customer, rep or dollar data appears on this page.</div>
+  </section>
+
+  <aside class="side">
+    <section class="panel" aria-label="Flight strip">
+      <div class="ph"><span><b>FLIGHT STRIP</b> &middot; select a target</span><span id="stripCount"></span></div>
+      <div class="detail" id="detail"><div class="empty">Select any target on the scope, or any strip below, to open its details: who it serves, how often, and which steps I own from the data through to the decision.</div></div>
+    </section>
+    <section class="panel" aria-label="Active strips">
+      <div class="ph"><span><b>STRIP BAY</b> &middot; active now, highest altitude first</span></div>
+      <div class="bay" id="bay"></div>
+    </section>
+    <section class="panel" aria-label="Weekly calls">
+      <div class="ph"><span><b>WEEKLY FORECAST CALLS</b></span><span>SINCE NOV 2021</span></div>
+      <div class="calls">
+        <div class="call"><div class="d">MON</div><div class="a">C-level</div><div class="r">PRESENT, PARTNER TO SVPs</div></div>
+        <div class="call span3"><div class="d">TUE TO THU</div><div class="a">District Manager level</div><div class="r">LEADER, COMMENTARY</div></div>
+        <div class="call"><div class="d">FRI</div><div class="a">SVP level</div><div class="r">OWN AND RUN</div></div>
+      </div>
+    </section>
+    <section class="panel" aria-label="How to read the scope">
+      <div class="ph"><span><b>READING THE SCOPE</b></span></div>
+      <div class="pb legend">
+        <div><b>Sweep</b> the global dashboard refresh cycle</div>
+        <div><b>Rings</b> cadence: daily (inner) to annual (outer)</div>
+        <div><b>Altitude</b> audience: 050 AE, 100 DM, 150 Director, 200 VP, 300 SVP / GM, 400 C-level</div>
+        <div><b>Roles</b> BLD build, RUN operate, ADV advise, DEC decide, LEAD run the call</div>
+        <div><b>Amber</b> incoming request, shown by the requester's title</div>
+        <div><b>Cyan</b> global work moving outward to EMEA, APJ and International</div>
+      </div>
+    </section>
+  </aside>
+</div>
+
+<div class="lower">
+  <section class="panel" aria-label="Recognition">
+    <div class="ph"><span><b>PIREP</b> &middot; recognition received, 2022 to 2026</span><span id="kCount"></span></div>
+    <div class="pb">
+      <div class="feat" id="feat"></div>
+      <div class="bars" id="kbars"></div>
+      <div class="qfilter" id="qfilter"></div>
+      <div class="qlist" id="qlist"></div>
+    </div>
+  </section>
+  <aside class="side">
+    <section class="panel" aria-label="Awards">
+      <div class="ph"><span><b>STATUS</b> &middot; awards</span><span>FY26</span></div>
+      <div class="pb" id="awards"></div>
+    </section>
+    <section class="panel" aria-label="Prior roles">
+      <div class="ph"><span><b>PRIOR ROLES</b></span><span>2007 TO 2021</span></div>
+      <div class="pb roles" id="roles"></div>
+    </section>
+    <section class="panel" aria-label="Tools">
+      <div class="ph"><span><b>TOOLS</b></span></div>
+      <div class="pb"><div class="skills" id="skills"></div></div>
+    </section>
+  </aside>
+</div>
+</div>
+
+<div class="textview" id="textview"></div>
+
+<footer class="foot"><div>Languages: English; Spanish (heritage speaker, professional working proficiency; delivers trainings in Spanish).</div>Names appear only for C-level and SVP-level leaders; everyone else is shown by title. Quotes are shown as written, with minor corrections marked in brackets.</footer>
+</div>
+
+<script>
+"use strict";
+/* ------------------------------------------------------------------
+   DATA
+------------------------------------------------------------------ */
+const SECTORS = {
+  ENTE:  {name:"US Enterprise East", short:"ENT-E", a0:-45, a1:45},
+  COMM:  {name:"Commercial (GM Americas org)", short:"COMM", a0:45, a1:135},
+  FED:   {name:"Federal (GM Americas org)", short:"FED", a0:135, a1:225},
+  LATAM: {name:"LATAM (GM Americas org), Spanish-language delivery", short:"LATAM", a0:225, a1:315},
+  TY:    {name:"GM Americas org: Commercial, Federal and LATAM", short:"GM AMER", a0:45, a1:315, group:["COMM","FED","LATAM"]},
+  AMER:  {name:"All of my Americas scope", short:"AMER", a0:-45, a1:315, group:["ENTE","COMM","FED","LATAM"]},
+  GLOBAL:{name:"Global work: my operating model used by field teams worldwide", short:"GLOBAL"}
+};
+const TYPES = {
+  FCST:"Forecasting and forecast calls",
+  HYG:"Pipeline hygiene and Field Management Dashboards",
+  RISK:"Risk and analytics models",
+  PLAN:"Planning, territories, quotas, Anaplan",
+  EXEC:"Executive reporting",
+  PROD:"Product design and system building",
+  ENBL:"Enablement, mentoring and hiring"
+};
+const CADENCE = {daily:.2, weekly:.37, monthly:.54, quarterly:.7, annual:.84};
+const CHAIN = ["DATA","BUILD","INTERPRET","ADVISE","DECIDE","RUN CALL","NEXT STEPS"];
+const DESTS = {EMEA:{a:40,label:"EMEA"}, APJ:{a:140,label:"APJ"}, INTL:{a:240,label:"INTERNATIONAL"}};
+const DAYN = ["MON","TUE","WED","THU","FRI","SAT","SUN"];
+
+/* windows: [day 0-13, "HH:MM", minutes, label override, log text] */
+const TRACKS = [
+ {id:"HYG143", type:"HYG", sector:"GLOBAL", center:true, cadence:"daily", alt:400, roles:["RUN","BLD"], chain:[0,1,2,3,4,5,6], always:true,
+  short:"GLOBAL REFRESH", title:"Global pipeline hygiene and forecast insights (Field Management Dashboards)",
+  audience:"AEs, DMs, VPs and SVPs worldwide; feeds executive reviews",
+  body:["Began as the cadence I built to run my own businesses; I was asked to extend it until it covered pipeline hygiene and forecast insights for the global sales organization.","143 dashboard builds across Areas, Regions and Districts, including AMER, APJ and International hierarchies, refreshed on a daily cycle that I run and monitor.","Includes AE-facing hygiene risk files, ClosePlan (MEDDPICC) completion views, opportunity detail, deal bridges and slipped-deal tracking."],
+  outcome:"The refreshed output drives daily team calls, the weekly forecast calls and executive reviews. The CFO forwarded it to Finance leaders as something to roll out to all Sales leaders and the critical DM layer."},
+
+ {id:"SNAP01", type:"RISK", sector:"AMER", cadence:"daily", alt:300, roles:["BLD","RUN"], chain:[0,1,2], always:true, ang:300,
+  short:"DAILY SNAPSHOTS", title:"Daily CRM pipeline snapshots",
+  audience:"GM Americas, Area VPs, DMs",
+  body:["I keep my own daily snapshot of the pipeline so every opportunity can be traced over time: what stayed, what moved out, what closed and what was cleaned up.","The snapshots feed the slipped-deals dashboard and the quarter waterfall used in executive reviews."],
+  outcome:"Lets leaders see exactly where pipeline went, instead of comparing two endpoints."},
+
+ {id:"CALL-C", type:"FCST", sector:"AMER", cadence:"weekly", alt:400, roles:["ADV"], chain:[0,1,2,3], ang:0,
+  short:"C-LEVEL CALL", title:"Monday C-level forecast call",
+  audience:"C-level leadership, with the SVPs",
+  body:["I present on the C-level forecast call as a partner to the SVPs, and have done so since joining Cohesity in November 2021.","The call runs on the numbers, risk and commentary that I prepare."],
+  outcome:"Executive leadership sees one consistent view of the forecast and its risks.",
+  win:[[0,"10:00",60,"","Monday C-level forecast call: presenting with the SVPs"],[7,"10:00",60,"","Monday C-level forecast call: presenting with the SVPs"]]},
+
+ {id:"CALL-D", type:"FCST", sector:"AMER", cadence:"weekly", alt:100, roles:["ADV"], chain:[2,3,6], ang:170,
+  short:"DM CALLS", title:"District Manager forecast calls (Tuesday to Thursday)",
+  audience:"District Managers and their leaders",
+  body:["I join the DM-level calls as a leader and give commentary on pipeline, hygiene and forecast risk, and have done so since November 2021."],
+  outcome:"Issues are caught at the district level before they reach the executive calls.",
+  win:[[1,"11:00",60,"","DM forecast calls: leader commentary"],[2,"11:00",60,"",""],[3,"11:00",60,"",""],[8,"11:00",60,"","DM forecast calls: leader commentary"],[9,"11:00",60,"",""],[10,"11:00",60,"",""]]},
+
+ {id:"CALL-S", type:"FCST", sector:"AMER", cadence:"weekly", alt:300, roles:["LEAD","DEC"], chain:[0,1,2,3,4,5,6], ang:260,
+  short:"SVP CALL", title:"Friday SVP-level forecast call",
+  audience:"SVP-level leadership",
+  body:["I own and fully run the SVP-level call, and have since November 2021: I prepare the data, lead the review, make the calls on what needs to change, and set next steps for the Sales VPs."],
+  outcome:"The SVP call ends with clear owners and next steps for each Area.",
+  win:[[4,"11:00",60,"","Friday SVP forecast call: running the call"],[11,"11:00",60,"","Friday SVP forecast call: running the call"]]},
+
+ {id:"ACT305", type:"RISK", sector:"AMER", cadence:"weekly", alt:400, roles:["BLD","RUN"], chain:[0,1,2], ang:80,
+  short:"AE ACTIVITY", title:"AE Activity Tracker (weekly update to the CEO and CRO)",
+  audience:"CEO, CRO and all Americas operations",
+  body:["A system I designed and built from scratch in Google Apps Script, combining CRM and forecast-system activity (meetings, calls, emails), travel and expense data and pipeline creation for about 305 AEs across all Americas segments.","In active use for over two years; the data foundation for the operations team."],
+  outcome:"Drives weekly updates delivered to the CEO and CRO. RevOps leadership called it exemplary.",
+  win:[[0,"08:00",240,"WKLY","Weekly activity update prepared for the CEO and CRO"],[7,"08:00",240,"WKLY","Weekly activity update prepared for the CEO and CRO"]]},
+
+ {id:"EXEC07", type:"EXEC", sector:"AMER", cadence:"weekly", alt:400, roles:["BLD","ADV"], chain:[0,1,2,3], ang:110,
+  short:"ESTAFF WEEKLY", title:"Weekly reporting reviewed up to eStaff",
+  audience:"eStaff",
+  body:["Weekly reporting that is reviewed all the way up to the executive staff, prepared alongside my regional work."],
+  outcome:"My direct manager cited it when recognizing the year's work.",
+  win:[[3,"09:00",300,"WKLY","Weekly reporting sent for eStaff review"],[10,"09:00",300,"WKLY","Weekly reporting sent for eStaff review"]]},
+
+ {id:"BRF-E", type:"HYG", sector:"ENTE", cadence:"weekly", alt:200, roles:["BLD","ADV","DEC"], chain:[0,1,2,3,4,6], ang:-20,
+  short:"EAST BRIEFING", title:"Weekly Field Management update, Enterprise East",
+  audience:"14 regional leaders, Enterprise East",
+  body:["My written weekly briefing to the region: dashboard release notes, how-to guidance, and my diagnosis of the business with direction.","Released a new ClosePlan tab and quantified missing ClosePlans for the current and next quarter.","Compared the deal-based Most Likely to the VP's call and to plan, and asked leaders to re-review In Forecast pipeline.","Flagged that a record week of pipeline creation was itself a data-quality risk and asked teams to confirm it was real."],
+  outcome:"Includes an AE-shareable risk file so DMs can hand the detail straight to reps.",
+  win:[[7,"19:30",90,"EVE","Enterprise East weekly briefing sent to 14 regional leaders"]]},
+
+ {id:"BRF-T", type:"HYG", sector:"TY", cadence:"weekly", alt:200, roles:["BLD","DEC"], chain:[0,1,2,4,6], ang:175,
+  short:"GM AMER UPDATE", title:"Dashboard update to the GM Americas org: ClosePlan detail and AE-facing views",
+  audience:"Commercial, Federal and LATAM leaders",
+  body:["Sent the same evening as the Enterprise East briefing: two regional briefings in one evening.","Released AE-facing hygiene risk files for each Area, refreshed twice daily with the full dashboards.","Set the ClosePlan hygiene rules the field is measured by: Missing, Stale (no update in over 14 days for In Forecast and Best Case deals this quarter, over 30 days otherwise) and Unfinished (scorecard under 80%).","Released MEDDPICC completion views with a legend: completed, partially completed, not started."],
+  outcome:"Diagnosis: pipeline creation still behind pace, especially in LATAM and Federal, with momentum improving.",
+  win:[[7,"20:30",90,"EVE","GM Americas org dashboard update: ClosePlan rules released"]]},
+
+ {id:"REQ-CEO", type:"EXEC", sector:"ENTE", cadence:"weekly", alt:400, roles:["RUN","DEC"], chain:[0,1,2,4,6], req:true, ang:10,
+  short:"CEO DEAL REVIEW", title:"Request: CEO urgent first-half deal review",
+  requester:"CEO",
+  audience:"CEO, via Enterprise East leadership",
+  body:["Sent a per-district directive to every Enterprise East DM, with a hygiene-risk dashboard and a snapshot of top first-half deals attached.","Set the standard: confirm every deal is real and in play; update stale, inherited or placeholder opportunities the same day; every first-half deal at a minimum of Best Case; confirm In Forecast and Best Case are accurate.","When a DM named deals that needed to move, I moved them myself so the executive view stayed accurate on time."],
+  outcome:"The executive view was corrected the same day.",
+  win:[[8,"08:30",540,"AM","Request: CEO urgent first-half deal review, directive sent to every DM"]]},
+
+ {id:"EXEC03", type:"EXEC", sector:"ENTE", cadence:"monthly", alt:200, roles:["BLD","DEC"], chain:[0,1,2,4], ang:30,
+  short:"GET-WELL SCORE", title:"District health score for the Enterprise East VP get-well plan",
+  audience:"Enterprise East VP and seven districts",
+  body:["I designed the district health score used in the VP's first-half get-well plan: the average of pipeline creation pace (quarter to date versus expected pace) and first-half Best Case as a percent of plan, with red, yellow and green thresholds.","Illustrative example: 45 of 50 expected equals 90; with Best Case at 70% of plan, (90 + 70) / 2 = 80."],
+  outcome:"I defined the metric the districts are judged by.",
+  win:[[9,"10:00",300,"","Get-well plan: district health score designed for the VP deck"]]},
+
+ {id:"CFO", type:"EXEC", sector:"GLOBAL", cadence:"weekly", alt:400, roles:["BLD"], chain:[0,1,2], glob:"INTL", ang:60,
+  short:"CFO ROLLOUT", title:"CFO forwards the Field Management dashboard to Finance leaders",
+  audience:"CFO and Finance leadership",
+  body:["\"You guys should take a look at this - it is very good. Seems like something we should roll out to all Sales leaders and the critical DM layer; The metrics on this are very well thought and highly operationally oriented.\" Eric Brown, Chief Financial Officer.","The next day a VP, Finance asked for direct access to the dashboard folder."],
+  outcome:"Unprompted executive demand for the system beyond Sales.",
+  win:[[9,"21:03",1500,"","CFO forwards the dashboard to Finance: \"roll out to all Sales leaders\""]]},
+
+ {id:"REQ-FIN", type:"HYG", sector:"GLOBAL", cadence:"daily", alt:200, roles:["RUN"], chain:[1,6], req:true, glob:"INTL", ang:70,
+  short:"FINANCE ACCESS", title:"Request: VP, Finance requests dashboard access",
+  requester:"VP, Finance",
+  audience:"Finance leadership",
+  body:["Access request following the CFO's email."],
+  outcome:"Finance added as a consumer of the dashboards.",
+  win:[[10,"09:15",240,"AM","Request: VP, Finance requests direct dashboard access"]]},
+
+ {id:"PLAN05", type:"PLAN", sector:"ENTE", cadence:"monthly", alt:200, roles:["ADV","DEC"], chain:[0,2,3,4,6], ang:-35,
+  short:"ACCT GOVERNANCE", title:"Territory and account-ownership governance",
+  audience:"Enterprise East VP, DM, renewals and GTM leads",
+  body:["After an AE moved to a Strategic role, I pulled every account in the former territory flagged Strategic and asked the VP and DM a clear decision question: should all of them move?","The DM confirmed two; I directed reassignment of the rest and flagged the renewal-quota impact to the renewals and GTM leads."],
+  outcome:"Detection, a clean decision, execution and downstream quota impact handled in one day.",
+  win:[[7,"15:00",180,"","Account-ownership review: decision question sent to VP and DM"]]},
+
+ {id:"REQ-DM", type:"PLAN", sector:"ENTE", cadence:"monthly", alt:100, roles:["ADV"], chain:[2,3], req:true, ang:-10,
+  short:"QUOTA ADVICE", title:"Request: District Manager asks for help after losing two large accounts",
+  requester:"District Manager",
+  audience:"District Manager, then her VP",
+  body:["Separated the two quota types: the renewals quota is defined by account and should adjust on its own; Sales ACV quota relief is a gray area that needs a business case.","Added timing context and helped her reframe the request around a material change to the planning assumptions, then reviewed her draft.","Kept a split-booking arrangement as the fallback."],
+  outcome:"The DM went from not knowing what to ask for to a clear, defensible escalation to her VP.",
+  win:[[7,"17:38",19,"","Request: DM asks for help with quota after account moves"]]},
+
+ {id:"FCST08", type:"FCST", sector:"ENTE", cadence:"weekly", alt:200, roles:["ADV","DEC"], chain:[0,2,3,4,6], ang:0,
+  short:"VP FORECAST", title:"Forecast recommendations to the VP of Enterprise Sales",
+  audience:"VP of Enterprise Sales, for the SVP",
+  body:["Ahead of the MBR, flagged a large gap between the Low and the Call and recommended raising the Low to match Closed plus Commit. The VP approved.","Proposed raising the month-one call based on closed business plus a partner PO; reset the monthly calls within five minutes of approval.","Warned when a deal moving to Best Case put the region below its Call; rebuilt a clean view for the SVP the same night a key deal pushed."],
+  outcome:"The VP approves my forecast recommendations directly.",
+  win:[[1,"12:33",45,"","VP Enterprise Sales approves raising the Low to Closed plus Commit"],[3,"16:52",30,"","Warning to VP: deal change puts region below its Call"],[3,"21:13",30,"","Key deal pushing: clean view rebuilt for the SVP"],[7,"17:24",20,"","Month-one call raised; monthly calls reset in five minutes"],[11,"08:25",40,"","Request: VP requests a separate bridge line; deal moved immediately"]]},
+
+ {id:"GM-AMER", type:"EXEC", sector:"TY", cadence:"weekly", alt:300, roles:["ADV","DEC","BLD"], chain:[0,1,2,3,4,6], ang:130,
+  short:"GM AMER LINE", title:"Direct working line with the GM Americas",
+  audience:"GM Americas",
+  body:["Writes talking points for his slides, not only the data; delivered the QBR deck and shared it onward.","Explained what refreshes automatically and what is manual; handled dashboard governance so teams keep using the system of record.","When he asked how to run a deal review, he asked me where I wanted to go.","Relayed an executive decision on a quota-change request and sent the communication to the field at his request.","When he asked how to close a first-half gap, I already had an options document drafted and sent the data overnight."],
+  outcome:"The GM Americas relies on me for the analysis, the recommendation and the field communication.",
+  win:[[0,"20:30",720,"EVE","GM Americas: how to close the first-half gap; options sent overnight"],[4,"15:00",180,"","GM Americas: break down pipeline velocity for the next two quarters"],[5,"12:00",120,"","Quota decision relayed; communication sent to the field"],[7,"09:00",60,"AM","GM Americas: new dashboard already sent to DM teams Friday evening"]]},
+
+ {id:"QBR10", type:"EXEC", sector:"TY", cadence:"quarterly", alt:400, roles:["BLD","ADV"], chain:[0,1,2,3], ang:100,
+  short:"QBR FOR CRO", title:"QBR slides for the GM Americas presentation to the CRO",
+  audience:"CRO, via the GM Americas",
+  body:["Built the prior-quarter and half-year performance overview (plan, actual, linearity, forecast accuracy, slipped and lost deals) with written highlights and lowlights.","Built the next-quarter outlook and plan linearity, top Commit and Upside deal slides, risks and opportunities, all with my commentary.","Asked the Area operations leads in Commercial, Federal and LATAM to validate historicals, the Call, Low and High, and top deals before the review."],
+  outcome:"My narrative and numbers reach the CRO through the GM's presentation.",
+  win:[[2,"13:54",1440,"","QBR slides for the CRO presentation sent to three Areas for validation"]]},
+
+ {id:"RISK11", type:"RISK", sector:"LATAM", cadence:"monthly", alt:200, roles:["BLD","ADV"], chain:[0,1,2,3], ang:250,
+  short:"LATAM RISK", title:"LATAM pipeline risk report, current quarter plus two",
+  audience:"LATAM leaders",
+  body:["Blends my own risk drivers (push count, overdue next steps, stage duration, missing primary quote and more) with the forecast system's AI conversion analytics to rate every opportunity red, yellow or green.","Includes a methodology tab, a risk-details tab listing every risk factor per opportunity, and an estimated landing per District."],
+  outcome:"Framed for leaders as a guide to where risk and opportunity sit in their Call, not a replacement for their forecast.",
+  win:[[4,"19:00",120,"EVE","LATAM pipeline risk report sent to LATAM leaders"]]},
+
+ {id:"HYG12", type:"HYG", sector:"TY", cadence:"monthly", alt:200, roles:["RUN","BLD"], chain:[0,1,6], ang:200,
+  short:"FY27 ALIGNMENT", title:"Hygiene risk and deal bridge update; FY27 alignment finalized",
+  audience:"Commercial, Federal and LATAM leaders",
+  body:["Confirmed FY27 account and territory alignment was finalized in the systems the prior evening and set the correction path through the Field Ops leads.","Shared the dashboards individually with every District leader; reworked the back end the day before to load substantially faster.","\"Please note I refresh these for all teams globally and we will need to ensure all additions will address the full organization's needs.\""],
+  outcome:"One system, built for the whole organization, tuned for each Area.",
+  win:[[9,"08:00",180,"AM","FY27 alignment final; dashboards shared with every District leader"]]},
+
+ {id:"EXEC13", type:"EXEC", sector:"TY", cadence:"monthly", alt:400, roles:["BLD","ADV","DEC"], chain:[0,1,2,3,4,6], ang:150,
+  short:"MBR PULL-INS", title:"Urgent: slips and pull-ins for the GM Americas MBR with the CRO",
+  audience:"GM Americas org leaders, for the CRO review",
+  body:["While reviewing the GM's MBR deck, I identified that qualified pipeline coverage was too light to support his Call.","Set the ask and a next-morning deadline: review next-quarter pipeline for pull-ins, and confirm every deal that moved out of the quarter is real and verified, not pushed to avoid closing.","Attached my own dashboard, built from every daily snapshot since August, showing where each opportunity went as a waterfall."],
+  outcome:"Field feedback went into the MBR with the CRO the next day.",
+  win:[[2,"10:30",1440,"","Urgent: slips and pull-ins request for the MBR with the CRO"]]},
+
+ {id:"PLAN14", type:"PLAN", sector:"LATAM", cadence:"annual", alt:200, roles:["DEC","ADV"], chain:[0,1,2,3,4,6], ang:285,
+  short:"1H TARGETS", title:"First-half targets for the LATAM Area",
+  audience:"LATAM Area VP and his operations lead",
+  body:["Relayed the outcome of his escalation: the rebalancing request had been taken to the CRO and was not approved by Finance.","Delivered the target slides and workbook I prepared.","Set the guardrails: full authority to change District-level targets, but quarterly roll-ups must match the Area targets; all AE targets in Anaplan by the deadline; no target communicated to any AE until Finance approval."],
+  outcome:"Authority delegated within firm limits; an unwelcome decision delivered clearly.",
+  win:[[5,"10:00",240,"","LATAM first-half targets delivered with Anaplan guardrails"]]},
+
+ {id:"REQ-REN", type:"HYG", sector:"FED", cadence:"daily", alt:150, roles:["RUN"], chain:[1,6], req:true, ang:190,
+  short:"RENEWALS ACCESS", title:"Request: Director, Public Sector and Commercial Renewals requests dashboard access",
+  requester:"Director, Public Sector and Commercial Renewals",
+  audience:"Renewals team",
+  body:["Requested dashboard access for his team, then asked for state and local government data as well.","I provisioned the access and confirmed: \"Tonight's refresh will be live in about 1 hour.\""],
+  outcome:"Adoption spreading by referral to teams outside Sales.",
+  win:[[10,"16:00",1680,"","Request: Renewals leader requests dashboard access"]]},
+
+ {id:"REQ-LAT", type:"RISK", sector:"LATAM", cadence:"weekly", alt:100, roles:["BLD"], chain:[1], req:true, ang:235,
+  short:"AE REPORT CARD", title:"Request: LATAM Sales Operations requests an AE Report Card enhancement",
+  requester:"LATAM Sales Operations",
+  audience:"LATAM AEs and DMs",
+  body:["Agreed to the enhancement. The reply: \"Eres la mejor!!!! Thank you\" (You're the best!)."],
+  outcome:"LATAM reach, in Spanish and English.",
+  win:[[10,"11:00",300,"","Request: LATAM AE Report Card enhancement agreed"]]},
+
+ {id:"RUN-SUN", type:"HYG", sector:"GLOBAL", cadence:"daily", alt:400, roles:["RUN"], chain:[1], glob:"APJ", ang:95,
+  short:"SUN REFRESH", title:"Sunday evening global refresh",
+  audience:"All regions",
+  body:["Ran and monitored the full production refresh across the AMER, APJ and International hierarchies (including 62 International Districts) and sent a refreshed dashboard to a senior sales leader the same evening."],
+  outcome:"Monday calls start from current data in every region.",
+  win:[[13,"19:56",240,"","Global refresh running: AMER, APJ and International hierarchies"]]},
+
+ {id:"HIRE37", type:"ENBL", sector:"AMER", cadence:"quarterly", alt:200, roles:["ADV"], chain:[3], ang:215,
+  short:"HIRING PANEL", title:"Second-round interviewer for a new Sales Operations Manager",
+  audience:"Sales Operations leadership",
+  body:["Named the required second-round interviewer, directly after the hiring manager."],
+  outcome:"Trusted to set the bar for the team.",
+  win:[[9,"14:00",120,"","Named second-round interviewer for a Sales Operations Manager hire"]]},
+
+ {id:"ENBL01", type:"ENBL", sector:"AMER", cadence:"weekly", alt:100, roles:["ADV"], chain:[2,3], always:true, ang:320,
+  short:"ENABLEMENT", title:"Enablement, onboarding and mentoring",
+  audience:"Field operations team, new team members, DMs",
+  body:["Primary trainer for field operations team members on planning and forecasting systems.","Onboarded new operations team members and mentored colleagues through weekly one-to-ones on planning, forecasting and systems.","Delivers trainings in Spanish for LATAM teams."],
+  outcome:"New team members ramp quickly; the process does not depend on one person to explain it."},
+
+ {id:"PLAN-FY", type:"PLAN", sector:"AMER", cadence:"annual", alt:300, roles:["BLD","ADV","DEC"], chain:[0,1,2,3,4,6], always:true, ang:60,
+  short:"PLANNING CYCLE", title:"Territory and planning cycle design (Anaplan key user)",
+  audience:"VP and SVP leaders across the Americas",
+  body:["Lead territory and planning cycle design across the Americas: about 70 districts and more than 300 AE territories, covering account planning, quota planning, segmentation and GTM strategy.","Key user in Anaplan through full planning cycles; walk leaders through custom views of their territory assignments and guide VP and SVP leaders on how to run their business.","Partner with the development team on testing, UX and data requirements."],
+  outcome:"RevOps leadership recognized the 2H territory design as exceptional; field leaders said they could not do the planning cycle without it."},
+
+ {id:"ICP4Y", type:"RISK", sector:"AMER", cadence:"annual", alt:400, roles:["BLD","ADV"], chain:[0,1,2,3], always:true, ang:160,
+  short:"ICP MODEL", title:"Ideal Customer Profile scoring model",
+  audience:"CFO, with progress reported to the board",
+  body:["Designed and built in-house with Claude Code, managed in a git repository, combining firmographic and technographic data from D&B Hoovers, HG Insights, ZoomInfo and 6Sense.","Calibrated with a regression analysis against four years of win and loss data."],
+  outcome:"Delivered directly to the CFO, saving more than $100K in previously quoted external consulting fees."},
+
+ {id:"QTR-END", type:"FCST", sector:"AMER", cadence:"quarterly", alt:300, roles:["RUN"], chain:[0,2,6], always:true, ang:235,
+  short:"MONTH/QTR END", title:"Month-end and quarter-end close",
+  audience:"Sales leaders; Channel Ops, Order Management, Distribution",
+  body:["Work across Channel Operations, Order Management and Distribution at month and quarter end to remove internal obstacles and help opportunities close."],
+  outcome:"Fewer deals lost to process at the end of the period."},
+
+ /* global work, moving outward */
+ {id:"G-RISK", type:"RISK", sector:"GLOBAL", cadence:"quarterly", alt:300, roles:["BLD"], chain:[0,1,2], always:true, glob:"EMEA", ang:350,
+  short:"RISK DASHBOARD", title:"Global forecast risk dashboard",
+  audience:"All sales leaders in the organization",
+  body:["Built the forecast risk dashboard in early 2023 while supporting my own teams; my manager noted it was work \"we can leverage across the business.\"","Adapted it quickly for EMEA when their operations team asked for a change, and offered alternatives."],
+  outcome:"Used by all sales leaders in the organization."},
+ {id:"G-TEMP", type:"HYG", sector:"GLOBAL", cadence:"quarterly", alt:300, roles:["BLD","RUN"], chain:[0,1,6], always:true, glob:"INTL", ang:210,
+  short:"TEMP VIEWS 2023", title:"Temporary global pipeline views during a systems change",
+  audience:"Global sales leadership",
+  body:["Built interim pipeline views used globally to run the business in the first weeks of a quarter while systems were offline."],
+  outcome:"Described by my manager as critical to running the business the first few weeks of the quarter."},
+ {id:"G-PEER", type:"ENBL", sector:"GLOBAL", cadence:"monthly", alt:150, roles:["ADV"], chain:[3], always:true, glob:"APJ", ang:130,
+  short:"APJ ENABLEMENT", title:"Peer enablement for APJ Sales Operations",
+  audience:"APJ Sales Operations",
+  body:["Helped the APJ Director, Sales Operations with the forecast system, CRM and Tableau."],
+  outcome:"\"Your inputs have been invaluable.\""},
+ {id:"G-STD", type:"HYG", sector:"GLOBAL", cadence:"monthly", alt:200, roles:["BLD"], chain:[1,6], always:true, glob:"EMEA", ang:40,
+  short:"STANDARD VIEWS", title:"Standard operating views and templates",
+  audience:"Field Sales Operations worldwide",
+  body:["The cadence, standard views and Field Sales Ops templates I built to run my own businesses, rolled out for the wider team, including Commercial planning that covered EMEA and Canada."],
+  outcome:"Recognized as a leader in innovation in how I run and track my businesses."},
+ {id:"PROD15", type:"PROD", sector:"GLOBAL", cadence:"quarterly", alt:200, roles:["BLD","ADV"], chain:[1,3], glob:"INTL", ang:300,
+  short:"PLANNING TOOL", title:"Request: product design for a new sales planning tool",
+  requester:"VP, Engineering and AI (Global)", req:true,
+  audience:"Global Engineering and AI, for DMs worldwide",
+  body:["At the request of the global VP, Engineering and AI, designed and sent a working UI mockup and a written specification for a territory and account planning view for DMs.","Design points: a simple main view with drill-in; flags for recent changes, including accounts moving after planning starts; territory maps; reassignment with decision support and a required note for the plan record; account hierarchy with misaligned subsidiaries flagged; simple default columns with optional extras; clear views of items needing attention."],
+  outcome:"Engineering leadership seeks my product input, not only my requirements.",
+  win:[[2,"16:00",2880,"","Request: VP, Engineering and AI (Global): planning tool mockup sent"]]},
+ {id:"PROD-WS", type:"PROD", sector:"GLOBAL", cadence:"annual", alt:200, roles:["BLD"], chain:[1], always:true, glob:"APJ", ang:70,
+  short:"DEV WORKSTATION", title:"Dedicated development workstation approved",
+  audience:"Revenue Operations leadership",
+  body:["Leadership approved a dedicated development workstation for my system-building work (September 2026)."],
+  outcome:"System building is formally resourced alongside the operations role."}
+];
+
+const REFRESH = [];
+for (let d=0; d<14; d++){ if (d%7<5){ REFRESH.push([d,"07:00","Morning refresh: 143 dashboards"]); REFRESH.push([d,"18:30","Evening refresh: 143 dashboards"]); } }
+
+/* kudos: level, fn, region, theme; credit follows the naming rule */
+const KUDOS = [
+ ["2022-12-12","Interim Federal VP","VP","Sales leadership","Federal","Executive reporting","Ashley prepares all financial reports for presentations to the executive leadership... While performing as the Interim Federal VP, Ashley's support and proactive instincts made my job much more manageable."],
+ ["2022-12-20","Marketing Director, Federal","Director","Marketing","Federal","Forecast calls","Ashley is absolutely amazing with helping the Federal team and our sales ops stuff and helping run the Federal Pipeline calls (preparing slides and talking points). Truly a rockstar that deserves recognition for her work!"],
+ ["2023-01-03","Vice President, Sales Operations (direct manager)","VP","Sales Operations","Global","Global tools","Thanks for continuing to own your business, while also stepping up to provide global tools and other impacts. I want to especially highlight the work you did in building out the new forecast risk dashboard. It is fantastic work that we can leverage across the business."],
+ ["2023-02-01","VP, Federal Sales","VP","Sales leadership","Federal","Responsiveness","You are an absolute Rock Star. I appreciate you and everything you do! Thank you!!!"],
+ ["2023-02-08","Field Technical Manager","Manager","Sales Engineering","Federal","Responsiveness","Ashley is such an amazing employee. She is always ready to assist our entire team... She consistently delivers!"],
+ ["2023-02-16","Account Executive, Federal Army Sales","Individual contributor","Sales","Federal","Responsiveness","Thank you for always [being there] at crunchtime! I appreciate you more than you know!!!"],
+ ["2023-05-10","Account Executive, Federal Army Sales","Individual contributor","Sales","Federal","Responsiveness","Ashley is the unsung hero of Federal. Always willing to help, delivers quickly and goes above and beyond every single day!!"],
+ ["2023-05-15","(Americas) Sales Operations Director","Director","Sales Operations","Americas","Teamwork","Thanks for always helping and being a team player!"],
+ ["2023-06-13","(EMEA) Sales Operations Manager","Manager","Sales Operations","EMEA","Global tools","Thank you so much for responding so quickly to my request to change one of the components in the Risk Dashboard. Not only did you ensure you understood the requirement; you also provided alternatives in the event we were not able to update the dashboard..."],
+ ["2023-08-15","Vice President, Sales Operations (direct manager)","VP","Sales Operations","Global","Global tools","Thanks so much for the work you did on the \"temp\" pipeline views for Q1 while system changes occur. Critical to running the business the first few weeks of Q1.","The temporary views were used globally while systems were offline."],
+ ["2023-09-14","Global Director, Business Value and Strategic Pursuits","Director","Sales strategy","Federal","Teamwork","High five to Ashley for consistent cross-functional teamwork that is always driving the business in Federal to where we need to be."],
+ ["2023-10-13","Field Technical Manager","Manager","Sales Engineering","Federal","Responsiveness","Over the past 10 months, I have continually gone to Ashley for assistance for Sales Operations and SFDC questions. NO is not in her vocabulary, thanks for all the help."],
+ ["2023-10-31","Joanna Skowronek, VP, Revenue Operations","SVP-level","Revenue Operations","Global","Business judgment","I especially appreciate how articulate you are on your assessment of the business, your proactiveness to drive operational rigor, your insights and follow-through. Thank you for taking on new responsibilities with Commercial and driving a phenomenal quarter in Federal. We are lucky to have you on the team."],
+ ["2024-01-29","District Manager, US Federal Civilian","District Manager","Sales leadership","Federal","Operational leadership","There are not enough words to describe Ashley's commitment to our team and to Cohesity. She is always there when needed, always has answers to almost all of our questions, and always willing to step in and take the lead on anything related to operations. She is an integral part of our day to day business..."],
+ ["2024-01-29","(APJ) Director, Sales Operations","Director","Sales Operations","APJ","Enablement","Thank you for helping me with Clari, SFDC & Tableau. Your inputs have been invaluable. You are a STAR!"],
+ ["2024-05-22","Manager, Sales Engineering","Manager","Sales Engineering","Federal","Responsiveness","Thanks again Ashley for the immediate help with [a federal regulatory RFI]! You're a rock star!"],
+ ["2025-01-31","Ryan DuChene, SVP, Customer Lifecycle","SVP-level","Customer Lifecycle","Americas","Planning","Huge shoutout to Ashley for going above and beyond to help support [our] account segmentation issues for territory planning! Thank you as always for being a great business partner!"],
+ ["2025-03-07","VP, Federal","VP","Sales leadership","Federal","Enablement","Thank you for all you do for the Fed team. [Federal leadership] and all the fed leaders appreciate all the extra work helping us get up to speed!"],
+ ["2025-04-17","District Manager, Commercial East","District Manager","Sales leadership","Commercial","Responsiveness","...a pleasure to work with and a lifeline for questions on how to accomplish something..."],
+ ["2025-04-30","District Manager, Commercial Midwest & Canada","District Manager","Sales leadership","Commercial","Analytics","I continue to be amazed by the ease at which Ashley can pull data together - she is a spreadsheet genius!... We are lucky to have you on the Commercial Team!"],
+ ["2025-07-25","Vice President, Sales Operations (direct manager)","VP","Sales Operations","Americas","Operational leadership","Absolutely amazing ability to adapt and deal with change while still bringing it for the good of the business... You hear from many how important you are for the business you own and support..."],
+ ["2025-10-27","Vice President, Sales Operations (direct manager)","VP","Sales Operations","Enterprise East","Operational leadership","","Recognized for the Enterprise East operating cadence and standard views built for the whole team."],
+ ["2025-10-31","Joanna Skowronek, VP, Revenue Operations","SVP-level","Revenue Operations","Americas","Analytics","","Recognized for the AE activity tracker, integrating multiple data sources so managers understand the business: \"exemplary\"."],
+ ["2025-12-10","Global Director, Business Value and Strategic Pursuits","Director","Sales strategy","Global","Enablement","Gold Hi-5 for Ashley! Terrific support for my team with Clari expertise and coaching today - always willing to help - always excellent."],
+ ["2026-01-26","District Manager, Enterprise Mid Atlantic","District Manager","Sales leadership","Enterprise East","Planning","...thank you for all of your hard work during this planning cycle! We could not do it without you..."],
+ ["2026-01-26","Vice President, Sales Operations (direct manager)","VP","Sales Operations","Americas","Planning","...Weekly reporting work that gets reviewed all the way to eStaff... an innovative way to drive Commercial territory planning, bringing together various tools, leveraging AI, etc - absolute master craft in just getting it done!"],
+ ["2026-01-28","Sales Operations Manager","Manager","Sales Operations","Americas","Enablement","...Your guidance, explanations, innovation, and clarity have made the transition so smooth..."],
+ ["2026-01-29","Joanna Skowronek, VP, Revenue Operations","SVP-level","Revenue Operations","Global","Planning","Your work on 2H Planning Territory Design was exceptional. Providing clear E1/E2 and full-segment visibility, navigating Commercial and ISR/Comms changes, and offering strong guidance to both Sales and RevOps made a real impact..."],
+ ["2026-01-31","Head of Global GTM Acceleration","VP","Global GTM","Global","Planning","...thank you for your incredible effort to turn adversity and challenges into a successful Planning outcome for the business! This cycle was filled with uncertainty, but your tenacity, focus, and can-do attitude showed up again to get us back on track. Your proactiveness and thorough understanding of the business and data makes a difference..."],
+ ["2026-08-24","Ken Seitz, Global Vice President, MSP","SVP-level","Sales leadership","Global","Composure","Ashley, I just want to send my compliments for how you prep, navigate, and follow up on these calls. You come across as completely unflappable and able to answer anything thrown your way. Thanks for your great support! Very impressed, Ken"],
+ ["2026-09-16","Eric Brown, Chief Financial Officer","C-level","Finance","Global","Analytics","You guys should take a look at this - it is very good. Seems like something we should roll out to all Sales leaders and the critical DM layer; The metrics on this are very well thought and highly operationally oriented.","Forwarded to Finance leaders with my Field Management dashboard."],
+ ["2026-09-16","VP, AMS Renewals","VP","Renewals","Americas","Responsiveness","You rock - and you're supposed to be ooo so thank you for that!"],
+ ["2026-09-17","Vice President, Sales Operations (direct manager)","VP","Sales Operations","Global","Operational leadership","Know how much you do for this organization, the sales leaders you support and the global business overall. You are a rockstar!"],
+ ["2026-09-24","LATAM Sales Operations","Manager","Sales Operations","LATAM","Responsiveness","Eres la mejor!!!! Thank you,","Translation: You're the best!"]
+];
+
+const AWARDS = [
+ ["President's Club FY26","Invited by Kit Beall, Chief Revenue Officer: \"In recognition of your incredible contributions.\""],
+ ["Pipeline Architect Award, Revenue Operations (FY26)","Named recipient in the Revenue Operations category."],
+ ["Cross Functional MVP Award, Americas (FY26)","Selected by Americas leadership, including Ty Fagg, GM Americas."]
+];
+
+const ROLES = [
+ ["SPIDR Tech","Manager, Revenue Operations","Mar 2021 to Oct 2021","Founding Sales Operations hire reporting to the CRO: built the Salesforce instance from scratch, designed opportunity workflows with compliance and legal requirements, managed the BDR team and supported the company through its acquisition."],
+ ["IHS Markit","Manager, Sales Operations","Nov 2019 to Mar 2021","Deal desk for Maritime and Trade across the US, Canada, LATAM and APAC: complex federal deals, pricing guidance, RFP and RFQ strategy; change management and enablement lead for the move from Microsoft CRM to Salesforce."],
+ ["Veritas Technologies","Manager, Renewals Sales Operations","Apr 2019 to Nov 2019","SLED, Healthcare and Federal renewals operations, appliance quoting and quoting automation; trained the team on Excel and Office automation."],
+ ["Federal Aviation Administration","Air Traffic Controller (career exploration)","Aug 2018 to Apr 2019","Completed radar training at the FAA Academy: real-time decision-making, high-stakes communication and analytical precision. This page is built as a radar scope because of that training."],
+ ["IHS Markit","Senior Sales Operations Analyst","Jul 2007 to Jul 2018","Eleven years from administrative assistant to senior sales operations: analytics, finance, global deal execution, international collections using multilingual skills, and contract redlines with Legal."]
+];
+
+const SKILLS = ["Salesforce","Clari","Tableau","Anaplan","Google Apps Script","Claude Code","Git","Python","SQL","JavaScript","HTML","React","Supabase","D&B Hoovers","HG Insights","ZoomInfo","6Sense","Advanced Excel and Google Sheets"];
+
+/* ------------------------------------------------------------------
+   HELPERS
+------------------------------------------------------------------ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+const WEEK = 14*1440;
+const toMin = (d,hm) => d*1440 + (+hm.slice(0,2))*60 + (+hm.slice(3));
+const fmtT = m => { m=Math.floor(((m%WEEK)+WEEK)%WEEK); const d=Math.floor(m/1440), r=m%1440;
+  return `WK${d<7?1:2} ${DAYN[d%7]} ${String(Math.floor(r/60)).padStart(2,"0")}:${String(r%60).padStart(2,"0")}`; };
+const altBand = a => a>=400?"C-level":a>=300?"SVP / GM":a>=200?"VP":a>=150?"Director":a>=100?"DM":"AE";
+const pad3 = a => String(a).padStart(3,"0");
+const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function inSector(tr, key){
+  if (key==="ALL") return true;
+  if (key==="GLOBAL") return tr.sector==="GLOBAL";
+  if (tr.sector===key) return true;
+  const g = SECTORS[tr.sector] && SECTORS[tr.sector].group;
+  if (g && g.includes(key)) return true;
+  if (key==="TY") return ["COMM","FED","LATAM","TY"].includes(tr.sector);
+  return false;
+}
+
+/* experience counter from 01 Jul 2007 */
+(function(){
+  const s = new Date(2007,6,1), n = new Date();
+  let y = n.getFullYear()-s.getFullYear(); if (n.getMonth()<6) y--;
+  $("#exp").textContent = `${y} years in sales and revenue operations (since July 2007)`;
+})();
+
+/* precompute windows and events */
+const EVENTS = [];
+TRACKS.forEach(t=>{
+  t.w = (t.win||[]).map(w=>({s:toMin(w[0],w[1]), e:toMin(w[0],w[1])+w[2], lbl:w[3], day:w[0], hm:w[1]}));
+  (t.win||[]).forEach(w=>{ if (w[4]) EVENTS.push({m:toMin(w[0],w[1]), lbl:w[3], text:w[4], sec:t.sector, id:t.id}); });
+  let h=0; for (const c of t.id) h=(h*31+c.charCodeAt(0))%997; t.h=h/997;
+});
+REFRESH.forEach(r=>EVENTS.push({m:toMin(r[0],r[1]), text:r[2], sec:"GLOBAL", refresh:true}));
+EVENTS.sort((a,b)=>a.m-b.m);
+const isActive = (t,m) => t.always || t.w.some(w=>m>=w.s && m<w.e);
+function activeFrac(t,m){ for (const w of t.w) if (m>=w.s && m<w.e) return (m-w.s)/(w.e-w.s); return 1; }
+
+/* ------------------------------------------------------------------
+   STATE
+------------------------------------------------------------------ */
+const state = {m: toMin(0,"06:00"), playing: !reduce, speed:1, sel:null, sec:"ALL", type:"ALL"};
+const SPEEDS=[1,2,4];
+
+/* ------------------------------------------------------------------
+   FILTER BUTTONS
+------------------------------------------------------------------ */
+function mkBtns(host, items, key){
+  items.forEach(([k,label,title])=>{
+    const b=document.createElement("button"); b.className="btn"; b.textContent=label; b.title=title||label;
+    b.setAttribute("aria-pressed", String(state[key]===k));
+    b.onclick=()=>{ state[key]=k; host.querySelectorAll(".btn").forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); renderBay(); renderText(); };
+    host.appendChild(b);
+  });
+}
+mkBtns($("#secBtns"), [["ALL","ALL"],["ENTE","ENT-E",SECTORS.ENTE.name],["TY","GM AMER",SECTORS.TY.name],["COMM","COMM"],["FED","FED"],["LATAM","LATAM"],["GLOBAL","GLOBAL",SECTORS.GLOBAL.name]], "sec");
+mkBtns($("#typeBtns"), [["ALL","ALL"]].concat(Object.keys(TYPES).map(k=>[k,k,TYPES[k]])), "type");
+const passes = t => inSector(t,state.sec) && (state.type==="ALL" || t.type===state.type);
+
+/* ------------------------------------------------------------------
+   SCOPE GEOMETRY
+------------------------------------------------------------------ */
+const cv=$("#scope"), ctx=cv.getContext("2d"), stage=$("#stage"), overlay=$("#overlay");
+let W=0, R=0, CX=0, CY=0, DPR=1;
+function resize(){
+  const r=stage.getBoundingClientRect(); DPR=Math.min(2,window.devicePixelRatio||1);
+  W=r.width; cv.width=W*DPR; cv.height=W*DPR; CX=W/2; CY=W/2; R=W/2-18;
+}
+const rad = deg => (deg-90)*Math.PI/180;
+function secAngle(t){
+  if (t.ang!==undefined) return t.ang;
+  const s=SECTORS[t.sector]; return s.a0+(s.a1-s.a0)*(.2+.6*t.h);
+}
+function posOf(t){
+  if (t.center) return {x:CX, y:CY};
+  let a=secAngle(t), r=CADENCE[t.cadence]*R + (t.h-.5)*R*.05;
+  if (t.glob){
+    const d=DESTS[t.glob]; const p=((performance.now()/1000)/40 + t.h)%1;
+    const r0=r, r1=R*.96, a0=a, a1=d.a;
+    let da=((a1-a0+540)%360)-180;
+    const k = reduce ? .6 : p;
+    a=a0+da*k; r=r0+(r1-r0)*k;
+  } else if (t.req && isActive(t,state.m)){
+    const f=Math.min(1,activeFrac(t,state.m)/.12);
+    r = R*.98 + (r-R*.98)*f;
+  }
+  return {x:CX+Math.cos(rad(a))*r, y:CY+Math.sin(rad(a))*r};
+}
+
+/* ------------------------------------------------------------------
+   DATA BLOCK ELEMENTS
+------------------------------------------------------------------ */
+const DB = {};
+TRACKS.forEach(t=>{
+  const el=document.createElement("div");
+  el.className="db"+(t.req?" req":"")+(t.sector==="GLOBAL"?" glob":"");
+  el.tabIndex=0; el.setAttribute("role","button");
+  el.setAttribute("aria-label", t.title);
+  el.innerHTML=`<div class="l1">${esc(t.id)}${t.req?" REQ":""}</div><div class="l2">${pad3(t.alt)} ${t.roles.join(" ")}</div><div class="l3">${esc(t.short)}</div>`;
+  el.onclick=()=>select(t.id);
+  el.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); select(t.id);} };
+  overlay.appendChild(el); DB[t.id]={el,t,trail:[],lit:0,w:0,h:0};
+});
+
+/* ------------------------------------------------------------------
+   DRAW
+------------------------------------------------------------------ */
+let sweepA=0, lastTs=0, refreshFlash=0, lastEventIdx=-1;
+function draw(ts){
+  const dt = lastTs? Math.min(.1,(ts-lastTs)/1000):0; lastTs=ts;
+  if (state.playing){
+    const prev=state.m;
+    state.m = (state.m + dt*120*state.speed) % WEEK;   /* 1x: one day per 12 seconds */
+    if (state.m<prev) lastEventIdx=-1;
+    $("#scrub").value=Math.floor(state.m);
+  }
+  if (!reduce) sweepA=(sweepA+dt*60)%360;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  ctx.clearRect(0,0,W,W);
+  /* background */
+  ctx.fillStyle="#020405"; ctx.beginPath(); ctx.arc(CX,CY,R+14,0,Math.PI*2); ctx.fill();
+  /* global band */
+  ctx.strokeStyle="rgba(99,214,234,.18)"; ctx.setLineDash([2,6]); ctx.lineWidth=1;
+  ctx.beginPath(); ctx.arc(CX,CY,R*.93,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+  /* rings */
+  ctx.font="9px "+getComputedStyle(document.body).getPropertyValue("--mono");
+  Object.entries(CADENCE).forEach(([k,v])=>{
+    ctx.strokeStyle="rgba(98,245,143,.16)"; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(CX,CY,v*R,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle="rgba(127,151,141,.8)"; ctx.fillText(k.toUpperCase(), CX+4, CY-v*R-3);
+  });
+  ctx.strokeStyle="rgba(98,245,143,.3)"; ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.stroke();
+  /* sector lines */
+  [-45,45,135,225].forEach(a=>{
+    ctx.strokeStyle="rgba(127,151,141,.28)"; ctx.setLineDash([4,5]);
+    ctx.beginPath(); ctx.moveTo(CX+Math.cos(rad(a))*R*.1, CY+Math.sin(rad(a))*R*.1);
+    ctx.lineTo(CX+Math.cos(rad(a))*R*.9, CY+Math.sin(rad(a))*R*.9); ctx.stroke(); ctx.setLineDash([]);
+  });
+  /* sector labels */
+  ctx.textAlign="center"; ctx.font="600 11px "+getComputedStyle(document.body).getPropertyValue("--mono");
+  [["ENTE",0],["COMM",90],["FED",180],["LATAM",270]].forEach(([k,a])=>{
+    const on = inSector({sector:k},state.sec) || state.sec==="ALL";
+    ctx.fillStyle= on? "rgba(213,228,220,.85)":"rgba(127,151,141,.35)";
+    const rr=R*.9; ctx.fillText(SECTORS[k].short, CX+Math.cos(rad(a+18))*rr, CY+Math.sin(rad(a+18))*rr);
+  });
+  /* GM Americas arc */
+  ctx.strokeStyle="rgba(240,182,74,.35)"; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(CX,CY,R+6,rad(47),rad(313)); ctx.stroke(); ctx.lineWidth=1;
+  ctx.fillStyle="rgba(240,182,74,.8)"; ctx.font="10px "+getComputedStyle(document.body).getPropertyValue("--mono");
+  ctx.save(); ctx.translate(CX,CY+R+6); ctx.fillText("GM AMERICAS ORG", 0, 12); ctx.restore();
+  ctx.fillStyle="rgba(98,245,143,.7)"; ctx.fillText("US ENTERPRISE EAST", CX, CY-R-6);
+  /* destination labels */
+  Object.values(DESTS).forEach(d=>{
+    const x=CX+Math.cos(rad(d.a))*R*.965, y=CY+Math.sin(rad(d.a))*R*.965;
+    ctx.fillStyle="rgba(99,214,234,.85)"; ctx.fillText(d.label, x, y+3);
+  });
+  ctx.textAlign="left";
+  /* sweep */
+  const sa=rad(sweepA);
+  if (ctx.createConicGradient){
+    const g=ctx.createConicGradient(sa-Math.PI/3, CX, CY);
+    g.addColorStop(0,"rgba(98,245,143,0)"); g.addColorStop(1/6,"rgba(98,245,143,.13)"); g.addColorStop(1/6+.0001,"rgba(98,245,143,0)"); g.addColorStop(1,"rgba(98,245,143,0)");
+    ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(CX,CY); ctx.arc(CX,CY,R,sa-Math.PI/3,sa); ctx.closePath(); ctx.fill();
+  }
+  ctx.strokeStyle="rgba(98,245,143,.55)"; ctx.beginPath(); ctx.moveTo(CX,CY); ctx.lineTo(CX+Math.cos(sa)*R, CY+Math.sin(sa)*R); ctx.stroke();
+  /* refresh flash */
+  if (refreshFlash>0){ ctx.strokeStyle=`rgba(98,245,143,${refreshFlash*.5})`; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(CX,CY,R*(1-refreshFlash)+2,0,Math.PI*2); ctx.stroke(); ctx.lineWidth=1; refreshFlash=Math.max(0,refreshFlash-dt*.8); }
+
+  /* targets */
+  const placed=[]; let nActive=0,nHigh=0,nDec=0,nReq=0;
+  const oRect=overlay.getBoundingClientRect();
+  TRACKS.forEach(t=>{
+    const o=DB[t.id], act=isActive(t,state.m);
+    if (!act){ o.el.style.display="none"; o.trail.length=0; return; }
+    nActive++; if (t.alt>=300) nHigh++; if (t.roles.includes("DEC")||t.roles.includes("LEAD")) nDec++; if (t.req) nReq++;
+    const p=posOf(t), on=passes(t);
+    /* sweep persistence */
+    let ang=(Math.atan2(p.y-CY,p.x-CX)*180/Math.PI+90+360)%360;
+    let diff=(sweepA-ang+360)%360; const bright = t.center?1: (reduce?.8: Math.max(.35,1-diff/300));
+    /* trail */
+    if (t.glob||t.req){ if(!o.trail.length || Math.hypot(o.trail[o.trail.length-1].x-p.x,o.trail[o.trail.length-1].y-p.y)>7){ o.trail.push(p); if(o.trail.length>6)o.trail.shift(); } }
+    const col = t.req?"240,182,74": t.sector==="GLOBAL"?"99,214,234":"98,245,143";
+    const alpha = on? bright : .12;
+    o.trail.forEach((q,i)=>{ ctx.fillStyle=`rgba(${col},${alpha*(i+1)/10})`; ctx.fillRect(q.x-1,q.y-1,2,2); });
+    if (t.center){
+      ctx.strokeStyle=`rgba(${col},${alpha})`; ctx.beginPath(); ctx.arc(p.x,p.y,6,0,Math.PI*2); ctx.stroke();
+      ctx.fillStyle=`rgba(${col},${alpha})`; ctx.beginPath(); ctx.arc(p.x,p.y,2.5,0,Math.PI*2); ctx.fill();
+    } else {
+      ctx.fillStyle=`rgba(${col},${alpha})`; ctx.fillRect(p.x-3,p.y-3,6,6);
+    }
+    if (state.sel===t.id){ ctx.strokeStyle="rgba(99,214,234,.95)"; ctx.strokeRect(p.x-7,p.y-7,14,14); }
+    /* data block placement */
+    const el=o.el; el.style.display="block";
+    if (!o.w){ o.w=el.offsetWidth; o.h=el.offsetHeight; }
+    const cand=[[12,-o.h-6],[12,6],[-o.w-12,-o.h-6],[-o.w-12,6],[12,-o.h/2],[-o.w-12,-o.h/2]];
+    let best=null,bs=1e9;
+    for (const [dx,dy] of cand){
+      const r={x:p.x+dx,y:p.y+dy,w:o.w,h:o.h};
+      let s=0; for (const q of placed){ const ox=Math.max(0,Math.min(r.x+r.w,q.x+q.w)-Math.max(r.x,q.x)), oy=Math.max(0,Math.min(r.y+r.h,q.y+q.h)-Math.max(r.y,q.y)); s+=ox*oy; }
+      if (r.x<0||r.x+r.w>W||r.y<0||r.y+r.h>W) s+=5000;
+      if (s<bs){bs=s;best=r;}
+      if (s===0) break;
+    }
+    placed.push(best);
+    el.style.transform=`translate(${best.x}px,${best.y}px)`;
+    el.classList.toggle("dim", !on);
+    el.classList.toggle("sel", state.sel===t.id);
+    /* leader line */
+    ctx.strokeStyle=`rgba(${col},${on?.45:.08})`; ctx.beginPath(); ctx.moveTo(p.x,p.y);
+    ctx.lineTo(best.x+(best.x>p.x?0:best.w), best.y+(best.y>p.y?0:best.h)); ctx.stroke();
+  });
+  $("#cActive").textContent=nActive; $("#cHigh").textContent=nHigh; $("#cDec").textContent=nDec; $("#cReq").textContent=nReq;
+  $("#clock").firstChild.nodeValue=fmtT(state.m);
+  updateLog();
+  requestAnimationFrame(draw);
+}
+
+/* ------------------------------------------------------------------
+   EVENT LOG
+------------------------------------------------------------------ */
+let bayKey="";
+function updateLog(){
+  let idx=-1; for (let i=0;i<EVENTS.length;i++){ if (EVENTS[i].m<=state.m) idx=i; else break; }
+  if (idx!==lastEventIdx){
+    if (idx>lastEventIdx && lastEventIdx>=0 && EVENTS.slice(lastEventIdx+1,idx+1).some(e=>e.refresh)) refreshFlash=1;
+    lastEventIdx=idx;
+    const rows=[]; for (let i=idx;i>=0 && rows.length<7;i--){ const e=EVENTS[i];
+      const tl = e.lbl ? fmtT(e.m).slice(0,7)+" "+e.lbl : fmtT(e.m);
+      rows.push(`<div><span class="t">${tl}</span><span class="s">${esc(SECTORS[e.sec].short)}</span><span>${esc(e.text)}</span></div>`); }
+    $("#log").innerHTML = rows.join("") || `<div><span class="t">${fmtT(state.m)}</span><span class="s">GLOBAL</span><span>Replay starting</span></div>`;
+  }
+  const k=TRACKS.filter(t=>isActive(t,state.m)).map(t=>t.id).join(",")+state.sec+state.type;
+  if (k!==bayKey){ bayKey=k; renderBay(); }
+}
+
+/* ------------------------------------------------------------------
+   STRIPS
+------------------------------------------------------------------ */
+function renderBay(){
+  const list=TRACKS.filter(t=>isActive(t,state.m) && passes(t)).sort((a,b)=>b.alt-a.alt);
+  $("#stripCount").textContent = list.length+" ACTIVE";
+  $("#bay").innerHTML = list.map(t=>`<button class="mini${t.req?" req":""}${t.sector==="GLOBAL"?" glob":""}" data-id="${t.id}"><span class="c">${esc(t.id)}</span><span class="a">${pad3(t.alt)}</span><span class="t">${esc(t.title)}</span><span class="r">${t.roles.join(" ")}</span></button>`).join("");
+  $("#bay").querySelectorAll(".mini").forEach(b=>b.onclick=()=>select(b.dataset.id));
+}
+function stripHTML(t){
+  const times = t.w.length? t.w.map(w=>fmtT(w.s).slice(0,7)+" "+(w.lbl||w.hm)).join(" &middot; ") : "Carried continuously";
+  return `<div class="fs${t.req?" req":""}${t.sector==="GLOBAL"?" glob":""}">
+    <div class="fs-top"><div class="fs-cs">${esc(t.id)}<small>${t.type}</small></div><div class="fs-title">${esc(t.title)}</div><div class="fs-alt">${pad3(t.alt)}<small>${altBand(t.alt).toUpperCase()}</small></div></div>
+    <div class="fs-grid"><div><small>SECTOR</small>${esc(SECTORS[t.sector].short)}${t.glob?" to "+DESTS[t.glob].label:""}</div><div><small>CADENCE</small>${t.cadence.toUpperCase()}</div><div><small>ROLE</small>${t.roles.join(" ")}</div></div>
+    <div class="chain" aria-label="Steps I own">${CHAIN.map((c,i)=>`<span class="${t.chain.includes(i)?"on":""}">${c}</span>`).join("")}</div>
+    <div class="fs-body">
+      ${t.requester?`<p class="times">REQUESTER: ${esc(t.requester)}</p>`:""}
+      <p class="times">AUDIENCE: ${esc(t.audience)}</p>
+      <ul>${t.body.map(b=>`<li>${esc(b)}</li>`).join("")}</ul>
+      <p class="out">${esc(t.outcome)}</p>
+      <p class="times">${times}</p>
+    </div></div>`;
+}
+function select(id, quiet){
+  state.sel=id; const t=TRACKS.find(x=>x.id===id);
+  $("#detail").innerHTML=stripHTML(t);
+  if (!quiet && window.innerWidth<1080) $("#detail").scrollIntoView({behavior:reduce?"auto":"smooth",block:"nearest"});
+}
+
+/* ------------------------------------------------------------------
+   PIREP (recognition analytics)
+------------------------------------------------------------------ */
+function renderKudos(){
+  $("#kCount").textContent = KUDOS.length+" REPORTS";
+  const feat=[KUDOS.find(k=>k[1].startsWith("Eric Brown")), KUDOS.find(k=>k[1].startsWith("Ken Seitz"))];
+  $("#feat").innerHTML = feat.map(k=>`<blockquote class="q big"><p>"${esc(k[6])}"</p><footer>${esc(k[1])} &middot; ${k[0].slice(0,7)}</footer></blockquote>`).join("");
+  const groups=[["By sender level",2,["C-level","SVP-level","VP","Director","District Manager","Manager","Individual contributor"]],["By function",3],["By region",4],["By year",0]];
+  $("#kbars").innerHTML = groups.map(([h,i,order])=>{
+    const c={}; KUDOS.forEach(k=>{ const v=i===0?k[0].slice(0,4):k[i]; c[v]=(c[v]||0)+1; });
+    let keys=order?order.filter(x=>c[x]):Object.keys(c).sort((a,b)=> i===0? a.localeCompare(b) : c[b]-c[a]);
+    const mx=Math.max(...Object.values(c));
+    return `<div><h4>${h}</h4>${keys.map(k=>`<div class="brow"><span class="n">${esc(k)}</span><span class="b"><i style="width:${c[k]/mx*100}%"></i></span><span class="v">${c[k]}</span></div>`).join("")}</div>`;
+  }).join("");
+  const themes=["ALL",...[...new Set(KUDOS.map(k=>k[5]))].sort()];
+  let cur="ALL";
+  const drawQ=()=>{ $("#qlist").innerHTML = KUDOS.slice().reverse().filter(k=>cur==="ALL"||k[5]===cur).map(k=>`<blockquote class="q"><p>${k[6]?`"${esc(k[6])}"`:esc(k[7])}</p>${k[6]&&k[7]?`<footer>${esc(k[7])}</footer>`:""}<footer>${esc(k[1])} &middot; ${k[0].slice(0,7)} &middot; ${esc(k[5])}</footer></blockquote>`).join(""); };
+  $("#qfilter").innerHTML = themes.map(t=>`<button class="btn" aria-pressed="${t==="ALL"}" data-t="${esc(t)}">${esc(t.toUpperCase())}</button>`).join("");
+  $("#qfilter").querySelectorAll(".btn").forEach(b=>b.onclick=()=>{ cur=b.dataset.t; $("#qfilter").querySelectorAll(".btn").forEach(x=>x.setAttribute("aria-pressed",String(x===b))); drawQ(); });
+  drawQ();
+}
+function renderSide(){
+  $("#awards").innerHTML = AWARDS.map(a=>`<div class="award"><i></i><div><b>${esc(a[0])}</b><span>${esc(a[1])}</span></div></div>`).join("");
+  $("#roles").innerHTML = ROLES.map(r=>`<div><b>${esc(r[1])}</b>, ${esc(r[0])}<div class="d">${esc(r[2])}</div><p>${esc(r[3])}</p></div>`).join("");
+  $("#skills").innerHTML = SKILLS.map(s=>`<span>${esc(s)}</span>`).join("");
+}
+
+/* ------------------------------------------------------------------
+   TEXT VIEW
+------------------------------------------------------------------ */
+function renderText(){
+  const secOrder=["GLOBAL","AMER","ENTE","TY","COMM","FED","LATAM"];
+  let h=`<p class="lede">${$(".lede").innerHTML}</p><p>${$(".why").innerHTML}</p><h2>Weekly forecast calls (since November 2021)</h2>
+    <div class="item"><b>Monday, C-level:</b> I present as a partner to the SVPs.</div>
+    <div class="item"><b>Tuesday to Thursday, District Manager level:</b> I join as a leader and give commentary.</div>
+    <div class="item"><b>Friday, SVP level:</b> I own and run the call.</div>`;
+  secOrder.forEach(s=>{
+    const ts=TRACKS.filter(t=>t.sector===s && passes(t)); if(!ts.length) return;
+    h+=`<h2>${esc(SECTORS[s].name)}</h2>`;
+    ts.forEach(t=>{ h+=`<div class="item"><b>${esc(t.title)}</b><div class="m">${t.type} &middot; ${t.cadence} &middot; audience: ${esc(altBand(t.alt))} &middot; my role: ${t.chain.map(i=>CHAIN[i].toLowerCase()).join(", ")}</div><p>${t.body.map(esc).join(" ")}</p><p>${esc(t.outcome)}</p></div>`; });
+  });
+  h+=`<h2>Awards</h2>`+AWARDS.map(a=>`<div class="item"><b>${esc(a[0])}</b><p>${esc(a[1])}</p></div>`).join("");
+  h+=`<h2>Recognition (${KUDOS.length})</h2>`+KUDOS.slice().reverse().map(k=>`<div class="item"><p>${k[6]?`"${esc(k[6])}"`:esc(k[7])}</p><div class="m">${esc(k[1])} &middot; ${k[0].slice(0,7)}</div></div>`).join("");
+  h+=`<h2>Prior roles</h2>`+ROLES.map(r=>`<div class="item"><b>${esc(r[1])}, ${esc(r[0])}</b><div class="m">${esc(r[2])}</div><p>${esc(r[3])}</p></div>`).join("");
+  h+=`<h2>Tools</h2><p>${SKILLS.map(esc).join(", ")}</p>`;
+  $("#textview").innerHTML=h;
+}
+
+/* ------------------------------------------------------------------
+   CONTROLS
+------------------------------------------------------------------ */
+$("#days").innerHTML = Array.from({length:14},(_,d)=>`<span class="${d%7>4?"we":""}">${DAYN[d%7]}</span>`).join("");
+$("#playBtn").onclick=function(){ state.playing=!state.playing; this.textContent=state.playing?"PAUSE":"PLAY"; this.setAttribute("aria-pressed",String(state.playing)); };
+$("#spdBtn").onclick=function(){ state.speed=SPEEDS[(SPEEDS.indexOf(state.speed)+1)%SPEEDS.length]; this.textContent=`SPEED ${state.speed}X`; };
+$("#scrub").oninput=function(){ state.m=+this.value; lastEventIdx=-2; };
+$("#tvBtn").onclick=function(){ const on=!document.body.classList.contains("tv"); document.body.classList.toggle("tv",on); this.setAttribute("aria-pressed",String(on)); if(on) renderText(); };
+if (reduce){ $("#playBtn").textContent="PLAY"; $("#playBtn").setAttribute("aria-pressed","false"); state.m=toMin(7,"20:00"); $("#scrub").value=state.m; }
+document.addEventListener("visibilitychange",()=>{ lastTs=0; });
+window.addEventListener("resize",()=>{ resize(); Object.values(DB).forEach(o=>{o.w=0;}); });
+
+resize(); renderKudos(); renderSide(); renderBay(); renderText(); select("HYG143", true);
+requestAnimationFrame(draw);
+</script>
+</body>
+</html>
